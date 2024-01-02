@@ -11,7 +11,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.App_Yeongmi"
-        tools:targetApi="31">
+        tools:targetApi="34">
+        <activity
+            android:name=".Cybathlon"
+            android:exported="false" />
+        <activity
+            android:name=".ObjectAvoidance"
+            android:exported="false" />
+        <activity
+            android:name=".BlindUser2"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">

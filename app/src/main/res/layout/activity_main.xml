@@ -21,7 +21,7 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
             android:layout_height="638dp"
-            android:background="#17B51E"
+            android:background="#189C1E"
 
             android:text="Get Started!"
 
@@ -32,7 +32,7 @@
             android:id="@+id/btn_developer"
             android:layout_width="match_parent"
             android:layout_height="94dp"
-            android:backgroundTint="#207D88"
+            android:background="#207D88"
             android:text="Developer mode"
             android:textColor="#FBF6F6"
             android:textSize="20sp"

@@ -2,6 +2,7 @@ package com.example.app_yeongmi;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -9,13 +10,13 @@ import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    private SoundPool soundPool;
+   /* private SoundPool soundPool;
     private int sound1
-
-
+   */
 
 
     @Override
@@ -23,12 +24,43 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MediaPlayer mMediaPlayer = new MediaPlayer();
-        //mMediaPlayer = new MediaPlayer();
-        mMediaPlayer = MediaPlayer.create(this, R.raw.sound1);
-        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mMediaPlayer.setLooping(true);
-        mMediaPlayer.start();
+        MediaPlayer player= MediaPlayer.create(MainActivity.this,R.raw.sound1);
+        player.start();
+
+
+
+        Button button = findViewById(R.id.btn_start);
+
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                    player.release();
+
+
+
+
+
+                Intent intent= new Intent(MainActivity.this, BlindUser2.class);
+                startActivity(intent);
+            }
+        });
+
+       /* Button button = findViewById(R.id.btn_developer);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent= new Intent(MainActivity.this, DeveloperUser2.class);
+                startActivity(intent);
+            }
+        });*/
+
+
+
+
 
        /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             AudioAttributes audioAttributes = new AudioAttributes.Builder()
@@ -54,4 +86,5 @@ public class MainActivity extends AppCompatActivity {
 
     } */
 
+    }
 }
