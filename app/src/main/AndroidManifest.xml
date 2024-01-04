@@ -13,6 +13,9 @@
         android:theme="@style/Theme.App_Yeongmi"
         tools:targetApi="34">
         <activity
+            android:name=".EmptySeatsView"
+            android:exported="false" />
+        <activity
             android:name=".Cybathlon"
             android:exported="false" />
         <activity
