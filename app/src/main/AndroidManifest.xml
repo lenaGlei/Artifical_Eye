@@ -36,11 +36,8 @@
         <activity
             android:name=".BlindUser2"
             android:exported="false">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+
         </activity>
         <activity
             android:name=".MainActivity"
