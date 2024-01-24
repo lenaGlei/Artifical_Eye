@@ -11,12 +11,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.hivemq.client.mqtt.MqttClient;
+
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
-   /* private SoundPool soundPool;
-    private int sound1
-   */
+
+
+
+
+
+
 
 
     @Override
@@ -24,8 +32,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        //Mqtt
+        //client = new SimpleMqttClient("broker.hivemq.com", 1883, UUID.randomUUID().toString());
+
+
+
+
+
+        // Sound
         MediaPlayer player= MediaPlayer.create(MainActivity.this,R.raw.sound1);
         player.start();
+
+
+
+
 
 
 
@@ -62,29 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            AudioAttributes audioAttributes = new AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_ASSISTANCE_ACCESSIBILITY)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
-                    .build();
 
-            soundPool = new SoundPool.Builder()
-                    .setMaxStreams()
-                    .setAudioAttributes()
-                    .build();
-        }else {
-            soundPool=new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
-        }
-
-        sound1= soundPool.load(this, R.raw.sound1, 1);
-
-
-    }
-
-    public void playSound(View v) {
-        soundPool.play(sound1, 1, 1, 0,0,1);
-
-    } */
 
     }
 }
