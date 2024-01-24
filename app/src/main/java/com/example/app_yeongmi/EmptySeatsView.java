@@ -16,7 +16,7 @@ import java.util.Locale;
 public class EmptySeatsView extends AppCompatActivity {
 
 
-    private TextToSpeech textToSpeech;
+
 
 
     // Stühle eingabe von mqtt? hier?
@@ -25,10 +25,17 @@ public class EmptySeatsView extends AppCompatActivity {
 
 
     @Override
-            protected void onCreate(Bundle savedInstanceState){
-             super.onCreate(savedInstanceState);
+            protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_empty_seats_view);
 
+
+
+    }
+
+    @Override
+    protected void onStart( ) {
+        super.onStart();
         for (int i = 0; i < seat.length; i++) {
 
             int stuhlNummer = i + 1;
@@ -48,50 +55,6 @@ public class EmptySeatsView extends AppCompatActivity {
 
                 Log.d("StuhlActivity", "Stuhl " + stuhlNummer + " ist leer.");
             }
-        }
-
-
-
-
-
-
-
-
-        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if ( status == TextToSpeech.SUCCESS) {
-                    textToSpeech.setLanguage(Locale.UK);
-
-                }
-            }
-        });
-
-
-        pruefeSitzStatus(seat);
-    }
-
-
-
-
-    private void pruefeSitzStatus(int[] seat) {
-        StringBuilder ausgabe = new StringBuilder();
-
-        for (int i = 0; i < seat.length; i++) {
-            if (seat[i] == 1) {
-                ausgabe.append("Sitzplatz ").append(i + 1).append(" ist frei. ");
-            } else {
-                ausgabe.append("Sitzplatz ").append(i + 1).append(" ist besetzt. ");
-            }
-        }
-
-        sprecheText(ausgabe.toString());
-    }
-
-
-    private void sprecheText(String text) {
-        if (textToSpeech != null) {
-            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
         }
     }
 

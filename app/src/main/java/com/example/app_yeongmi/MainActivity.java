@@ -9,6 +9,8 @@ import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -56,13 +58,10 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                     player.release();
 
-
-
-
+                    // Vibrieren?
+                    vibrateNow(500);
 
                 Intent intent= new Intent(MainActivity.this, BlindUser2.class);
                 startActivity(intent);
@@ -86,4 +85,16 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    private void vibrateNow (long millis){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            ((Vibrator) getSystemService(VIBRATOR_SERVICE))
+                    .vibrate(VibrationEffect.createOneShot(millis, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(millis);
+        }
+
+    }
+
+
 }

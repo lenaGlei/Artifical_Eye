@@ -8,6 +8,7 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,8 +16,12 @@ import android.widget.Button;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 
+import java.util.Locale;
+
 
 public class Cybathlon extends AppCompatActivity {
+    private TextToSpeech textToSpeech;
+    int[] seat = {1,1,0,1,0,1};
 
 
 
@@ -35,9 +40,24 @@ public class Cybathlon extends AppCompatActivity {
 
         Button button = findViewById(R.id.btn_CybathlonActive);
 
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    textToSpeech.setLanguage(Locale.UK);
+                    Log.d("TextToSpeech", "Text-to-Speech-Initialisierung erfolgreich");
+
+
+
+
+                }
+            }
+        });
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pruefeSitzStatus(seat);
 
 
                 Intent intent = new Intent(Cybathlon.this, EmptySeatsView.class);
@@ -58,6 +78,32 @@ public class Cybathlon extends AppCompatActivity {
 
 
 
+    }
+
+
+    private void pruefeSitzStatus(int[] seat) {
+        StringBuilder ausgabe = new StringBuilder();
+
+        for (int i = 0; i < seat.length; i++) {
+
+            Log.d("Empty SeatsView", String.format("i = %d", i));
+            if (seat[i] == 1) {
+
+
+                ausgabe.append("Sitzplatz ").append(i + 1).append(" ist frei. ");
+            } else {
+                ausgabe.append("Sitzplatz ").append(i + 1).append(" ist besetzt. ");
+            }
+        }
+
+        sprecheText(ausgabe.toString());
+    }
+
+
+    private void sprecheText(String text) {
+        if (textToSpeech != null) {
+            textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null, null);
+        }
     }
 
     /*private void sound(){
