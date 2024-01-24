@@ -6,4 +6,79 @@
     android:layout_height="match_parent"
     tools:context=".EmptySeatsView">
 
+    <LinearLayout
+        android:id="@+id/lowerscreen"
+        android:layout_width="410dp"
+        android:layout_height="387dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/upperscreen"
+        app:layout_constraintVertical_bias="0.0">
+
+        <Button
+            android:id="@+id/seat4"
+            android:layout_width="136dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+
+            />
+        <Button
+            android:id="@+id/seat5"
+            android:layout_width="136dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+
+
+            />
+
+        <Button
+            android:id="@+id/seat6"
+            android:layout_width="136dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+
+
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/upperscreen"
+        android:layout_width="408dp"
+        android:layout_height="346dp"
+        android:layout_marginTop="4dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/seat1"
+            android:layout_width="136dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+
+
+            />
+        <Button
+            android:id="@+id/seat2"
+            android:layout_width="136dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+
+
+            />
+
+        <Button
+            android:id="@+id/seat3"
+            android:layout_width="136dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+
+
+            />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

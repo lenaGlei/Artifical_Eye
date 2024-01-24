@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class BlindUser2 extends AppCompatActivity {
+    MediaPlayer mMediaPlayer = new MediaPlayer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +18,7 @@ public class BlindUser2 extends AppCompatActivity {
         setContentView(R.layout.activity_blind_user2);
 
 
-        MediaPlayer mMediaPlayer = new MediaPlayer();
+
         //mMediaPlayer = new MediaPlayer();
         mMediaPlayer = MediaPlayer.create(this, R.raw.sound2);
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
