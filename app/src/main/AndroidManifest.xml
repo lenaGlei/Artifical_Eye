@@ -19,6 +19,9 @@
         android:theme="@style/Theme.App_Yeongmi"
         tools:targetApi="34">
         <activity
+            android:name=".DevLoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".DeveloperUser2"
             android:exported="false" />
         <activity
