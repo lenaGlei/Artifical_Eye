@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.text.Layout;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +22,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.Locale;
 import java.util.UUID;
 
 public class EmptySeatsView extends AppCompatActivity {
@@ -29,8 +31,10 @@ public class EmptySeatsView extends AppCompatActivity {
    // private static final String TAG = "EmptySeatsView";
    // private String topic, clientID;
     //private MqttAndroidClient client;
-    // Stühle von array
+    private TextToSpeech textToSpeech;
 
+
+    // Stühle eingabe von mqtt? hier?
     int[] seat = {1,1,0,1,0,1};
 
 
@@ -40,11 +44,54 @@ public class EmptySeatsView extends AppCompatActivity {
              super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_empty_seats_view);
 
+// Stühle eingabe von mqtt? hier?
+        int[] seat = {1,1,0,1,0,1};
+
 
         //init();
 
+        onStart();
 
 
+        // Audio output sitze
+        textToSpeech = new TextToSpeech(this, this);
+        pruefeSitzStatus(seat);
+    }
+
+
+
+
+    private void pruefeSitzStatus(int[] seat) {
+        StringBuilder ausgabe = new StringBuilder();
+
+        for (int i = 0; i < seat.length; i++) {
+            if (seat[i] == 1) {
+                ausgabe.append("Sitzplatz ").append(i + 1).append(" ist frei. ");
+            } else {
+                ausgabe.append("Sitzplatz ").append(i + 1).append(" ist besetzt. ");
+            }
+        }
+
+        sprecheText(ausgabe.toString());
+    }
+
+
+    private void sprecheText(String text) {
+        if (textToSpeech != null) {
+            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+        }
+    }
+
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            int result = textToSpeech.setLanguage();
+
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Toast.makeText(this, "Die Sprache wird nicht unterstützt.", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "Text-to-Speech-Initialisierung fehlgeschlagen.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
