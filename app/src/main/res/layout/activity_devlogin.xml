@@ -103,7 +103,7 @@
 
                 <CheckBox
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:text="Remember me"
                     android:layout_centerVertical="true"
                     android:alpha="0.7"/>
@@ -125,8 +125,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Login"
+                android:background="@color/blue"
                 app:cornerRadius="32dp"
-                android:id="@+id/loginButton"/>
+                android:textColor="@color/white"
+                android:layout_margin="16dp"
+                android:id="@+id/loginButton"
+                />
 
             <View
                 android:layout_width="wrap_content"

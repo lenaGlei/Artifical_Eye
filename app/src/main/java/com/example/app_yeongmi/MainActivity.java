@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /* kommentar test*/
         MediaPlayer player= MediaPlayer.create(MainActivity.this,R.raw.sound1);
         player.start();
 
@@ -36,12 +35,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
                     player.release();
-
-
-
-
 
                 Intent intent= new Intent(MainActivity.this, BlindUser2.class);
                 startActivity(intent);
