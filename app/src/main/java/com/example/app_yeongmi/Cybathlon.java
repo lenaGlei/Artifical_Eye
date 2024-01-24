@@ -20,12 +20,12 @@ public class Cybathlon extends AppCompatActivity {
 
 
 
-    MediaPlayer mediaPlayer1;
-    MediaPlayer mediaPlayer2;
+    //MediaPlayer mediaPlayer1;
+    //MediaPlayer mediaPlayer2;
 
 
     // muss kontinuierlich kommen???
-    int[] distance = {1, 1, 0, 1, 0, 1};
+    //int[] distance = {1, 1, 0, 1, 0, 1};
 
 
     @Override
@@ -60,7 +60,7 @@ public class Cybathlon extends AppCompatActivity {
 
     }
 
-    private void sound(){
+    /*private void sound(){
 
     for (int i = 0; i < distance.length; i++) {
 
@@ -91,6 +91,8 @@ public class Cybathlon extends AppCompatActivity {
             }
         });
     }
+
+     */
 
 
 

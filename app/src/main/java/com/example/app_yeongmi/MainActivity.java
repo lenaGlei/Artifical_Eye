@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-       /* Button button = findViewById(R.id.btn_developer);
+        Button button = findViewById(R.id.btn_developer);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent= new Intent(MainActivity.this, DeveloperUser2.class);
                 startActivity(intent);
             }
-        });*/
+        });
 
 
 
