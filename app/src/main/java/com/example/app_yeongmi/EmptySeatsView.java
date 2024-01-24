@@ -25,10 +25,10 @@ import java.util.UUID;
 
 public class EmptySeatsView extends AppCompatActivity {
 
-private Button btn;
-    private static final String TAG = "EmptySeatsView";
-    private String topic, clientID;
-    private MqttAndroidClient client;
+    //private Button btn;
+   // private static final String TAG = "EmptySeatsView";
+   // private String topic, clientID;
+    //private MqttAndroidClient client;
     // Stühle von array
 
     int[] seat = {1,1,0,1,0,1};
@@ -41,9 +41,15 @@ private Button btn;
         setContentView(R.layout.activity_empty_seats_view);
 
 
-        init();
+        //init();
 
 
+
+    }
+
+    @Override
+    protected void onStart( ) {
+        super.onStart();
         for (int i = 0; i < seat.length; i++) {
 
             int stuhlNummer = i + 1;
@@ -52,7 +58,7 @@ private Button btn;
             int intSeat = Integer.parseInt(seatString);
             if (seat[i] == 1) {
                 LinearLayout upperscreen = findViewById(intSeat);
-                 upperscreen.setBackgroundColor(Color.RED);
+                upperscreen.setBackgroundColor(Color.RED);
 
 
                 Log.d("StuhlActivity", "Stuhl " + stuhlNummer + " ist belegt.");
@@ -66,7 +72,7 @@ private Button btn;
         }
     }
 
-
+ /*
     private void init() {
         btn =findViewById(R.id.btn_CybathlonActive);
         clientID = "clientId-yapzkhkRsy";
@@ -138,6 +144,8 @@ private Button btn;
 
         }
     }
+
+  */
 
 
 
