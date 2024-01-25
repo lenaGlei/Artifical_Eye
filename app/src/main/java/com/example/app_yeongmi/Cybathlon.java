@@ -8,6 +8,8 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
@@ -59,6 +61,8 @@ public class Cybathlon extends AppCompatActivity {
             public void onClick(View v) {
                 pruefeSitzStatus(seat);
 
+                vibrateNow(500);
+
 
                 Intent intent = new Intent(Cybathlon.this, EmptySeatsView.class);
                 startActivity(intent);
@@ -90,9 +94,9 @@ public class Cybathlon extends AppCompatActivity {
             if (seat[i] == 1) {
 
 
-                ausgabe.append("Sitzplatz ").append(i + 1).append(" ist frei. ");
+                ausgabe.append("Seat ").append(i + 1).append(" is occupied. ");
             } else {
-                ausgabe.append("Sitzplatz ").append(i + 1).append(" ist besetzt. ");
+                ausgabe.append("Seat ").append(i + 1).append(" is free. ");
             }
         }
 
@@ -139,7 +143,15 @@ public class Cybathlon extends AppCompatActivity {
     }
 
      */
+    private void vibrateNow (long millis){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            ((Vibrator) getSystemService(VIBRATOR_SERVICE))
+                    .vibrate(VibrationEffect.createOneShot(millis, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(millis);
+        }
 
+    }
 
 
 

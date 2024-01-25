@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                     player.release();
 
-                    // Vibrieren?
+                    // Vibrieren
                     vibrateNow(500);
 
                 Intent intent= new Intent(MainActivity.this, BlindUser2.class);
@@ -72,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // Vibrieren
+                vibrateNow(500);
 
                 Intent intent= new Intent(MainActivity.this, DeveloperUser2.class);
                 startActivity(intent);
