@@ -22,6 +22,7 @@ import java.util.Locale;
 
 
 public class Cybathlon extends AppCompatActivity {
+    MediaPlayer mMediaPlayer = new MediaPlayer();
     private TextToSpeech textToSpeech;
     int[] seat = {1,1,0,1,0,1};
 
@@ -39,6 +40,13 @@ public class Cybathlon extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cybathlon);
+
+        mMediaPlayer = MediaPlayer.create(this, R.raw.sound2);
+        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        //mMediaPlayer.setLooping(true);
+        mMediaPlayer.start();
+
+
 
         Button button = findViewById(R.id.btn_CybathlonActive);
 

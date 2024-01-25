@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                     // Vibrieren
                     vibrateNow(500);
 
-                Intent intent= new Intent(MainActivity.this, BlindUser2.class);
+                Intent intent= new Intent(MainActivity.this, Cybathlon.class);
                 startActivity(intent);
             }
         });
