@@ -1,8 +1,9 @@
 package com.example.app_yeongmi;
+
 import android.content.Context;
 import android.util.Log;
-//package com.ashencostha.mqtt;
 
+import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -11,49 +12,71 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 public class MqttHandler {
 
-    private MqttClient client;
+    private MqttAndroidClient client;
+    private String brokerUrl;
+    private String clientId;
 
-    public void connect(String brokerUrl, String clientId) {
+    public MqttHandler(String brokerUrl, String clientId) {
+        this.brokerUrl = brokerUrl;
+        this.clientId = clientId;
+    }
+
+    public void connect(Context context) {
         try {
-            // Set up the persistence layer
-            MemoryPersistence persistence = new MemoryPersistence();
+            client = new MqttAndroidClient(context, brokerUrl, clientId);
+            MqttConnectOptions options = new MqttConnectOptions();
+            options.setCleanSession(true);
 
-            // Initialize the MQTT client
-            client = new MqttClient(brokerUrl, clientId, persistence);
+            client.connect(options);
 
-            // Set up the connection options
-            MqttConnectOptions connectOptions = new MqttConnectOptions();
-            connectOptions.setCleanSession(true);
-
-            // Connect to the broker
-            client.connect(connectOptions);
+            Log.d("MqttHandler","Connected to MQTT Broker: " + brokerUrl);
         } catch (MqttException e) {
             e.printStackTrace();
+            Log.d("MqttHandler","Could not connect to MQTT Broker: " + e.getMessage());
         }
     }
 
     public void disconnect() {
         try {
-            client.disconnect();
+            if (client != null) {
+                client.disconnect();
+                Log.d("MqttHandler","Disconnected from MQTT Broker");
+            }
         } catch (MqttException e) {
             e.printStackTrace();
         }
     }
 
-    public void publish(String topic, String message) {
+    public boolean isConnected(){
+        return client != null && client.isConnected();
+    }
+
+    public void publish(String topic, String message, int qos) {
+        if(!isConnected()){
+            Log.d("MqttHandler","Client not yet connected");
+            return;
+        }
         try {
             MqttMessage mqttMessage = new MqttMessage(message.getBytes());
+            mqttMessage.setQos(qos);
             client.publish(topic, mqttMessage);
+            Log.d("MqttHandler","Message published to topic: " + topic);
         } catch (MqttException e) {
             e.printStackTrace();
         }
     }
 
-    public void subscribe(String topic) {
+    public void subscribe(String topic, int qos) {
+        if(!isConnected()){
+            Log.d("MqttHandler","Client not yet connected");
+            return;
+        }
         try {
-            client.subscribe(topic);
+            client.subscribe(topic, qos);
+            Log.d("MqttHandler","Subscribed to topic: " + topic);
         } catch (MqttException e) {
             e.printStackTrace();
         }
     }
 }
+

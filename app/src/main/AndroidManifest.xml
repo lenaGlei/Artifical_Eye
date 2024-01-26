@@ -19,6 +19,12 @@
         android:theme="@style/Theme.App_Yeongmi"
         tools:targetApi="34">
         <activity
+            android:name=".DevSettings"
+            android:exported="false" />
+        <activity
+            android:name=".DevSeting"
+            android:exported="false" />
+        <activity
             android:name=".DevLoginActivity"
             android:exported="false" />
         <activity
@@ -50,9 +56,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
         </activity>
 
-        <service android:name="org.eclipse.paho.android.service.MqttService"></service>
+        <service android:name="org.eclipse.paho.android.service.MqttService" />
     </application>
 
 </manifest>

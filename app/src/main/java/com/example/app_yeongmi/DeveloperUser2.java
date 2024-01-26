@@ -41,7 +41,6 @@ public class DeveloperUser2 extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("DeveloperUser2", "Button continueDevelop clicked");
                 Intent intent= new Intent(DeveloperUser2.this, DevLoginActivity.class);
                 startActivity(intent);
             }
