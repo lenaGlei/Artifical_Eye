@@ -58,13 +58,15 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    player.release();
+
+
 
                     // Vibrieren
                     vibrateNow(500);
 
                 Intent intent= new Intent(MainActivity.this, Cybathlon.class);
                 startActivity(intent);
+                player.release();
             }
         });
 
