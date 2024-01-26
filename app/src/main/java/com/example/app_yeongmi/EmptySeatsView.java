@@ -40,10 +40,10 @@ public class EmptySeatsView extends AppCompatActivity {
 
 
     @Override
-            protected void onCreate(Bundle savedInstanceState){
-             super.onCreate(savedInstanceState);
+            protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_empty_seats_view);
-
+    }/*
 // Stühle eingabe von mqtt? hier?
         int[] seat = {1,1,0,1,0,1};
 
@@ -54,7 +54,7 @@ public class EmptySeatsView extends AppCompatActivity {
 
 
         // Audio output sitze
-        textToSpeech = new TextToSpeech(this, this);
+        //textToSpeech = new TextToSpeech(this, this);
         pruefeSitzStatus(seat);
     }
 
@@ -119,7 +119,7 @@ public class EmptySeatsView extends AppCompatActivity {
         }
     }
 
- /*
+
     private void init() {
         btn =findViewById(R.id.btn_CybathlonActive);
         clientID = "clientId-yapzkhkRsy";
