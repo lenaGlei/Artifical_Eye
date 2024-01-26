@@ -52,6 +52,8 @@ public class MqttService extends Service {
             public void onSuccess() {
                 Toast.makeText(MqttService.this, "Connection successful", Toast.LENGTH_SHORT).show();
                 Log.d("MQTT", "MQTT connection successful");
+                subscribe(chatTopic);
+
             }
 
             @Override
@@ -70,6 +72,7 @@ public class MqttService extends Service {
 
                 if (client.isConnected()) {
                     client.disconnect();
+                    Log.d("MQTT", "MQTT connection disconected");
                 }
             }
         }
