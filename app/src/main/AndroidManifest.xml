@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -20,7 +19,10 @@
         android:theme="@style/Theme.App_Yeongmi"
         tools:targetApi="34">
         <activity
-            android:name=".DeveloperData"
+            android:name=".DevSettings"
+            android:exported="false" />
+        <activity
+            android:name=".DevSeting"
             android:exported="false" />
         <activity
             android:name=".DevLoginActivity"
@@ -39,7 +41,13 @@
             android:exported="false" />
         <activity
             android:name=".BlindUser2"
-            android:exported="false"></activity>
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -48,6 +56,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
         </activity>
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
