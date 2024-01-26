@@ -6,17 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".EmptySeatsView">
 
+
+
     <LinearLayout
-        android:id="@+id/lowerscreen"
-        android:layout_width="410dp"
-        android:layout_height="387dp"
+        android:id="@+id/upperscreen"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/lowerscreen"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/upperscreen"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.5">
 
         <Button
             android:id="@+id/seat4"
@@ -25,6 +26,7 @@
             android:layout_gravity="left"
 
             />
+
         <Button
             android:id="@+id/seat5"
             android:layout_width="136dp"
@@ -45,15 +47,15 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/upperscreen"
-        android:layout_width="408dp"
-        android:layout_height="346dp"
-        android:layout_marginTop="4dp"
+        android:id="@+id/lowerscreen"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintTop_toBottomOf="@+id/upperscreen"
+        app:layout_constraintBottom_toTopOf="@+id/messageContainer"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.4">
 
         <Button
             android:id="@+id/seat1"
@@ -63,6 +65,7 @@
 
 
             />
+
         <Button
             android:id="@+id/seat2"
             android:layout_width="136dp"
@@ -80,5 +83,29 @@
 
 
             />
+
+
     </LinearLayout>
+
+    <!-- Container für Nachrichten -->
+    <LinearLayout
+        android:id="@+id/messageContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/lowerscreen"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.1">
+
+        <TextView
+            android:id="@+id/textViewMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nachrichten werden hier angezeigt"
+            android:gravity="center" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -41,8 +41,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        client = new SimpleMqttClient("broker.hivemq.com", 1883, UUID.randomUUID().toString());
-
+        //client = new SimpleMqttClient("broker.hivemq.com", 1883, UUID.randomUUID().toString());
+        // Starten Sie den MQTT-Service
+        Intent serviceIntent = new Intent(this, MqttService.class);
+        startService(serviceIntent);
 
         // Sound
         MediaPlayer player= MediaPlayer.create(MainActivity.this,R.raw.sound1);
@@ -80,22 +82,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if(!client.isConnected()) {
+        /*if(!client.isConnected()) {
             connect();
             subscribe(chatTopic);
-        }
+        }*/
     }
 
     @Override
     protected void onStop() {
         // Überprüfe, ob der Client verbunden ist, bevor du versuchst, die Verbindung zu trennen
 
-        if (client != null) {
+        /*if (client != null) {
 
             if (client.isConnected()) {
                 client.disconnect();
             }
-        }
+        }*/
 
         //client.unsubscribe(chatTopic);
         super.onStop();

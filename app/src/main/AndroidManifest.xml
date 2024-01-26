@@ -18,12 +18,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App_Yeongmi"
         tools:targetApi="34">
+        <service
+            android:name=".MqttService"
+            android:enabled="true"
+            android:exported="true">
+
+        </service>
+
         <activity
             android:name=".DevSettings"
             android:exported="false" />
-        <activity
-            android:name=".DevSeting"
-            android:exported="false" />
+
         <activity
             android:name=".DevLoginActivity"
             android:exported="false" />

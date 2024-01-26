@@ -1,6 +1,8 @@
 package com.example.app_yeongmi.mqtt;
 
 import android.app.Activity;
+import android.content.Context;
+import android.os.Looper;
 import android.util.Log;
 
 import com.hivemq.client.mqtt.MqttClientState;
@@ -13,26 +15,30 @@ import com.hivemq.client.mqtt.mqtt3.message.subscribe.suback.Mqtt3SubAck;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+//import java.util.logging.Handler;
+import android.os.Handler;
 
 /**
  * A wrapper class for easier usage of HiveMQ mqtt library
+ * änderung von activity zu context um einen services im hintergrund laufen zulassen und
+ * run on Ui thread zu handler(looper.getMainLooper)
  */
 public class SimpleMqttClient {
 
     //region Callback class definitions
     private static abstract class MqttOperationResult<T> implements BiConsumer<T, Throwable> {
-        protected Activity activity;
 
-        public MqttOperationResult(Activity activity) {
-            this.activity = activity;
+        protected Context context;
+
+        public MqttOperationResult(Context context) {
+            this.context = context;
         }
-
         @Override
         public void accept(T ack, Throwable throwable) {
             if(throwable == null) {
                 // success
                 logSuccess();
-                activity.runOnUiThread(new Runnable() {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
                         onSuccess();
@@ -41,7 +47,7 @@ public class SimpleMqttClient {
             } else {
                 //error
                 logError(throwable);
-                activity.runOnUiThread(new Runnable() {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
                         onError(throwable);
@@ -64,10 +70,11 @@ public class SimpleMqttClient {
     }
 
     public static abstract class MqttConnection extends MqttOperationResult<Mqtt3ConnAck>{
-        private Activity activity;
 
-        public MqttConnection(Activity activity) {
-            super(activity);
+        private Context context;
+
+        public MqttConnection(Context context) {
+            super(context);
         }
 
         @Override
@@ -88,8 +95,8 @@ public class SimpleMqttClient {
             return topic;
         }
 
-        public MqttSubscription(Activity activity, String topic) {
-            super(activity);
+        public MqttSubscription(Context context, String topic) {
+            super(context);
             this.topic = topic;
         }
 
@@ -107,7 +114,7 @@ public class SimpleMqttClient {
 
         @Override
         public void accept(Mqtt3Publish mqtt3Publish) {
-            activity.runOnUiThread(new Runnable() {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
                     String topic = mqtt3Publish.getTopic().toString();
@@ -132,8 +139,8 @@ public class SimpleMqttClient {
             return payload;
         }
 
-        public MqttPublish(Activity activity, String topic, String payload) {
-            super(activity);
+        public MqttPublish(Context context, String topic, String payload) {
+            super(context);
             this.topic = topic;
             this.payload = payload;
         }
