@@ -26,6 +26,13 @@ android {
         }
     }
 
+    buildFeatures{
+        dataBinding = true
+        viewBinding = true
+    }
+
+
+
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -63,6 +70,7 @@ dependencies {
 
 
     implementation("com.hivemq:hivemq-mqtt-client:1.2.1")
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
     implementation ("androidx.localbroadcastmanager:localbroadcastmanager:1.0.0")
 

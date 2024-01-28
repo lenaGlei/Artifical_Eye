@@ -41,7 +41,7 @@ public class DeveloperUser2 extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(DeveloperUser2.this, DevLoginActivity.class);
+                Intent intent= new Intent(DeveloperUser2.this, LoginOrSignup.class);
                 startActivity(intent);
             }
         });
