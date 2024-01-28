@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+/*
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
@@ -11,6 +12,8 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+
+ */
 
 import java.util.ArrayList;
 
@@ -22,14 +25,14 @@ public class DeveloperData extends AppCompatActivity {
 
 
 
-    LineChart mpLineChart;
+    //LineChart mpLineChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_developer_data);
 
-
+/*
         // create chart
         mpLineChart = (LineChart) findViewById(R.id.linechart);
         LineDataSet lineDataSet1 = new LineDataSet(dataValues1(), "Mqtt data");
@@ -58,6 +61,8 @@ public class DeveloperData extends AppCompatActivity {
         Legend legend = mpLineChart.getLegend();
         legend.setEnabled(true);
 
+ */
+
 
 
 
@@ -68,7 +73,7 @@ public class DeveloperData extends AppCompatActivity {
 
 
 
-       private ArrayList<Entry> dataValues1()
+      /* private ArrayList<Entry> dataValues1()
        {
            ArrayList<Entry> dataVals = new ArrayList<Entry>();
            //ArrayList<String> mqttDataList = mqttManager.getMqttDataList();
@@ -85,6 +90,8 @@ public class DeveloperData extends AppCompatActivity {
 
 
        }
+
+       */
 
 
 

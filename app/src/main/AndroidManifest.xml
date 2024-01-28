@@ -19,6 +19,12 @@
         android:theme="@style/Theme.App_Yeongmi"
         tools:targetApi="34">
         <activity
+            android:name=".SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginOrSignup"
+            android:exported="false" />
+        <activity
             android:name=".DevSettings"
             android:exported="false" />
         <activity

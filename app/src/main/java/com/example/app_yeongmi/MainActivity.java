@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
                 player.release();
 
-                Intent intent= new Intent(MainActivity.this, BlindUser2.class);
+                Intent intent= new Intent(MainActivity.this, Cybathlon.class);
                 startActivity(intent);
             }
         });
