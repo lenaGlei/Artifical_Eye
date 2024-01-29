@@ -1,5 +1,7 @@
 package com.example.app_yeongmi;
 
+import static com.hivemq.client.internal.mqtt.util.MqttChecks.publish;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -35,7 +37,8 @@ public class MqttService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         client = new SimpleMqttClient("broker.hivemq.com", 1883, UUID.randomUUID().toString());
         connect();
-        Log.d("Mqtt","Service onstartcommand connect");
+        Log.d("MQTT","Service onstartcommand connect");
+
         return START_STICKY;
     }
 
@@ -54,6 +57,8 @@ public class MqttService extends Service {
                 Toast.makeText(MqttService.this, "Connection successful", Toast.LENGTH_SHORT).show();
                 Log.d("MQTT", "MQTT connection successful");
                 subscribe(chatTopic);
+                publish(chatTopic,"The app is successfully connected to MQTT and ready to receive information.");
+
 
             }
 
@@ -96,7 +101,6 @@ public class MqttService extends Service {
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 } catch(JSONException je) {
                     Log.e("JSON", "Error while deserializing payload", je);
-                    // Zeige den Fehler anders an, z.B. durch Loggen
                 }
             }
 
@@ -106,6 +110,8 @@ public class MqttService extends Service {
                 Log.e("MQTT", "Error in subscription", error);
             }
         });
+
+
     }
 
     private MqttMessage deserializeMessage(String json) throws JSONException {
@@ -124,5 +130,34 @@ public class MqttService extends Service {
         intent.putExtra("message", message);
         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
     }
+
+
+
+    // Funktion zum Senden einer MQTT-Nachricht getApplicationContext(), topic) {
+    //
+    public void publish(String topic, String message) {
+        // Überprüfen Sie, ob der Client verbunden ist
+        if (client != null && client.isConnected()) {
+            // Veröffentlichen Sie die Nachricht auf dem angegebenen Topic
+            client.publish(new SimpleMqttClient.MqttPublish(getApplicationContext(),topic, message) {
+                @Override
+                public void onSuccess() {
+                    // Nachricht erfolgreich veröffentlicht
+                    Toast.makeText(MqttService.this, "MQTT Message send successful", Toast.LENGTH_SHORT).show();
+                    Log.d("MQTT", "MQTT Message send successful");
+                }
+
+                @Override
+                public void onError(Throwable error) {
+                    // Fehler beim Veröffentlichen der Nachricht
+                    Log.d("MQTT", "MQTT Message couldnt send");
+                }
+            });
+        } else {
+            Log.d("MQTT", "MQTT is not conected and Message couldnt send");
+            // Der Client ist nicht verbunden, behandeln Sie diesen Fall entsprechend
+        }
+    }
+
 
 }

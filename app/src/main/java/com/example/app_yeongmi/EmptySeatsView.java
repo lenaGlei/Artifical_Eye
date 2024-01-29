@@ -83,14 +83,4 @@ public class EmptySeatsView extends AppCompatActivity {
 
 
 
-
-
-
-
-
-
-
-
-
-
     }
