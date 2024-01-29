@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.UUID;
@@ -117,4 +118,11 @@ public class MqttService extends Service {
 
         return newMsg;
     }
+
+    private void sendMessageToMainActivity(String message) {
+        Intent intent = new Intent("com.example.app_yeongmi.MQTT_MESSAGE");
+        intent.putExtra("message", message);
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+    }
+
 }

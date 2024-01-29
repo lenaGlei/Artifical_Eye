@@ -77,7 +77,8 @@
                 android:layout_height="wrap_content"
                 android:text="__insert Text from code__"
                 android:alpha="0.7"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:id="@+id/mqttMessagedata"/>
 
 
 
