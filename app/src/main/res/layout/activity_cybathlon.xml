@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/blueHintergrund"
     tools:context=".Cybathlon">
 
     <Button
@@ -11,10 +12,14 @@
         style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#839AAE"
+        android:background="@drawable/buttonblind"
         android:onClick="buttonPressed"
         android:text="Target navigation"
-        android:textColor="@color/white"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:textColor="@color/blueHintergrund"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

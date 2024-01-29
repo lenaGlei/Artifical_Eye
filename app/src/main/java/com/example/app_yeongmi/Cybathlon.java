@@ -8,6 +8,9 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,8 +18,13 @@ import android.widget.Button;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 
+import java.util.Locale;
+
 
 public class Cybathlon extends AppCompatActivity {
+    MediaPlayer mMediaPlayer = new MediaPlayer();
+    private TextToSpeech textToSpeech;
+    int[] seat = {1,1,0,1,0,1};
 
 
 
@@ -33,11 +41,35 @@ public class Cybathlon extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cybathlon);
 
+        mMediaPlayer = MediaPlayer.create(this, R.raw.sound2);
+        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        //mMediaPlayer.setLooping(true);
+        mMediaPlayer.start();
+
+
+
         Button button = findViewById(R.id.btn_CybathlonActive);
+
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    textToSpeech.setLanguage(Locale.UK);
+                    Log.d("TextToSpeech", "Text-to-Speech-Initialisierung erfolgreich");
+
+
+
+
+                }
+            }
+        });
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pruefeSitzStatus(seat);
+
+                vibrateNow(500);
 
 
                 Intent intent = new Intent(Cybathlon.this, EmptySeatsView.class);
@@ -58,6 +90,32 @@ public class Cybathlon extends AppCompatActivity {
 
 
 
+    }
+
+
+    private void pruefeSitzStatus(int[] seat) {
+        StringBuilder ausgabe = new StringBuilder();
+
+        for (int i = 0; i < seat.length; i++) {
+
+            Log.d("Empty SeatsView", String.format("i = %d", i));
+            if (seat[i] == 1) {
+
+
+                ausgabe.append("Seat ").append(i + 1).append(" is occupied. ");
+            } else {
+                ausgabe.append("Seat ").append(i + 1).append(" is free. ");
+            }
+        }
+
+        sprecheText(ausgabe.toString());
+    }
+
+
+    private void sprecheText(String text) {
+        if (textToSpeech != null) {
+            textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null, null);
+        }
     }
 
     /*private void sound(){
@@ -93,10 +151,18 @@ public class Cybathlon extends AppCompatActivity {
     }
 
      */
+    private void vibrateNow (long millis){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            ((Vibrator) getSystemService(VIBRATOR_SERVICE))
+                    .vibrate(VibrationEffect.createOneShot(millis, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(millis);
+        }
+
+    }
 
 
 
 
 
-
-};
+}

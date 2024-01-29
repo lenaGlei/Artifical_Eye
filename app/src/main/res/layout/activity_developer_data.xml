@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            android:text="CYBATLON"
+            android:text="CYBATLON Data"
             android:textColor="@color/white"
             android:textSize="32sp"
             android:textStyle="bold" />
@@ -46,58 +46,83 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="28dp" >
+            android:padding="90dp" >
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="298dp"
                 android:layout_height="wrap_content"
-                android:text="Developer Mode"
+                android:text="Data from Mqtt connection"
                 android:textColor="@color/blue"
                 android:textSize="32sp"
-                android:textStyle="bold"
-            />
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Please login with yoir information"
+                android:text="Don't share confidential information"
                 android:alpha="0.7"/>
 
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"/>
             <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Brooker:"
+            android:alpha="0.7"
+            android:textColor="@color/blueHintergrund"
+            android:textStyle="bold"/>
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email Address"
+                android:text="__insert Text from code__"
                 android:alpha="0.7"
                 android:textStyle="bold"/>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:inputType="textEmailAddress"
-                android:id="@+id/loginEmail"
-                android:drawableEnd="@drawable/done_icon"
-                android:hint="Enter your Email Adress" />
+
 
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Password"
-                android:id="@+id/loginPassword"
+                android:text="Topic:"
+                android:alpha="0.7"
+                android:textColor="@color/blueHintergrund"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="__insert Text from code__"
                 android:alpha="0.7"
                 android:textStyle="bold"/>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:inputType="textPassword"
-                android:drawableEnd="@drawable/password_icon"
-                android:hint="Enter your password" />
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="UUID:"
+                android:alpha="0.7"
+                android:textColor="@color/blueHintergrund"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="__insert Text from code__"
+                android:alpha="0.7"
+                android:textStyle="bold"/>
+
+
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"/>
+
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -107,16 +132,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="10dp"/>
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Login"
-                android:background="@color/blue"
-                app:cornerRadius="32dp"
-                android:textColor="@color/white"
-                android:layout_margin="16dp"
-                android:id="@+id/loginButton"
-                />
+
 
             <View
                 android:layout_width="wrap_content"
