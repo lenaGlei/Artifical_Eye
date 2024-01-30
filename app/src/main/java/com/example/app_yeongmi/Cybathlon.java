@@ -27,15 +27,6 @@ public class Cybathlon extends AppCompatActivity {
     int[] seat = {1,1,0,1,0,1};
 
 
-
-    //MediaPlayer mediaPlayer1;
-    //MediaPlayer mediaPlayer2;
-
-
-    // muss kontinuierlich kommen???
-    //int[] distance = {1, 1, 0, 1, 0, 1};
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,27 +58,15 @@ public class Cybathlon extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pruefeSitzStatus(seat);
+                //pruefeSitzStatus(seat);
 
-                vibrateNow(500);
+                //vibrateNow(500);
 
 
                 Intent intent = new Intent(Cybathlon.this, EmptySeatsView.class);
                 startActivity(intent);
             }
         });
-
-        /*
-        // ab hier sound
-        mediaPlayer1 = MediaPlayer.create(this, R.raw.beepsound);
-        mediaPlayer2= MediaPlayer.create(this,R.raw.beepsound2);
-
-        sound();
-
-         */
-
-
-
 
 
     }
@@ -150,7 +129,7 @@ public class Cybathlon extends AppCompatActivity {
         });
     }
 
-     */
+
     private void vibrateNow (long millis){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             ((Vibrator) getSystemService(VIBRATOR_SERVICE))
@@ -160,7 +139,7 @@ public class Cybathlon extends AppCompatActivity {
         }
 
     }
-
+*/
 
 
 
