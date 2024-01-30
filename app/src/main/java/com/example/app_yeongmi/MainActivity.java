@@ -54,17 +54,17 @@ public class MainActivity extends AppCompatActivity {
         player.start();
 
 
-        Button button = findViewById(R.id.btn_start);
+        Button button1 = findViewById(R.id.btn_start);
 
 
-        button.setOnClickListener(new View.OnClickListener() {
+        button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 player.release();
 
-                //Intent mqttServiceIntent= new Intent(MainActivity.this, Cybathlon.class);
-                //startService(mqttServiceIntent);
+                Intent intent= new Intent(MainActivity.this, Cybathlon.class);
+                startActivity(intent);
 
                 String topic = "emptySeats/testtopic1"; // Das gewünschte Topic
                 String message = "Hallo Jonna, wie geht es dir?"; // Die zu sendende Nachricht
@@ -73,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        button = findViewById(R.id.btn_developer);
-        button.setOnClickListener(new View.OnClickListener() {
+       Button button2 = findViewById(R.id.btn_developer);
+        button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
