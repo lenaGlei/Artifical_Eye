@@ -49,8 +49,8 @@
             android:padding="90dp" >
 
             <TextView
-                android:layout_width="298dp"
-                android:layout_height="wrap_content"
+                android:layout_width="317dp"
+                android:layout_height="90dp"
                 android:text="Data from Mqtt connection"
                 android:textColor="@color/blue"
                 android:textSize="32sp"
@@ -75,10 +75,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="__insert Text from code__"
-                android:alpha="0.7"
+                         android:alpha="0.7"
                 android:textStyle="bold"
-                android:id="@+id/mqttMessagedata"/>
+                android:id="@+id/Brooker_insert"/>
 
 
 
@@ -96,8 +95,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="__insert Text from code__"
                 android:alpha="0.7"
+                android:id="@+id/Topic_insert"
                 android:textStyle="bold"/>
 
             <View
@@ -114,24 +113,30 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="__insert Text from code__"
+                android:id="@+id/UUID_insert"
                 android:alpha="0.7"
                 android:textStyle="bold"/>
 
 
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"/>
-
-
-            <RelativeLayout
+             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"/>
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_QRCodeGenerate"
+                android:background="@color/blue"
+                android:text="Generate QR-Code"
+                android:textColor="@color/white"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/img_qr"
+                android:scaleType="fitCenter"/>
 
 
 
