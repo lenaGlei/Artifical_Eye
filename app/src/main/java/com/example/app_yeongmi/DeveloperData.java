@@ -2,104 +2,81 @@ package com.example.app_yeongmi;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-/*
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-
- */
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import java.util.ArrayList;
 
+
 public class DeveloperData extends AppCompatActivity {
 
+    // hier Mqtt array einfügen
+    String[] dataArray = {"Item 1", "Item 2", "Item 3"};
 
-    // erstezen durch mqtt oder array aus anderer activit
-       int [] data={20,10,0,3,7};
+    // for QR Code
+    Button btn_QRCodeGenerate;
+    ImageView img_qr;
+    TextView brookerText;
 
 
 
-    //LineChart mpLineChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_developer_data);
 
-/*
-        // create chart
-        mpLineChart = (LineChart) findViewById(R.id.linechart);
-        LineDataSet lineDataSet1 = new LineDataSet(dataValues1(), "Mqtt data");
-        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(lineDataSet1);
+        btn_QRCodeGenerate=findViewById(R.id.btn_QRCodeGenerate);
+        img_qr=findViewById(R.id.img_qr);
 
-        LineData data = new LineData(dataSets);
-        mpLineChart.setData(data);
-        mpLineChart.invalidate();
+        btn_QRCodeGenerate.setOnClickListener(v -> {
+            generateQR();
+        });
 
 
+    // hier ändern zu link zu mqhive???
+        brookerText= findViewById(R.id.Brooker_insert);
 
 
+// Get references to the TextViews
+        TextView brookerTextView = findViewById(R.id.Brooker_insert);
+        TextView topicTextView = findViewById(R.id.Topic_insert);
+        TextView uuidTextView = findViewById(R.id.UUID_insert);
 
-        // Chart styling
-        mpLineChart.setDrawGridBackground(true);
-        mpLineChart.setDrawBorders(true);
-        //mpLineChart.setBorderColor();
-
-        Description description = new Description();
-        description.setText("Diagramm");
-        //description.setTextColor();
-        description.setTextSize(20);
-        mpLineChart.setDescription(description);
-
-        Legend legend = mpLineChart.getLegend();
-        legend.setEnabled(true);
-
- */
-
-
-
+// Set the text for each TextView based on the array
+        brookerTextView.setText(dataArray[0]);
+        topicTextView.setText(dataArray[1]);
+        uuidTextView.setText(dataArray[2]);
 
 
 
     }
 
+    private void generateQR() {
+
+        String text =brookerText.getText().toString().trim();
+        MultiFormatWriter writer = new MultiFormatWriter();
+        try {
+            BitMatrix matrix = writer.encode(text, BarcodeFormat.QR_CODE, 400,400);
+            BarcodeEncoder encoder = new BarcodeEncoder();
+            Bitmap bitmap = encoder.createBitmap(matrix);
+            img_qr.setImageBitmap(bitmap);
 
 
+        } catch (WriterException e) {
+            throw new RuntimeException(e);
+        }
 
-      /* private ArrayList<Entry> dataValues1()
-       {
-           ArrayList<Entry> dataVals = new ArrayList<Entry>();
-           //ArrayList<String> mqttDataList = mqttManager.getMqttDataList();
-           for (int i = 0; i < data.length; i++) {
-
-
-               dataVals.add(new Entry(i,data[i]));
-
-
-           }
-
-
-           return dataVals;
-
-
-       }
-
-       */
-
-
-
-
-
-
-
-
+    }
 
 
 }

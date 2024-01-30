@@ -58,9 +58,9 @@ public class Cybathlon extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //pruefeSitzStatus(seat);
+                pruefeSitzStatus(seat);
 
-                //vibrateNow(500);
+                vibrateNow(500);
 
 
                 Intent intent = new Intent(Cybathlon.this, EmptySeatsView.class);
@@ -97,37 +97,6 @@ public class Cybathlon extends AppCompatActivity {
         }
     }
 
-    /*private void sound(){
-
-    for (int i = 0; i < distance.length; i++) {
-
-        Log.d("Cybathlon", String.format("i = %d", i));
-
-
-        if (distance[i] == 0) {
-
-            // mediaPlayer1.start();
-            playSound(mediaPlayer1);
-
-        } else {
-            //mediaPlayer2.start();
-            playSound(mediaPlayer2);
-
-
-        }
-    }
-    }
-
-    private void playSound(final MediaPlayer mediaPlayer) {
-        mediaPlayer.start();
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                // Release the MediaPlayer after sound is played
-                mp.release();
-            }
-        });
-    }
 
 
     private void vibrateNow (long millis){
@@ -139,7 +108,7 @@ public class Cybathlon extends AppCompatActivity {
         }
 
     }
-*/
+
 
 
 
