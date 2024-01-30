@@ -1,6 +1,8 @@
 package com.example.app_yeongmi;
 
-import static com.hivemq.client.internal.mqtt.util.MqttChecks.publish;
+
+//import static com.hivemq.client.internal.mqtt.util.MqttChecks.publish;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -10,7 +12,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
+
 import android.widget.TextView;
+
 import android.widget.Toast;
 
 import java.util.UUID;
@@ -39,6 +43,7 @@ public class MqttService extends Service {
         connect();
         Log.d("MQTT","Service onstartcommand connect");
 
+
         return START_STICKY;
     }
 
@@ -58,6 +63,7 @@ public class MqttService extends Service {
                 Log.d("MQTT", "MQTT connection successful");
                 subscribe(chatTopic);
                 publish(chatTopic,"The app is successfully connected to MQTT and ready to receive information.");
+
 
 
             }
@@ -101,6 +107,7 @@ public class MqttService extends Service {
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 } catch(JSONException je) {
                     Log.e("JSON", "Error while deserializing payload", je);
+
                 }
             }
 
@@ -110,7 +117,6 @@ public class MqttService extends Service {
                 Log.e("MQTT", "Error in subscription", error);
             }
         });
-
 
     }
 
@@ -124,6 +130,7 @@ public class MqttService extends Service {
 
         return newMsg;
     }
+
 
     private void sendMessageToMainActivity(String message) {
         Intent intent = new Intent("com.example.app_yeongmi.MQTT_MESSAGE");
