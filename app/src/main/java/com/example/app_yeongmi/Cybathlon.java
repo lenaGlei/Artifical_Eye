@@ -27,7 +27,7 @@ import java.util.Locale;
 public class Cybathlon extends AppCompatActivity {
     MediaPlayer mMediaPlayer = new MediaPlayer();
     private TextToSpeech textToSpeech;
-    int[] seat = {1,1,0,1,0,1};
+    int[] seat = {1, 1, 0, 1, 0, 1};
 
     private boolean isBound = false;
     private MqttService mqttService;
@@ -61,7 +61,6 @@ public class Cybathlon extends AppCompatActivity {
         mMediaPlayer.start();
 
 
-
         Button button = findViewById(R.id.btn_CybathlonActive);
 
         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
@@ -70,8 +69,6 @@ public class Cybathlon extends AppCompatActivity {
                 if (status == TextToSpeech.SUCCESS) {
                     textToSpeech.setLanguage(Locale.UK);
                     Log.d("TextToSpeech", "Text-to-Speech-Initialisierung erfolgreich");
-
-
 
 
                 }
@@ -83,7 +80,7 @@ public class Cybathlon extends AppCompatActivity {
             public void onClick(View v) {
                 pruefeSitzStatus(seat);
 
-                vibrateNow(500);
+                //vibrateNow(500);
 
 
                 Intent intent = new Intent(Cybathlon.this, EmptySeatsView.class);
@@ -140,6 +137,7 @@ public class Cybathlon extends AppCompatActivity {
             isBound = false;
         }
     }
+}
 
 
     /*private void sound(){
@@ -191,3 +189,4 @@ public class Cybathlon extends AppCompatActivity {
 
 
 }
+*/
