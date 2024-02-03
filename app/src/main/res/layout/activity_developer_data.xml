@@ -4,54 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background= "@color/blueHintergrund"
+    android:background="@color/blueHintergrund"
     tools:context=".DevLoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
-        android:layout_above="@+id/card_view"
-        android:padding="28dp">
+        android:layout_above="@+id/card_view">
 
         <ImageView
-            android:layout_width="97dp"
-            android:layout_height="97dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:scaleType="fitStart"
             android:src="@drawable/icon" />
 
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:text="CYBATLON Data"
+            android:id="@+id/Big_Heading"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Mqtt Connection"
+            android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="32sp"
             android:textStyle="bold" />
-
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
 
     </LinearLayout>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:cardCornerRadius="28dp"
-        android:layout_marginBottom="-20dp"
-        android:id="@+id/card_view"
-        >
+        android:layout_marginBottom="-20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="90dp" >
+            android:padding="70dp">
 
             <TextView
-                android:layout_width="298dp"
-                android:layout_height="wrap_content"
-                android:text="Data from Mqtt connection"
+                android:id="@+id/Heading"
+                android:layout_width="200dp"
+                android:layout_height="90dp"
+                android:layout_gravity="center"
+                android:text="Connection Parameter"
+                android:textAlignment="center"
                 android:textColor="@color/blue"
                 android:textSize="32sp"
                 android:textStyle="bold" />
@@ -59,85 +64,89 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Don't share confidential information"
-                android:alpha="0.7"/>
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"/>
-            <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Brooker:"
-            android:alpha="0.7"
-            android:textColor="@color/blueHintergrund"
-            android:textStyle="bold"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="__insert Text from code__"
                 android:alpha="0.7"
-                android:textStyle="bold"
-                android:id="@+id/mqttMessagedata"/>
-
-
+                android:text="Don't share confidential information" />
 
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"/>
+                android:layout_height="30dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:alpha="0.7"
+                android:text="Brooker:"
+                android:textColor="@color/blueHintergrund"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/Brooker_insert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.7"
+                android:textStyle="bold" />
+
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.7"
                 android:text="Topic:"
-                android:alpha="0.7"
                 android:textColor="@color/blueHintergrund"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
+
             <TextView
+                android:id="@+id/Topic_insert"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="__insert Text from code__"
                 android:alpha="0.7"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"/>
+                android:layout_height="20dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:alpha="0.7"
                 android:text="UUID:"
-                android:alpha="0.7"
                 android:textColor="@color/blueHintergrund"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
+
             <TextView
+                android:id="@+id/UUID_insert"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="__insert Text from code__"
                 android:alpha="0.7"
-                android:textStyle="bold"/>
-
-
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"/>
+                android:textStyle="bold" />
 
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"/>
+                android:layout_height="wrap_content" />
 
 
+            <Button
+                android:id="@+id/btn_QRCodeGenerate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/blue"
+                android:text="Generate QR-Code"
+                android:textColor="@color/white" />
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="5dp"/>
+            <ImageView
+                android:id="@+id/img_qr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter" />
+
+
+
 
 
         </LinearLayout>

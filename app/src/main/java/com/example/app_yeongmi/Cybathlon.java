@@ -81,9 +81,9 @@ public class Cybathlon extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //pruefeSitzStatus(seat);
+                pruefeSitzStatus(seat);
 
-                //vibrateNow(500);
+                vibrateNow(500);
 
 
                 Intent intent = new Intent(Cybathlon.this, EmptySeatsView.class);
@@ -119,6 +119,7 @@ public class Cybathlon extends AppCompatActivity {
             textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null, null);
         }
     }
+
 
     @Override
     protected void onStart() {
@@ -174,6 +175,7 @@ public class Cybathlon extends AppCompatActivity {
     }
 
 
+
     private void vibrateNow (long millis){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             ((Vibrator) getSystemService(VIBRATOR_SERVICE))
@@ -183,7 +185,7 @@ public class Cybathlon extends AppCompatActivity {
         }
 
     }
-*/
+
 
 
 
