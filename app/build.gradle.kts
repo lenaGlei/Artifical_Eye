@@ -70,6 +70,7 @@ dependencies {
 
 
 
+
     implementation("com.hivemq:hivemq-mqtt-client:1.2.1")
     implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation ("com.journeyapps:zxing-android-embedded:4.3.0")

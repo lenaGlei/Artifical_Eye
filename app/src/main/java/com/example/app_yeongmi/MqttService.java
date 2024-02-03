@@ -10,6 +10,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -17,6 +18,8 @@ import android.widget.TextView;
 
 import android.widget.Toast;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.UUID;
 
 import com.example.app_yeongmi.mqtt.SimpleMqttClient;
@@ -26,11 +29,27 @@ import org.json.JSONException;
 import org.json.JSONObject;
 public class MqttService extends Service {
 
+
     private SimpleMqttClient client;
+
     private Context context;
-    private final String chatTopic = "emptySeats/testtopic1";
+    private final String subscribeTopic = "emptySeats/HardwareToApp";
+    private final String publishTopic = "emptySeats/AppToHardware";
+
+
+
     public MqttService() {
     }
+
+    public class LocalBinder extends Binder {
+        MqttService getService() {
+            // Rückgabe dieser Instanz von MqttService, damit Clients öffentliche Methoden aufrufen können
+            return MqttService.this;
+        }
+    }
+
+    private final IBinder binder = new LocalBinder();
+
 
     @Override
     public void onCreate() {
@@ -40,18 +59,20 @@ public class MqttService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         client = new SimpleMqttClient("broker.hivemq.com", 1883, UUID.randomUUID().toString());
+
         connect();
+
         Log.d("MQTT","Service onstartcommand connect");
 
-
-        return START_STICKY;
+        return START_REDELIVER_INTENT; //return START_NOT_STICKY; hier noch mal überlegen wassinnvoll ist
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+        return binder;
     }
+
+
 
     private void connect() {
         // establish connection to server (asynchronous)
@@ -61,8 +82,9 @@ public class MqttService extends Service {
             public void onSuccess() {
                 Toast.makeText(MqttService.this, "Connection successful", Toast.LENGTH_SHORT).show();
                 Log.d("MQTT", "MQTT connection successful");
-                subscribe(chatTopic);
-                publish(chatTopic,"The app is successfully connected to MQTT and ready to receive information.");
+                subscribe(subscribeTopic);
+                publish(publishTopic,"The app is successfully connected to MQTT and ready to receive information.");
+
 
 
 
