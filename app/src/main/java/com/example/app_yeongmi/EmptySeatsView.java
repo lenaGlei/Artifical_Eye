@@ -47,10 +47,11 @@ public class EmptySeatsView extends AppCompatActivity {
 
             String seatString = "R.id.seat" + i;
             System.out.println(seatString);
-            // int intSeat = Integer.parseInt(seatString);
+
             if (seat[i] == 1) {
                 Button upperscreen = findViewById(seatsList.get(i));
                 upperscreen.setBackgroundColor(Color.RED);
+
 
 
                 Log.d("StuhlActivity", "Stuhl " + stuhlNummer + " ist belegt.");

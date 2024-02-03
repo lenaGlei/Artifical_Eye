@@ -16,10 +16,10 @@
         android:padding="28dp">
 
         <ImageView
-            android:layout_width="97dp"
-            android:layout_height="97dp"
+            android:layout_width="450dp"
+            android:layout_height="300dp"
             android:scaleType="fitStart"
-            android:src="@drawable/icon" />
+            android:src="@drawable/blindenstock" />
 
         <TextView
             android:layout_width="wrap_content"
