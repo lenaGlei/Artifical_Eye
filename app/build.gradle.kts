@@ -68,7 +68,7 @@ android {
 
 dependencies {
 
-
+    implementation ("org.json:json:20210307")
     implementation("com.hivemq:hivemq-mqtt-client:1.2.1")
     implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
 

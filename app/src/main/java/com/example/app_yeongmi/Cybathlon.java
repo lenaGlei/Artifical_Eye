@@ -2,12 +2,15 @@ package com.example.app_yeongmi;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
@@ -25,6 +28,26 @@ public class Cybathlon extends AppCompatActivity {
     MediaPlayer mMediaPlayer = new MediaPlayer();
     private TextToSpeech textToSpeech;
     int[] seat = {1,1,0,1,0,1};
+
+    private boolean isBound = false;
+    private MqttService mqttService;
+
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            MqttService.LocalBinder binder = (MqttService.LocalBinder) service;
+            mqttService = binder.getService();
+            isBound = true;
+
+            // Du kannst jetzt Methoden auf mqttService aufrufen
+            mqttService.publish("emptySeats/AppToHardware", "start");
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            isBound = false;
+        }
+    };
 
 
     @Override
@@ -96,6 +119,27 @@ public class Cybathlon extends AppCompatActivity {
             textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null, null);
         }
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // Verbinde dich mit dem MqttService
+        Intent intent = new Intent(this, MqttService.class);
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Löse die Verbindung zum Service auf
+        if (isBound) {
+            unbindService(serviceConnection);
+            isBound = false;
+        }
+    }
+
 
     /*private void sound(){
 

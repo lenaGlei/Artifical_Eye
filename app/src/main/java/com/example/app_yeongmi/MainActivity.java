@@ -2,9 +2,14 @@ package com.example.app_yeongmi;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import static com.hivemq.client.internal.mqtt.util.MqttChecks.publish;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -12,6 +17,7 @@ import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Debug;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,9 +39,11 @@ import com.hivemq.client.internal.mqtt.message.publish.MqttPublish;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String topic = "emptySeats/testtopic1";
+    private final String publishTopic = "emptySeats/AppToHardware";
     private SimpleMqttClient client;
     private TextView txtTemp;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +54,8 @@ public class MainActivity extends AppCompatActivity {
         // Starten Sie den MQTT-Service
         Intent mqttServiceIntent = new Intent(this, MqttService.class);
         startService(mqttServiceIntent);
-        //SimpleMqttClient mqttClient = MqttService.getMqttClient();
+        //Intent publishIntent = new Intent(this, MqttService.class);
+
 
 
         // Sound
@@ -61,15 +70,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
+
+               // publishIntent.setAction(MqttService.ACTION_PUBLISH);
+                //publishIntent.putExtra(MqttService.EXTRA_TOPIC, "emptySeats/AppToHardware");
+                //publishIntent.putExtra(MqttService.EXTRA_MESSAGE, "start");
+                //startService(publishIntent);
+
+
                 player.release();
 
                 Intent intent= new Intent(MainActivity.this, Cybathlon.class);
                 startActivity(intent);
 
-                String topic = "emptySeats/testtopic1"; // Das gewünschte Topic
-                String message = "Hallo Jonna, wie geht es dir?"; // Die zu sendende Nachricht
 
-                //publishMessage(topic, message);
+
+
             }
         });
 
@@ -90,6 +106,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+
+
     }
 
     @Override
