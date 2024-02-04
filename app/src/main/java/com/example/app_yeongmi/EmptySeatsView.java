@@ -99,7 +99,7 @@ public class EmptySeatsView extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             if ("com.example.app.MQTT_MESSAGE".equals(intent.getAction())) {
                 String payload = intent.getStringExtra("payload");
-                Log.d("MQTT", "Nachricht erhalten in Activity: " + payload);
+                Log.d("MQTT", "Nachricht erhalten in EmptySeatsActivity: " + payload);
 
                 // Konvertiere die Payload in ein Array von Integern
                 try {
@@ -135,6 +135,8 @@ public class EmptySeatsView extends AppCompatActivity {
                 seatButton.setBackgroundColor(Color.GREEN);
             }
         }
+
+        //hier audio ausgabe ??
     }
 
 }
