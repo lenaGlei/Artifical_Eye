@@ -63,7 +63,8 @@ public class DeveloperData extends AppCompatActivity {
 
     private void generateQR() {
 
-        String text =brookerText.getText().toString().trim();
+
+        String text ="https://www.hivemq.com/demos/websocket-client/";
         MultiFormatWriter writer = new MultiFormatWriter();
         try {
             BitMatrix matrix = writer.encode(text, BarcodeFormat.QR_CODE, 400,400);
