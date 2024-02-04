@@ -23,8 +23,7 @@ import java.util.Locale;
 
 public class Cybathlon extends AppCompatActivity {
     MediaPlayer mMediaPlayer = new MediaPlayer();
-    private TextToSpeech textToSpeech;
-    int[] seat = {1,1,0,1,0,1};
+
 
 
     @Override
@@ -41,24 +40,12 @@ public class Cybathlon extends AppCompatActivity {
 
         Button button = findViewById(R.id.btn_CybathlonActive);
 
-        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status == TextToSpeech.SUCCESS) {
-                    textToSpeech.setLanguage(Locale.UK);
-                    Log.d("TextToSpeech", "Text-to-Speech-Initialisierung erfolgreich");
 
-
-
-
-                }
-            }
-        });
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pruefeSitzStatus(seat);
+
 
                 vibrateNow(500);
 
@@ -72,30 +59,6 @@ public class Cybathlon extends AppCompatActivity {
     }
 
 
-    private void pruefeSitzStatus(int[] seat) {
-        StringBuilder ausgabe = new StringBuilder();
-
-        for (int i = 0; i < seat.length; i++) {
-
-            Log.d("Empty SeatsView", String.format("i = %d", i));
-            if (seat[i] == 1) {
-
-
-                ausgabe.append("Seat ").append(i + 1).append(" is occupied. ");
-            } else {
-                ausgabe.append("Seat ").append(i + 1).append(" is free. ");
-            }
-        }
-
-        sprecheText(ausgabe.toString());
-    }
-
-
-    private void sprecheText(String text) {
-        if (textToSpeech != null) {
-            textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null, null);
-        }
-    }
 
 
 
