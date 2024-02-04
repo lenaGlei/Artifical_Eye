@@ -121,15 +121,9 @@ public class MqttService extends Service {
             public void onMessage(String topic, String payload) {
                 // Verarbeite die empfangene Nachricht
                 try {
-                    MqttMessage msg = deserializeMessage(payload);
-                    // Hier kannst du z.B. einen Broadcast-Intent senden
-                    Intent intent = new Intent("com.example.app_yeongmi.MQTT_MESSAGE");
-                    intent.putExtra("topic", topic);
-                    intent.putExtra("message", msg.getMessage());
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
-                } catch(JSONException je) {
-                    Log.e("JSON", "Error while deserializing payload", je);
-
+                    messageArrived(topic,payload);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
             }
 
@@ -142,16 +136,19 @@ public class MqttService extends Service {
 
     }
 
-    private MqttMessage deserializeMessage(String json) throws JSONException {
-        JSONObject jMessage = new JSONObject(json);
+    public void messageArrived(String topic, String payload) throws Exception {
+        if ("emptySeats/HardwareToApp".equals(topic)) {
+            //String payload = new String(message.toString());
+            Log.d("MQTT", "Nachricht erhalten: " + payload);
 
-        String sUser = jMessage.getString("user");
-        String sBody = jMessage.getString("t");
-
-        MqttMessage newMsg = new MqttMessage(sUser, sBody);
-
-        return newMsg;
+            Intent intent = new Intent("com.example.app.MQTT_MESSAGE");
+            intent.putExtra("payload", payload);
+            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+        }
     }
+
+
+
 
 
     private void sendMessageToMainActivity(String message) {
@@ -187,6 +184,9 @@ public class MqttService extends Service {
             // Der Client ist nicht verbunden, behandeln Sie diesen Fall entsprechend
         }
     }
+
+
+
 
 
 }
