@@ -21,16 +21,7 @@
             android:scaleType="fitStart"
             android:src="@drawable/icon" />
 
-        <TextView
-            android:id="@+id/Big_Heading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:text="MQTT Connection"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="32sp"
-            android:textStyle="bold" />
+
 
 
     </LinearLayout>
@@ -57,7 +48,7 @@
                 android:text="Connection Parameter"
                 android:textAlignment="center"
                 android:textColor="@color/blue"
-                android:textSize="28sp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <TextView
