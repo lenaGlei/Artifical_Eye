@@ -27,6 +27,7 @@ import java.util.Locale;
 public class Cybathlon extends AppCompatActivity {
     MediaPlayer mMediaPlayer = new MediaPlayer();
 
+
     private TextToSpeech textToSpeech;
     int[] seat = {1, 1, 0, 1, 0, 1};
 
@@ -52,6 +53,7 @@ public class Cybathlon extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,14 +65,14 @@ public class Cybathlon extends AppCompatActivity {
         mMediaPlayer.start();
 
 
-        Button button = findViewById(R.id.btn_CybathlonActive);
 
+        Button button = findViewById(R.id.btn_CybathlonActive);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
-                //vibrateNow(500);
+                vibrateNow(500);
 
 
                 Intent intent = new Intent(Cybathlon.this, EmptySeatsView.class);
@@ -78,64 +80,6 @@ public class Cybathlon extends AppCompatActivity {
             }
         });
 
-
-    }
-
-
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        // Verbinde dich mit dem MqttService
-        Intent intent = new Intent(this, MqttService.class);
-        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        // Löse die Verbindung zum Service auf
-        if (isBound) {
-            unbindService(serviceConnection);
-            isBound = false;
-        }
-    }
-}
-
-
-    /*private void sound(){
-
-    for (int i = 0; i < distance.length; i++) {
-
-        Log.d("Cybathlon", String.format("i = %d", i));
-
-
-        if (distance[i] == 0) {
-
-            // mediaPlayer1.start();
-            playSound(mediaPlayer1);
-
-        } else {
-            //mediaPlayer2.start();
-            playSound(mediaPlayer2);
-
-
-        }
-    }
-    }
-
-    private void playSound(final MediaPlayer mediaPlayer) {
-        mediaPlayer.start();
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                // Release the MediaPlayer after sound is played
-                mp.release();
-            }
-        });
     }
 
 
@@ -149,10 +93,6 @@ public class Cybathlon extends AppCompatActivity {
         }
 
     }
-
-
-
-
+    
 
 }
-*/
