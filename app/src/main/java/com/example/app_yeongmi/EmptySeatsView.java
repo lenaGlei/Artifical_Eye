@@ -22,6 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class EmptySeatsView extends AppCompatActivity {
@@ -51,6 +52,8 @@ public class EmptySeatsView extends AppCompatActivity {
     };
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +81,24 @@ public class EmptySeatsView extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(mqttMessageReceiver,
                 new IntentFilter("com.example.app.MQTT_MESSAGE"));
 
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    textToSpeech.setLanguage(Locale.UK);
+                    Log.d("TextToSpeech", "Text-to-Speech-Initialisierung erfolgreich");
+                    //pruefeSitzStatus(seatStatus);
+
+
+
+                }
+            }
+        });
+
+
+
     }
+
 
     @Override
     protected void onStop() {
@@ -137,6 +157,35 @@ public class EmptySeatsView extends AppCompatActivity {
         }
 
         //hier audio ausgabe ??
+        pruefeSitzStatus(seatStatus);
     }
+
+
+    private void pruefeSitzStatus(int[] seat) {
+        StringBuilder ausgabe = new StringBuilder();
+
+        for (int i = 0; i < seat.length; i++) {
+
+            Log.d("Empty SeatsView", String.format("i = %d", i));
+            if (seat[i] == 1) {
+
+
+                ausgabe.append("Seat ").append(i + 1).append(" is occupied. ");
+            } else {
+                ausgabe.append("Seat ").append(i + 1).append(" is free. ");
+            }
+        }
+
+        sprecheText(ausgabe.toString());
+    }
+
+
+    private void sprecheText(String text) {
+        if (textToSpeech != null) {
+            textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null, null);
+        }
+    }
+
+
 
 }
