@@ -13,13 +13,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-/*import com.google.zxing.BarcodeFormat;
+import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
- */
+
 
 import java.util.ArrayList;
 
@@ -92,14 +92,16 @@ public class DeveloperData extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_developer_data);
-/*
-        //btn_QRCodeGenerate=findViewById(R.id.btn_QRCodeGenerate);
-        //img_qr=findViewById(R.id.img_qr);
+
+        btn_QRCodeGenerate=findViewById(R.id.btn_QRCodeGenerate);
+        img_qr=findViewById(R.id.img_qr);
 
         btn_QRCodeGenerate.setOnClickListener(v -> {
-            //generateQR();
+            generateQR();
         });
 
+
+        /*
 
     // hier ändern zu link zu mqhive???
         brookerText= findViewById(R.id.Brooker_insert);
@@ -116,11 +118,13 @@ public class DeveloperData extends AppCompatActivity {
         uuidTextView.setText(dataArray[2]);
 
 
- */
+         */
+
+
 
 
     }
-/*
+
     private void generateQR() {
 
 
@@ -139,7 +143,7 @@ public class DeveloperData extends AppCompatActivity {
 
     }
 
- */
+
 
 
 }
