@@ -9,30 +9,29 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/card_view"
         android:gravity="center"
-        android:layout_above="@+id/card_view">
+        android:orientation="vertical"
+        android:padding="28dp">
 
         <ImageView
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="97dp"
+            android:layout_height="97dp"
             android:scaleType="fitStart"
             android:src="@drawable/icon" />
 
-
         <TextView
             android:id="@+id/Big_Heading"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="Mqtt Connection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="MQTT Connection"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="32sp"
             android:textStyle="bold" />
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="5dp" />
+
 
     </LinearLayout>
 
@@ -46,19 +45,19 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="70dp">
+            android:padding="45dp">
 
             <TextView
                 android:id="@+id/Heading"
-                android:layout_width="200dp"
-                android:layout_height="90dp"
+                android:layout_width="306dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Connection Parameter"
                 android:textAlignment="center"
                 android:textColor="@color/blue"
-                android:textSize="32sp"
+                android:textSize="28sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -69,38 +68,18 @@
 
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="30dp" />
+                android:layout_height="10dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha="0.7"
-                android:text="Brooker:"
+                android:text="Server Host:"
                 android:textColor="@color/blueHintergrund"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/Brooker_insert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.7"
-                android:textStyle="bold" />
-
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="20dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.7"
-                android:text="Topic:"
-                android:textColor="@color/blueHintergrund"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/Topic_insert"
+                android:id="@+id/ServerHost_insert"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha="0.7"
@@ -108,13 +87,32 @@
 
             <View
                 android:layout_width="wrap_content"
-                android:layout_height="20dp" />
+                android:layout_height="10dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha="0.7"
-                android:text="UUID:"
+                android:text="Server Port:"
+                android:textColor="@color/blueHintergrund"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/ServerPort_insert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.7"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.7"
+                android:text="Client Identifier:"
                 android:textColor="@color/blueHintergrund"
                 android:textStyle="bold" />
 
@@ -124,6 +122,49 @@
                 android:layout_height="wrap_content"
                 android:alpha="0.7"
                 android:textStyle="bold" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.7"
+                android:text="Subscribe to Topic:"
+                android:textColor="@color/blueHintergrund"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/subTopic_insert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.7"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.7"
+                android:text="Publish to Topic:"
+                android:textColor="@color/blueHintergrund"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/pubTopic_insert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.7"
+                android:textStyle="bold" />
+
+            
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="5dp" />
 
 
             <RelativeLayout
@@ -144,9 +185,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="fitCenter" />
-
-
-
 
 
         </LinearLayout>

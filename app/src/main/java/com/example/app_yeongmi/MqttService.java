@@ -36,6 +36,11 @@ public class MqttService extends Service {
     private final String subscribeTopic = "emptySeats/HardwareToApp";
     private final String publishTopic = "emptySeats/AppToHardware";
 
+    //MQTT-Einstellungen
+    private String serverHost = "broker.hivemq.com";
+    private String clientIdentifier = UUID.randomUUID().toString();
+    private int serverPort = 1883;
+
 
 
     public MqttService() {
@@ -58,7 +63,7 @@ public class MqttService extends Service {
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        client = new SimpleMqttClient("broker.hivemq.com", 1883, UUID.randomUUID().toString());
+        client = new SimpleMqttClient(serverHost, serverPort ,clientIdentifier);
 
         connect();
 
@@ -72,7 +77,24 @@ public class MqttService extends Service {
         return binder;
     }
 
+    // Methoden, um die Einstellungen abzurufen
+    public String getServerHost() {
+        return serverHost;
+    }
 
+    public String getServerPort() {
+        return String.valueOf(serverPort);
+    }
+
+    public String getClientIdentifier() {
+        return clientIdentifier;
+    }
+    public String getSubscribeTopic() {
+        return subscribeTopic;
+    }
+    public String getPublishTopic() {
+        return publishTopic;
+    }
 
     private void connect() {
         // establish connection to server (asynchronous)
