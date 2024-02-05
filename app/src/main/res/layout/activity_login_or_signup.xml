@@ -16,8 +16,8 @@
         android:padding="28dp">
 
         <ImageView
-            android:layout_width="450dp"
-            android:layout_height="300dp"
+            android:layout_width="350dp"
+            android:layout_height="200dp"
             android:scaleType="fitStart"
             android:src="@drawable/blindenstock" />
 
