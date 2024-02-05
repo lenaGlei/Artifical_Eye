@@ -73,39 +73,7 @@ tools:context=".main_settings">
                 android:padding="15dp"
                 >
 
-                <!--Dark Mode -->
-                <RelativeLayout
-                    android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:id="@+id/nightMode"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/mode_night"
-                        android:padding="12dp"/>
-
-                    <TextView
-                        android:layout_width="85dp"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="9dp"
-                        android:layout_toEndOf="@+id/nightMode"
-                        android:text="Night Mode"
-                        android:textColor="@color/blue"
-                        android:textStyle="bold" />
-
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:layout_width="48dp"
-                        android:id="@+id/btn_darkMode"
-                        android:layout_height="48dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:switchMinWidth="50dp"/>
-
-                </RelativeLayout>
 
                 <!--Mqtt Connection -->
                 <RelativeLayout

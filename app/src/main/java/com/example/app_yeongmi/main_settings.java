@@ -71,6 +71,17 @@ public class main_settings extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        ImageButton instruction_btn = findViewById(R.id.instruction_btn);
+        instruction_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(main_settings.this, Instructions.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 

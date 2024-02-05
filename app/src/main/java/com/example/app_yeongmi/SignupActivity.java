@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.app_yeongmi.databinding.ActivitySignupBinding;
@@ -42,6 +43,17 @@ public class SignupActivity extends AppCompatActivity {
                 }
             }
         });
+
+        ImageView imageViewBack = findViewById(R.id.btn_backSetting);
+        imageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignupActivity.this, LoginOrSignup.class);
+                startActivity(intent);
+            }
+        });
+
+
 
     }
 }
