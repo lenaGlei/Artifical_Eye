@@ -31,8 +31,6 @@
             android:textSize="32sp"
             android:textStyle="bold" />
 
-
-
     </RelativeLayout>
 
     <ScrollView
@@ -52,14 +50,6 @@
                 android:layout_margin="10dp"
                 android:src="@drawable/icon" />
 
-                android:text="Connection Parameter"
-                android:textAlignment="center"
-                android:textColor="@color/blue"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-
-
             <LinearLayout
                 android:background="@drawable/rounded_background"
                 android:layout_width="match_parent"
@@ -77,33 +67,146 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:id="@+id/nightMode"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/mode_night"
-                        android:padding="12dp"/>
-
                     <TextView
-                        android:layout_width="85dp"
+                        android:id="@+id/ServerHost"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="9dp"
-                        android:layout_toEndOf="@+id/nightMode"
                         android:text="Server Host:"
                         android:textColor="@color/blue"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                     <EditText
                         android:id="@+id/ServerHost_insert"
-                        android:layout_width="199dp"
-                        android:layout_height="31dp"
+                        android:layout_width="283dp"
+                        android:layout_height="48dp"
                         android:alpha="0.7"
+                        android:layout_below="@+id/ServerHost"
+                        android:textStyle="bold"
+                        android:enabled="false"
+                        android:hint="broker.hivemq.com"
+                        android:inputType="number"/>
+
+
+                </RelativeLayout>
+
+                <!--Server Port -->
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/ServerPort"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Server Port:"
+                        android:textColor="@color/blue"
+                        android:textStyle="bold"/>
+
+                    <EditText
+                        android:id="@+id/ServerPort_insert"
+                        android:layout_width="283dp"
+                        android:layout_height="48dp"
+                        android:layout_below="@id/ServerPort"
+                        android:layout_marginTop="0dp"
+                        android:alpha="0.7"
+                        android:enabled="false"
+                        android:hint="1883"
+                        android:inputType="number"
                         android:textStyle="bold" />
 
+                </RelativeLayout>
+
+                <!--Client Identifier -->
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/UUID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Client Identifier:"
+                        android:textColor="@color/blue"
+                        android:textStyle="bold"/>
+
+                    <EditText
+                        android:id="@+id/UUID_insert"
+                        android:layout_width="283dp"
+                        android:layout_height="48dp"
+                        android:alpha="0.7"
+                        android:layout_below="@+id/UUID"
+                        android:textStyle="bold"
+                        android:hint="cdsgrdgghgjsregf"
+                        android:inputType="number"
+                        android:enabled="false"/>
+
+                </RelativeLayout>
+
+                <!--Subscribe to Topic -->
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/subTopic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Subscribe to Topic:"
+                        android:textColor="@color/blue"
+                        android:textStyle="bold"/>
+
+                    <EditText
+                        android:id="@+id/subTopic_insert"
+                        android:layout_width="283dp"
+                        android:layout_height="48dp"
+                        android:alpha="0.7"
+                        android:layout_below="@+id/subTopic"
+                        android:textStyle="bold"
+                        android:hint="emptySeats/HardwareToApp"
+                        android:inputType="number"
+                        android:enabled="false"/>
+
                     <ImageButton
-                        android:id="@+id/mqtt_btn"
+                        android:id="@+id/subTopic_btn"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        app:srcCompat="@drawable/edit"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="MQTTConnection_button_description"/>
+
+                </RelativeLayout>
+
+                <!--Publish to Topic -->
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/pubTopic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Publish to Topic:"
+                        android:textColor="@color/blue"
+                        android:textStyle="bold"/>
+
+                    <EditText
+                        android:id="@+id/pubTopic_insert"
+                        android:layout_width="283dp"
+                        android:layout_height="48dp"
+                        android:layout_centerVertical="true"
+                        android:alpha="0.7"
+                        android:layout_below="@+id/pubTopic"
+                        android:textStyle="bold"
+                        android:hint="emptySeats/AppToHardware"
+                        android:enabled="false"/>
+
+                    <ImageButton
+                        android:id="@+id/pubTopic_btn"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         app:srcCompat="@drawable/edit"
@@ -114,13 +217,32 @@
                 </RelativeLayout>
 
 
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"/>
+
+
+                <Button
+                    android:id="@+id/btn_QRCodeGenerate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/blue"
+                    android:text="QR-Code for Hive MQ"
+                    android:textColor="@color/white" />
+
+                <ImageView
+                    android:id="@+id/img_qr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitCenter" />
+
+
 
             </LinearLayout>
 
             </LinearLayout>
 
-
-        </LinearLayout>
     </ScrollView>
 </LinearLayout>
 
@@ -130,132 +252,3 @@
 
 
 
-
-
-
-
-
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.7"
-                android:text="Server Host:"
-                android:textColor="@color/blueHintergrund"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/ServerHost_insert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.7"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="10dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.7"
-                android:text="Server Port:"
-                android:textColor="@color/blueHintergrund"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/ServerPort_insert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.7"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="10dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.7"
-                android:text="Client Identifier:"
-                android:textColor="@color/blueHintergrund"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/UUID_insert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.7"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="10dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.7"
-                android:text="Subscribe to Topic:"
-                android:textColor="@color/blueHintergrund"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/subTopic_insert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.7"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="10dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.7"
-                android:text="Publish to Topic:"
-                android:textColor="@color/blueHintergrund"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/pubTopic_insert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.7"
-                android:textStyle="bold" />
-
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="5dp" />
-
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-
-            <Button
-                android:id="@+id/btn_QRCodeGenerate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/blue"
-                android:text="QR-Code for Hive MQ"
-                android:textColor="@color/white" />
-
-            <ImageView
-                android:id="@+id/img_qr"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="fitCenter" />
-
-
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
-</RelativeLayout>
