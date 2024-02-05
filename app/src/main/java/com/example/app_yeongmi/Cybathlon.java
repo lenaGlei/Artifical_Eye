@@ -93,6 +93,6 @@ public class Cybathlon extends AppCompatActivity {
         }
 
     }
-    
+
 
 }
