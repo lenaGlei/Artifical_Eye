@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,6 +47,16 @@ public class DevLoginActivity extends AppCompatActivity {
                         Toast.makeText(DevLoginActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
                     }
                 }
+            }
+        });
+
+
+        ImageView imageViewBack = findViewById(R.id.btn_backSetting);
+        imageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DevLoginActivity.this, LoginOrSignup.class);
+                startActivity(intent);
             }
         });
 

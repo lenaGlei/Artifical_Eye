@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape>
-            <corners android:radius="125dp" /> <!-- Adjust the radius as needed -->
+            <corners android:radius="90dp" /> <!-- Adjust the radius as needed -->
             <solid android:color="#1F407A"/> <!-- Background color of the button -->
         </shape>
     </item>
