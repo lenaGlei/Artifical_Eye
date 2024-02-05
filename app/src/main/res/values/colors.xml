@@ -6,4 +6,9 @@
     <color name="blue">#1F407A</color>
     <color name="yellow">#FEFE67</color>
     <color name="blueHintergrund">#0D1E3C</color>
+
+    <color name="yellowdark">#AC9B0B</color>
+    <color name="bluedark">#040D3E</color>
+    <color name="blueHintergrunddark">#2E3037</color>
+
 </resources>

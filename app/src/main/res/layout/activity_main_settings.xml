@@ -55,7 +55,7 @@ tools:context=".main_settings">
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:text="Jonna Lena"
+            android:id="@+id/username"
             android:fontFamily="sans-serif-medium"
             android:textColor="@color/white"
             android:textSize="22sp"
@@ -98,6 +98,7 @@ tools:context=".main_settings">
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:layout_width="48dp"
+                        android:id="@+id/btn_darkMode"
                         android:layout_height="48dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"

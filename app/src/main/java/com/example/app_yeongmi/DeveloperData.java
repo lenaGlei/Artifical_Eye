@@ -74,17 +74,21 @@ public class DeveloperData extends AppCompatActivity {
 
     private void updateUIWithMqttSettings() {
         if (isBound) {
-            TextView serverHostView = findViewById(R.id.ServerHost_insert);
+/*            TextView serverHostView = findViewById(R.id.ServerHost_insert);
             TextView serverPortView = findViewById(R.id.ServerPort_insert);
             TextView subTopicTextView = findViewById(R.id.subTopic_insert);
             TextView pubTopicTextView = findViewById(R.id.pubTopic_insert);
             TextView uuidTextView = findViewById(R.id.UUID_insert);
+
+
 
             serverHostView.setText(mqttService.getServerHost());
             serverPortView.setText(mqttService.getServerPort());
             subTopicTextView .setText(mqttService.getSubscribeTopic());
             pubTopicTextView .setText(mqttService.getPublishTopic());
             uuidTextView.setText(mqttService.getClientIdentifier());
+
+ */
         }
     }
 
@@ -93,8 +97,8 @@ public class DeveloperData extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_developer_data);
 
-        btn_QRCodeGenerate=findViewById(R.id.btn_QRCodeGenerate);
-        img_qr=findViewById(R.id.img_qr);
+        //btn_QRCodeGenerate=findViewById(R.id.btn_QRCodeGenerate);
+        //img_qr=findViewById(R.id.img_qr);
 
         btn_QRCodeGenerate.setOnClickListener(v -> {
             generateQR();

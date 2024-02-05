@@ -1,19 +1,23 @@
 package com.example.app_yeongmi;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
-
-
+import android.widget.TextView;
 
 
 public class main_settings extends AppCompatActivity {
+
+    boolean isNightModeOn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +25,17 @@ public class main_settings extends AppCompatActivity {
         setContentView(R.layout.activity_main_settings);
 
         ImageButton cybathlonWeb_btn = findViewById(R.id.CybathlonWeb_btn);
+
+        String email = getIntent().getStringExtra("EMAIL");
+
+        // Find the TextView in the layout
+        TextView textViewEmail = findViewById(R.id.username);
+
+        // Set the email in the TextView
+        textViewEmail.setText(email);
+
+
+
 
         cybathlonWeb_btn.setOnClickListener(new View.OnClickListener() {
             @Override

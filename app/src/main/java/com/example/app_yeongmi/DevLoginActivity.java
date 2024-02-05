@@ -21,7 +21,7 @@ public class DevLoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityDevloginBinding.inflate(getLayoutInflater());
-        //setContentView(R.layout.activity_devlogin);
+
         setContentView(binding.getRoot());
 
 
@@ -41,6 +41,7 @@ public class DevLoginActivity extends AppCompatActivity {
                     if(checkCredentials == true){
                         Toast.makeText(DevLoginActivity.this, "Login Successfully!", Toast.LENGTH_SHORT).show();
                         Intent intent  = new Intent(DevLoginActivity.this, main_settings.class);
+                        intent.putExtra("EMAIL", email);
                         startActivity(intent);
                     }else{
                         Toast.makeText(DevLoginActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();

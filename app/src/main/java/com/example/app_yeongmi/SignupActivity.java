@@ -33,6 +33,7 @@ public class SignupActivity extends AppCompatActivity {
                             if(insert == true){
                                 Toast.makeText(SignupActivity.this, "Signup Successfully!", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(SignupActivity.this, main_settings.class);
+                                intent.putExtra("EMAIL", email);
                                 startActivity(intent);
                             }else{
                                 Toast.makeText(SignupActivity.this, "Signup Failed!", Toast.LENGTH_SHORT).show();
