@@ -11,7 +11,7 @@ import android.widget.Button;
 
 public class DeveloperUser2 extends AppCompatActivity {
 
-    MediaPlayer mMediaPlayer = new MediaPlayer();
+    private MediaPlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,10 +19,6 @@ public class DeveloperUser2 extends AppCompatActivity {
         setContentView(R.layout.activity_developer_user2);
 
 
-        mMediaPlayer = MediaPlayer.create(this, R.raw.sound3);
-        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-
-        mMediaPlayer.start();
 
 
         Button button1 = findViewById(R.id.btn_goback);
@@ -46,5 +42,25 @@ public class DeveloperUser2 extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+
+        // Start playing the sound when the activity starts
+        player = MediaPlayer.create(DeveloperUser2.this, R.raw.sound3);
+        player.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Release the MediaPlayer when the activity is paused
+        if (player != null) {
+            player.release();
+        }
     }
 }

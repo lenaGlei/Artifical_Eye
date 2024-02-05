@@ -2,15 +2,12 @@ package com.example.app_yeongmi;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
@@ -24,32 +21,9 @@ import android.media.AudioManager;
 import java.util.Locale;
 
 
+
 public class Cybathlon extends AppCompatActivity {
-    MediaPlayer mMediaPlayer = new MediaPlayer();
-
-
-    private TextToSpeech textToSpeech;
-    int[] seat = {1, 1, 0, 1, 0, 1};
-
-    private boolean isBound = false;
-    private MqttService mqttService;
-
-    private ServiceConnection serviceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName className, IBinder service) {
-            MqttService.LocalBinder binder = (MqttService.LocalBinder) service;
-            mqttService = binder.getService();
-            isBound = true;
-
-            // Du kannst jetzt Methoden auf mqttService aufrufen
-            mqttService.publish("emptySeats/AppToHardware", "start");
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-            isBound = false;
-        }
-    };
+    private MediaPlayer player;
 
 
 
@@ -59,14 +33,14 @@ public class Cybathlon extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cybathlon);
 
-        mMediaPlayer = MediaPlayer.create(this, R.raw.sound2);
-        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        //mMediaPlayer.setLooping(true);
-        mMediaPlayer.start();
+
 
 
 
         Button button = findViewById(R.id.btn_CybathlonActive);
+
+
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,7 +54,10 @@ public class Cybathlon extends AppCompatActivity {
             }
         });
 
+
     }
+
+
 
 
 
@@ -93,6 +70,29 @@ public class Cybathlon extends AppCompatActivity {
         }
 
     }
-    
+
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+
+        // Start playing the sound when the activity starts
+        player = MediaPlayer.create(Cybathlon.this, R.raw.sound2);
+        player.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Release the MediaPlayer when the activity is paused
+        if (player != null) {
+            player.release();
+        }
+    }
+
+
+
+
 
 }
