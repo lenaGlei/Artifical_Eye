@@ -71,6 +71,7 @@ public class Cybathlon extends AppCompatActivity {
 
     }
 
+
     @Override
     protected void onStart() {
 
@@ -90,8 +91,6 @@ public class Cybathlon extends AppCompatActivity {
             player.release();
         }
     }
-
-
 
 
 
