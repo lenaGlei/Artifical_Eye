@@ -12,12 +12,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
 public class main_settings extends AppCompatActivity {
 
-    boolean isNightModeOn;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +34,20 @@ public class main_settings extends AppCompatActivity {
         TextView textViewEmail = findViewById(R.id.username);
 
         // Set the email in the TextView
-        textViewEmail.setText(email);
+        textViewEmail.setText("Welcome " + email);
 
 
+
+        ImageView imageViewBack = findViewById(R.id.btn_backSetting);
+
+
+        imageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(main_settings.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         cybathlonWeb_btn.setOnClickListener(new View.OnClickListener() {
@@ -59,5 +72,8 @@ public class main_settings extends AppCompatActivity {
             }
         });
     }
+
+
+
 
 }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/blueHintergrund"
     android:orientation="vertical"
-    tools:context=".DevLoginActivity">
+    tools:context=".DeveloperData">
 
     <!-- Kopfzeile mit Zurück-Pfeil und Titel -->
     <RelativeLayout
@@ -17,6 +17,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:padding="14dp"
+            android:id="@+id/btn_backMQTT"
             android:src="@drawable/arrow_back" />
 
         <TextView

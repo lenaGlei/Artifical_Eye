@@ -95,9 +95,13 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:inputType="textPassword"
                 android:drawableEnd="@drawable/password_icon"
-                android:hint="Enter your password" />
+                android:id="@+id/password_entry"
+                android:hint="Enter your password"
+                android:inputType="textPassword" />
+
+
+
 
             <RelativeLayout
                 android:layout_width="wrap_content"

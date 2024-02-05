@@ -9,6 +9,7 @@ import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -74,7 +75,7 @@ public class DeveloperData extends AppCompatActivity {
 
     private void updateUIWithMqttSettings() {
         if (isBound) {
-/*            TextView serverHostView = findViewById(R.id.ServerHost_insert);
+           TextView serverHostView = findViewById(R.id.ServerHost_insert);
             TextView serverPortView = findViewById(R.id.ServerPort_insert);
             TextView subTopicTextView = findViewById(R.id.subTopic_insert);
             TextView pubTopicTextView = findViewById(R.id.pubTopic_insert);
@@ -88,7 +89,7 @@ public class DeveloperData extends AppCompatActivity {
             pubTopicTextView .setText(mqttService.getPublishTopic());
             uuidTextView.setText(mqttService.getClientIdentifier());
 
- */
+
         }
     }
 
@@ -97,8 +98,19 @@ public class DeveloperData extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_developer_data);
 
-        //btn_QRCodeGenerate=findViewById(R.id.btn_QRCodeGenerate);
-        //img_qr=findViewById(R.id.img_qr);
+        ImageView imageViewBack = findViewById(R.id.btn_backMQTT);
+
+        // Set OnClickListener to go back when the arrow is clicked
+        imageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DeveloperData.this, main_settings.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_QRCodeGenerate=findViewById(R.id.btn_QRCodeGenerate);
+        img_qr=findViewById(R.id.img_qr);
 
         btn_QRCodeGenerate.setOnClickListener(v -> {
             generateQR();
@@ -128,6 +140,7 @@ public class DeveloperData extends AppCompatActivity {
 
 
     }
+
 
     private void generateQR() {
 
