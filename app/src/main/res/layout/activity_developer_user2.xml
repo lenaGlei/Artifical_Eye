@@ -25,7 +25,7 @@
             android:layout_height="600dp"
             android:background="@drawable/buttonblind"
             android:layout_marginStart="20dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="19dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
             android:text="Go Back!"
@@ -37,7 +37,7 @@
         <Button
             android:id="@+id/btn_continueDevelop"
             android:layout_width="match_parent"
-            android:layout_height="94dp"
+            android:layout_height="74dp"
             android:background= "@drawable/mybutton"
             android:text="Continue in developer mode"
             android:layout_marginStart="10dp"
