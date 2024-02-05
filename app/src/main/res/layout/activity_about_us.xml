@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@color/blueHintergrund"
+android:orientation="vertical"
+tools:context=".AboutUs">
+
+<!-- Kopfzeile mit Zurück-Pfeil und Titel -->
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/btn_backSetting"
+        android:padding="14dp"
+        android:src="@drawable/arrow_back" />
+
+    <TextView
+        android:id="@+id/Big_Heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:fontFamily="sans-serif-medium"
+        android:text="About us"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:src="@drawable/icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:id="@+id/username"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:background="@drawable/rounded_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="40dp"
+            android:orientation="vertical"
+            android:padding="15dp"
+            >
+
+
+
+            <!--Jonna  -->
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/picJonna"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/connection"
+                    android:padding="12dp"/>
+
+                <TextView
+                    android:id="@+id/nameJonna"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="9dp"
+                    android:layout_toEndOf="@+id/picJonna"
+                    android:text="Jonna Golks"
+                    android:textColor="@color/blue"
+                    android:textStyle="bold"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/titleJonna"
+                    android:layout_marginStart="9dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/nameJonna"
+                    android:layout_toEndOf="@+id/picJonna"
+                    android:textStyle="bold"
+                    android:hint="Bachelor of Science"
+                    android:textSize="16sp"
+                    android:layout_marginTop="4dp"
+                    />
+
+                <TextView
+                    android:id="@+id/bioJonna"
+                    android:layout_marginStart="9dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/titleJonna"
+                    android:layout_toEndOf="@+id/picJonna"
+                    android:text="Hobbys?? Bio Interessen"
+                    android:textSize="14sp"
+                    android:layout_marginTop="4dp"/>
+
+                <ImageView
+                    android:id="@+id/linkdinJonna"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/bioJonna"
+                    android:layout_toEndOf="@+id/picJonna"
+                    android:src="@drawable/people"
+                    android:padding="12dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="9dp"
+                    android:layout_below="@+id/bioJonna"
+                    android:layout_toEndOf="@+id/linkdinJonna"
+                    android:text="LinkedIn Profil"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp"
+                    android:layout_marginTop="4dp"/>
+
+
+            </RelativeLayout>
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:background="@drawable/rounded_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="40dp"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+
+
+
+
+
+
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+</ScrollView>
+</LinearLayout>

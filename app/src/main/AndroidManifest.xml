@@ -21,13 +21,16 @@
         android:theme="@style/Theme.App_Yeongmi"
         tools:targetApi="34">
         <activity
+            android:name=".AboutUs"
+            android:exported="false" />
+        <activity
             android:name=".Instructions"
             android:exported="false" />
 
         <service
             android:name=".MqttService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <activity
             android:name=".main_settings"
