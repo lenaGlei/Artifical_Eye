@@ -24,8 +24,10 @@ import android.media.AudioManager;
 import java.util.Locale;
 
 
+
 public class Cybathlon extends AppCompatActivity {
-    MediaPlayer mMediaPlayer = new MediaPlayer();
+    private MediaPlayer player;
+
 
 
     private TextToSpeech textToSpeech;
@@ -59,10 +61,7 @@ public class Cybathlon extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cybathlon);
 
-        mMediaPlayer = MediaPlayer.create(this, R.raw.sound2);
-        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        //mMediaPlayer.setLooping(true);
-        mMediaPlayer.start();
+
 
 
 
@@ -93,6 +92,32 @@ public class Cybathlon extends AppCompatActivity {
         }
 
     }
-    
+
+
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+
+        // Start playing the sound when the activity starts
+        player = MediaPlayer.create(Cybathlon.this, R.raw.sound2);
+        player.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Release the MediaPlayer when the activity is paused
+        if (player != null) {
+            player.release();
+        }
+    }
+
+
+
+
+
+
 
 }

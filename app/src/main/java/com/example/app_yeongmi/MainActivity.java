@@ -49,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
     private SimpleMqttClient client;
     private TextView txtTemp;
     int i = 0;
+    private MediaPlayer player;
+
+
 
 
 
@@ -65,9 +68,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        // Sound
-        MediaPlayer player= MediaPlayer.create(MainActivity.this,R.raw.sound1);
-        player.start();
 
 
         Button button1 = findViewById(R.id.btn_start);
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 //startService(publishIntent);
 
 
-                player.release();
+
                 vibrateNow(500);
 
                 Intent intent= new Intent(MainActivity.this, Cybathlon.class);
@@ -137,6 +137,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
+
+
+
+
+
     private void vibrateNow (long millis){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             ((Vibrator) getSystemService(VIBRATOR_SERVICE))
@@ -149,10 +156,22 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
+
         super.onStart();
 
+        // Start playing the sound when the activity starts
+        player = MediaPlayer.create(MainActivity.this, R.raw.sound1);
+        player.start();
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
 
+        // Release the MediaPlayer when the activity is paused
+        if (player != null) {
+            player.release();
+        }
     }
 
     @Override
