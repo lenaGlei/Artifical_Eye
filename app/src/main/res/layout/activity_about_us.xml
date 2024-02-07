@@ -159,7 +159,7 @@ tools:context=".AboutUs">
                     android:layout_height="46dp"
                     android:layout_below="@+id/bioJonna"
                     android:layout_toEndOf="@+id/picJonna"
-                    android:src="@drawable/linkedIn_logo"
+                    android:src="@drawable/linkedinlogo"
                     android:padding="12dp"/>
 
                 <TextView
@@ -240,7 +240,7 @@ tools:context=".AboutUs">
                     android:layout_height="46dp"
                     android:layout_below="@+id/bioLeon"
                     android:layout_toEndOf="@+id/picLeon"
-                    android:src="@drawable/linkedIn_logo"
+                    android:src="@drawable/linkedinlogo"
                     android:padding="12dp"/>
 
                 <TextView
@@ -320,7 +320,7 @@ tools:context=".AboutUs">
                     android:layout_height="46dp"
                     android:layout_below="@+id/bioLukas"
                     android:layout_toEndOf="@+id/picLukas"
-                    android:src="@drawable/linkedIn_logo"
+                    android:src="@drawable/linkedinlogo"
                     android:padding="12dp"/>
 
                 <TextView
@@ -402,7 +402,7 @@ tools:context=".AboutUs">
                     android:layout_height="46dp"
                     android:layout_below="@+id/bioTobi"
                     android:layout_toEndOf="@+id/picTobi"
-                    android:src="@drawable/linkedIn_logo"
+                    android:src="@drawable/linkedinlogo"
                     android:padding="12dp"/>
 
                 <TextView
@@ -483,7 +483,7 @@ tools:context=".AboutUs">
                     android:layout_height="46dp"
                     android:layout_below="@+id/bioLena"
                     android:layout_toEndOf="@+id/picLena"
-                    android:src="@drawable/linkedIn_logo"
+                    android:src="@drawable/linkedinlogo"
                     android:padding="12dp"/>
 
                 <TextView
