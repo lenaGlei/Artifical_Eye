@@ -111,11 +111,13 @@ public class DeveloperData extends AppCompatActivity {
         Button editTopicButton = findViewById(R.id.btn_editTopic);
         Button applyTopicButton = findViewById(R.id.btn_applyTopic);
         EditText subTopicText = findViewById(R.id.subTopic_insert);
+        EditText pubTopicText = findViewById(R.id.pubTopic_insert);
         // Bearbeitungsmodus aktivieren
         editTopicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 subTopicText.setEnabled(true); // EditText bearbeitbar machen
+                pubTopicText.setEnabled(true);
                 subTopicText.requestFocus(); // Fokus setzen
                 applyTopicButton.setVisibility(View.VISIBLE); // "Übernehmen"-Button anzeigen
                 editTopicButton.setVisibility(View.GONE);
@@ -126,9 +128,12 @@ public class DeveloperData extends AppCompatActivity {
         applyTopicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String newTopic = subTopicText.getText().toString();
-                mqttService.updateMqttSubscription(newTopic); // Methode, um den MQTT-Service zu aktualisieren
+                String newsubTopic = subTopicText.getText().toString();
+                String newpubTopic= pubTopicText.getText().toString();
+                mqttService.updateMqttSubscription(newsubTopic); // Methode, um den MQTT-Service zu aktualisieren
+                mqttService.updateMqttPuplish(newpubTopic);
                 subTopicText.setEnabled(false); // Bearbeitungsmodus deaktivieren
+                pubTopicText.setEnabled(false); // Bearbeitungsmodus deaktivieren
                 applyTopicButton.setVisibility(View.GONE); // "Übernehmen"-Button ausblenden
                 editTopicButton.setVisibility(View.VISIBLE);
             }
