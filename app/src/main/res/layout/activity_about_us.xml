@@ -51,6 +51,7 @@ tools:context=".AboutUs">
             android:layout_margin="10dp"
             android:src="@drawable/icon" />
 
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,7 +61,8 @@ tools:context=".AboutUs">
             android:fontFamily="sans-serif-medium"
             android:textColor="@color/white"
             android:textSize="22sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            />
 
         <LinearLayout
             android:background="@drawable/rounded_background"
@@ -73,7 +75,34 @@ tools:context=".AboutUs">
             android:padding="15dp"
             >
 
+            <!--beschriebung-->
+            <RelativeLayout
+                android:layout_marginTop="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hallo! Wir sind eine Gruppe engagierter Medizintechnik-Studierender am MCI. Unten findet ihr kurze Profile von jedem Teammitglied, die unsere Leidenschaften und Fachgebiete hervorheben."
+                    android:textColor="@color/blue"
+                    android:textSize="16sp"/>
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:background="@drawable/rounded_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="40dp"
+            android:orientation="vertical"
+            android:padding="15dp"
+            >
 
             <!--Jonna  -->
             <RelativeLayout
@@ -85,8 +114,9 @@ tools:context=".AboutUs">
                     android:id="@+id/picJonna"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/connection"
-                    android:padding="12dp"/>
+                    android:padding="1dp"
+                    android:src="@drawable/jonnabild"
+                    android:scaleType="centerCrop"/>
 
                 <TextView
                     android:id="@+id/nameJonna"
@@ -123,9 +153,9 @@ tools:context=".AboutUs">
                     android:layout_marginTop="4dp"/>
 
                 <ImageView
-                    android:id="@+id/linkdinJonna"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:id="@+id/linkdinJonna_btn"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
                     android:layout_below="@+id/bioJonna"
                     android:layout_toEndOf="@+id/picJonna"
                     android:src="@drawable/people"
@@ -134,20 +164,179 @@ tools:context=".AboutUs">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="9dp"
                     android:layout_below="@+id/bioJonna"
-                    android:layout_toEndOf="@+id/linkdinJonna"
+                    android:layout_toEndOf="@+id/linkdinJonna_btn"
                     android:text="LinkedIn Profil"
                     android:textColor="@color/blue"
                     android:textSize="14sp"
-                    android:layout_marginTop="4dp"/>
-
+                    android:layout_marginTop="12dp"/>
 
             </RelativeLayout>
 
+        </LinearLayout>
 
+        <LinearLayout
+            android:background="@drawable/rounded_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="40dp"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <!--Leon  -->
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/picLeon"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:padding="1dp"
+                    android:src="@drawable/leonpbild"
+                    android:scaleType="centerCrop"/>
+
+                <TextView
+                    android:id="@+id/nameLeon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="9dp"
+                    android:layout_toEndOf="@+id/picLeon"
+                    android:text="Leon Ochtendung"
+                    android:textColor="@color/blue"
+                    android:textStyle="bold"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/titleLeon"
+                    android:layout_marginStart="9dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/nameLeon"
+                    android:layout_toEndOf="@+id/picLeon"
+                    android:textStyle="bold"
+                    android:hint="Bachelor of Science"
+                    android:textSize="16sp"
+                    android:layout_marginTop="4dp"
+                    />
+
+                <TextView
+                    android:id="@+id/bioLeon"
+                    android:layout_marginStart="9dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/titleLeon"
+                    android:layout_toEndOf="@+id/picLeon"
+                    android:text="Hobbys?? Bio Interessen"
+                    android:textSize="14sp"
+                    android:layout_marginTop="4dp"/>
+
+                <ImageView
+                    android:id="@+id/linkdinLeon_btn"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:layout_below="@+id/bioLeon"
+                    android:layout_toEndOf="@+id/picLeon"
+                    android:src="@drawable/people"
+                    android:padding="12dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/bioLeon"
+                    android:layout_toEndOf="@+id/linkdinLeon_btn"
+                    android:text="LinkedIn Profil"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp"
+                    android:layout_marginTop="12dp"/>
+
+            </RelativeLayout>
 
         </LinearLayout>
+        <!--Lukas  -->
+        <LinearLayout
+            android:background="@drawable/rounded_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="40dp"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/picLukas"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:padding="1dp"
+                    android:src="@drawable/lukaspbild"
+                    android:scaleType="centerCrop"/>
+
+                <TextView
+                    android:id="@+id/nameLukas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="9dp"
+                    android:layout_toEndOf="@+id/picLukas"
+                    android:text="Lukas Neururer"
+                    android:textColor="@color/blue"
+                    android:textStyle="bold"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/titleLukas"
+                    android:layout_marginStart="9dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/nameLukas"
+                    android:layout_toEndOf="@+id/picLukas"
+                    android:textStyle="bold"
+                    android:hint="Bachelor of Science"
+                    android:textSize="16sp"
+                    android:layout_marginTop="4dp"
+                    />
+
+                <TextView
+                    android:id="@+id/bioLukas"
+                    android:layout_marginStart="9dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/titleLukas"
+                    android:layout_toEndOf="@+id/picLukas"
+                    android:text="Hobbys?? Bio Interessen"
+                    android:textSize="14sp"
+                    android:layout_marginTop="4dp"/>
+
+                <ImageView
+                    android:id="@+id/linkdinLukas_btn"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:layout_below="@+id/bioLukas"
+                    android:layout_toEndOf="@+id/picLukas"
+                    android:src="@drawable/people"
+                    android:padding="12dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/bioLukas"
+                    android:layout_toEndOf="@+id/linkdinLukas_btn"
+                    android:text="LinkedIn Profil"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp"
+                    android:layout_marginTop="12dp"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <!--Tobi  -->
         <LinearLayout
             android:background="@drawable/rounded_background"
             android:layout_width="match_parent"
@@ -159,10 +348,154 @@ tools:context=".AboutUs">
             android:padding="15dp">
 
 
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/picTobi"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:padding="1dp"
+                    android:src="@drawable/tobipbild"
+                    android:scaleType="centerCrop"/>
+
+                <TextView
+                    android:id="@+id/nameTobi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="9dp"
+                    android:layout_toEndOf="@+id/picTobi"
+                    android:text="Tobias Burkhardt"
+                    android:textColor="@color/blue"
+                    android:textStyle="bold"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/titleTobi"
+                    android:layout_marginStart="9dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/nameTobi"
+                    android:layout_toEndOf="@+id/picTobi"
+                    android:textStyle="bold"
+                    android:hint="Bachelor of Science"
+                    android:textSize="16sp"
+                    android:layout_marginTop="4dp"
+                    />
+
+                <TextView
+                    android:id="@+id/bioTobi"
+                    android:layout_marginStart="9dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/titleTobi"
+                    android:layout_toEndOf="@+id/picTobi"
+                    android:text="Hobbys?? Bio Interessen"
+                    android:textSize="14sp"
+                    android:layout_marginTop="4dp"/>
+
+                <ImageView
+                    android:id="@+id/linkdinTobi_btn"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:layout_below="@+id/bioTobi"
+                    android:layout_toEndOf="@+id/picTobi"
+                    android:src="@drawable/people"
+                    android:padding="12dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/bioTobi"
+                    android:layout_toEndOf="@+id/linkdinTobi_btn"
+                    android:text="LinkedIn Profil"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp"
+                    android:layout_marginTop="12dp"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+        <!--Lena -->
+        <LinearLayout
+            android:background="@drawable/rounded_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="40dp"
+            android:orientation="vertical"
+            android:padding="15dp">
 
 
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <ImageView
+                    android:id="@+id/picLena"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:padding="1dp"
+                    android:src="@drawable/leonpbild"
+                    android:scaleType="centerCrop"/>
 
+                <TextView
+                    android:id="@+id/nameLena"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="9dp"
+                    android:layout_toEndOf="@+id/picLena"
+                    android:text="Lena"
+                    android:textColor="@color/blue"
+                    android:textStyle="bold"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:id="@+id/titleLena"
+                    android:layout_marginStart="9dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/nameLena"
+                    android:layout_toEndOf="@+id/picLena"
+                    android:textStyle="bold"
+                    android:hint="Bachelor of Science"
+                    android:textSize="16sp"
+                    android:layout_marginTop="4dp"
+                    />
+
+                <TextView
+                    android:id="@+id/bioLena"
+                    android:layout_marginStart="9dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/titleLena"
+                    android:layout_toEndOf="@+id/picLena"
+                    android:text="Hobbys?? Bio Interessen"
+                    android:textSize="14sp"
+                    android:layout_marginTop="4dp"/>
+
+                <ImageView
+                    android:id="@+id/linkdinLena_btn"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:layout_below="@+id/bioLena"
+                    android:layout_toEndOf="@+id/picLena"
+                    android:src="@drawable/people"
+                    android:padding="12dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/bioLena"
+                    android:layout_toEndOf="@+id/linkdinLena_btn"
+                    android:text="LinkedIn Profil"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp"
+                    android:layout_marginTop="12dp"/>
+
+            </RelativeLayout>
 
         </LinearLayout>
 
