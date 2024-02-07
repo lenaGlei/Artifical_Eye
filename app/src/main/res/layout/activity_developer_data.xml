@@ -167,14 +167,14 @@
                         android:layout_below="@+id/subTopic"
                         android:textStyle="bold"
                         android:hint="emptySeats/HardwareToApp"
-                        android:inputType="number"
                         android:enabled="false"/>
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/subTopic_btn"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        app:srcCompat="@drawable/edit"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:padding="12dp"
+                        android:src="@drawable/edit"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:contentDescription="MQTTConnection_button_description"/>
@@ -206,11 +206,12 @@
                         android:hint="emptySeats/AppToHardware"
                         android:enabled="false"/>
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/pubTopic_btn"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        app:srcCompat="@drawable/edit"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:padding="12dp"
+                        android:src="@drawable/edit"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:contentDescription="MQTTConnection_button_description"/>

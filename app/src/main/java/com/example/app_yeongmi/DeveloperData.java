@@ -118,7 +118,6 @@ public class DeveloperData extends AppCompatActivity {
             public void onClick(View v) {
                 subTopicText.setEnabled(true); // EditText bearbeitbar machen
                 pubTopicText.setEnabled(true);
-                subTopicText.requestFocus(); // Fokus setzen
                 applyTopicButton.setVisibility(View.VISIBLE); // "Übernehmen"-Button anzeigen
                 editTopicButton.setVisibility(View.GONE);
             }
