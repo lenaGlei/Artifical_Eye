@@ -9,8 +9,11 @@ import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.text.InputType;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,8 +30,6 @@ import java.util.ArrayList;
 
 public class DeveloperData extends AppCompatActivity {
 
-    // hier Mqtt array einfügen
-    String[] dataArray = {"Item 1", "Item 2", "Item 3"};
 
     // for QR Code
     Button btn_QRCodeGenerate;
@@ -46,7 +47,6 @@ public class DeveloperData extends AppCompatActivity {
             mqttService = binder.getService();
             isBound = true;
 
-            // Rufe hier die Daten ab
             updateUIWithMqttSettings();
         }
 
@@ -99,13 +99,38 @@ public class DeveloperData extends AppCompatActivity {
         setContentView(R.layout.activity_developer_data);
 
         ImageView imageViewBack = findViewById(R.id.btn_backMQTT);
-
-        // Set OnClickListener to go back when the arrow is clicked
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DeveloperData.this, main_settings.class);
                 startActivity(intent);
+            }
+        });
+
+
+        Button editTopicButton = findViewById(R.id.btn_editTopic);
+        Button applyTopicButton = findViewById(R.id.btn_applyTopic);
+        EditText subTopicText = findViewById(R.id.subTopic_insert);
+        // Bearbeitungsmodus aktivieren
+        editTopicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                subTopicText.setEnabled(true); // EditText bearbeitbar machen
+                subTopicText.requestFocus(); // Fokus setzen
+                applyTopicButton.setVisibility(View.VISIBLE); // "Übernehmen"-Button anzeigen
+                editTopicButton.setVisibility(View.GONE);
+            }
+        });
+
+        // Änderungen übernehmen
+        applyTopicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String newTopic = subTopicText.getText().toString();
+                mqttService.updateMqttSubscription(newTopic); // Methode, um den MQTT-Service zu aktualisieren
+                subTopicText.setEnabled(false); // Bearbeitungsmodus deaktivieren
+                applyTopicButton.setVisibility(View.GONE); // "Übernehmen"-Button ausblenden
+                editTopicButton.setVisibility(View.VISIBLE);
             }
         });
 
@@ -115,30 +140,6 @@ public class DeveloperData extends AppCompatActivity {
         btn_QRCodeGenerate.setOnClickListener(v -> {
             generateQR();
         });
-
-
-        /*
-
-    // hier ändern zu link zu mqhive???
-        brookerText= findViewById(R.id.Brooker_insert);
-
-
-// Get references to the TextViews
-        TextView brookerTextView = findViewById(R.id.Brooker_insert);
-        TextView topicTextView = findViewById(R.id.Topic_insert);
-        TextView uuidTextView = findViewById(R.id.UUID_insert);
-
-// Set the text for each TextView based on the array
-        brookerTextView.setText(dataArray[0]);
-        topicTextView.setText(dataArray[1]);
-        uuidTextView.setText(dataArray[2]);
-
-
-         */
-
-
-
-
     }
 
 
