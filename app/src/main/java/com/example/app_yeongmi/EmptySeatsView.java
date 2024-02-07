@@ -62,7 +62,7 @@ public class EmptySeatsView extends AppCompatActivity {
             mqttService = binder.getService();
             isBound = true;
             // Du kannst jetzt Methoden auf mqttService aufrufen
-            mqttService.publish("emptySeats/AppToHardware", "getResults");
+            mqttService.publish(mqttService.getPublishTopic(), "getResults");
         }
         @Override
         public void onServiceDisconnected(ComponentName arg0) {

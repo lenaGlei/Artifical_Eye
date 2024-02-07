@@ -33,8 +33,8 @@ public class MqttService extends Service {
     private SimpleMqttClient client;
 
     private Context context;
-    private final String subscribeTopic = "emptySeats/HardwareToApp";
-    private final String publishTopic = "emptySeats/AppToHardware";
+    private String subscribeTopic = "emptySeats/HardwareToApp";
+    private String publishTopic = "emptySeats/AppToHardware";
 
     //MQTT-Einstellungen
     private String serverHost = "broker.hivemq.com";
@@ -107,9 +107,6 @@ public class MqttService extends Service {
                 subscribe(subscribeTopic);
                 publish(publishTopic,"The app is successfully connected to MQTT and ready to receive information.");
 
-
-
-
             }
 
             @Override
@@ -158,8 +155,9 @@ public class MqttService extends Service {
 
     }
 
+    // für BroadcastReceiver im EmptyViewActivity
     public void messageArrived(String topic, String payload) throws Exception {
-        if ("emptySeats/HardwareToApp".equals(topic)) {
+        if (subscribeTopic.equals(topic)) {
             //String payload = new String(message.toString());
             Log.d("MQTT", "Nachricht erhalten: " + payload);
 
@@ -207,7 +205,17 @@ public class MqttService extends Service {
         }
     }
 
+    void updateMqttSubscription(String newTopic) {
+        client.unsubscribe(subscribeTopic);
+        subscribe(newTopic);
+        subscribeTopic=newTopic;
 
+    }
+
+    void updateMqttPuplish(String newTopic) {
+        publishTopic=newTopic;
+
+    }
 
 
 

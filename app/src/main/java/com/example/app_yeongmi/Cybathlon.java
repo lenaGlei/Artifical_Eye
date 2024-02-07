@@ -38,7 +38,7 @@ public class Cybathlon extends AppCompatActivity {
             mqttService = binder.getService();
             isBound = true;
             // Du kannst jetzt Methoden auf mqttService aufrufen
-            mqttService.publish("emptySeats/AppToHardware", "start");
+            mqttService.publish(mqttService.getPublishTopic(), "start");
         }
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
