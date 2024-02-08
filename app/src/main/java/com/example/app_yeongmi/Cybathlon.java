@@ -2,12 +2,15 @@ package com.example.app_yeongmi;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
@@ -25,6 +28,24 @@ import java.util.Locale;
 public class Cybathlon extends AppCompatActivity {
     private MediaPlayer player;
 
+    private boolean isBound = false;
+    private MqttService mqttService;
+
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            MqttService.LocalBinder binder = (MqttService.LocalBinder) service;
+            mqttService = binder.getService();
+            isBound = true;
+            // Du kannst jetzt Methoden auf mqttService aufrufen
+            mqttService.publish(mqttService.getPublishTopic(), "start");
+        }
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            isBound = false;
+        }
+    };
+
 
 
 
@@ -33,7 +54,9 @@ public class Cybathlon extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cybathlon);
 
-
+        // Verbinde dich mit dem MqttService
+        Intent intent = new Intent(this, MqttService.class);
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
 
 
 

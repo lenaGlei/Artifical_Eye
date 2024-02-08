@@ -6,17 +6,29 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
+
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+
 import android.preference.PreferenceManager;
+
+import android.os.IBinder;
+
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -31,6 +43,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -42,18 +57,34 @@ public class EmptySeatsView extends AppCompatActivity {
 
 
     // Stühle eingabe von mqtt? hier?
-    int[] seat = {1,1,0,1,0,1};
+    //int[] seat = {1,1,0,1,0,1};
     ArrayList<Integer> seatsList;
     private SpeechRecognizer speechRecognizer;
     private static final int RECORD_AUDIO_REQUEST_CODE = 1;
+
 
  private static final String PREFS_NAME = "MyPrefsFile";
  private static final String SWITCH_STATE = "switchState";
 
 
+    private boolean isBound = false;
+    private MqttService mqttService;
 
 
-
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            MqttService.LocalBinder binder = (MqttService.LocalBinder) service;
+            mqttService = binder.getService();
+            isBound = true;
+            // Du kannst jetzt Methoden auf mqttService aufrufen
+            mqttService.publish(mqttService.getPublishTopic(), "getResults");
+        }
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            isBound = false;
+        }
+    };
 
 
     @Override
@@ -85,6 +116,7 @@ public class EmptySeatsView extends AppCompatActivity {
             @Override
             public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS) {
+<
                     // Festlegen der Sprache basierend auf dem Wert des Shared Preferences Switch
                     if (LanguageStatus) {
                         textToSpeech.setLanguage(Locale.GERMAN); // Deutsch
@@ -96,6 +128,7 @@ public class EmptySeatsView extends AppCompatActivity {
                         textToSpeech.setLanguage(Locale.UK); // Englisch
                         testSeatStatus(seat);
                     }
+
 
 
 
@@ -120,8 +153,15 @@ public class EmptySeatsView extends AppCompatActivity {
         seatsList.add(R.id.seat5);
         seatsList.add(R.id.seat6);
 
+        // Verbinde dich mit dem MqttService
+        Intent intent = new Intent(this, MqttService.class);
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
 
-        for (int i = 0; i < seat.length; i++) {
+        LocalBroadcastManager.getInstance(this).registerReceiver(mqttMessageReceiver,
+                new IntentFilter("com.example.app.MQTT_MESSAGE"));
+
+
+        /*for (int i = 0; i < seat.length; i++) {
 
             int stuhlNummer = i;
 
@@ -143,7 +183,7 @@ public class EmptySeatsView extends AppCompatActivity {
                 Log.d("StuhlActivity", "Stuhl " + stuhlNummer + " ist leer.");
             }
         }
-
+*/
 
     }
 
@@ -242,11 +282,13 @@ public class EmptySeatsView extends AppCompatActivity {
                     // Handle the "hello" command, e.g., start a new activity or perform an action
 
                     Toast.makeText(EmptySeatsView.this, "Repeat command recognized!", Toast.LENGTH_SHORT).show();
+
                     testSeatStatus(seat);
                 } else if (command.contains("Wiederholen")) {
                     Toast.makeText(EmptySeatsView.this, "Wiederholen erkannt!", Toast.LENGTH_SHORT).show();
 
                     pruefeSitzStatus(seat);
+
 
                 }
             }
@@ -309,6 +351,7 @@ public class EmptySeatsView extends AppCompatActivity {
     }
 
     @Override
+
     public void onBackPressed() {
         // Stop TextToSpeech if it's speaking
         if (textToSpeech != null && textToSpeech.isSpeaking()) {
@@ -319,6 +362,58 @@ public class EmptySeatsView extends AppCompatActivity {
 
         // Call super method for default back behavior
         super.onBackPressed();
+
+    protected void onStop() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mqttMessageReceiver);
+        // Löse die Verbindung zum Service auf
+        if (isBound) {
+            unbindService(serviceConnection);
+            isBound = false;
+        }
+        super.onStop();
+    }
+
+    private BroadcastReceiver mqttMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ("com.example.app.MQTT_MESSAGE".equals(intent.getAction())) {
+                String payload = intent.getStringExtra("payload");
+                Log.d("MQTT", "Nachricht erhalten in EmptySeatsActivity: " + payload);
+                // Konvertiere die Payload in ein Array von Integern
+                try {
+                    JSONArray jsonArray = new JSONArray(payload);
+                    int[] seatStatus = new int[jsonArray.length()];
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        seatStatus[i] = jsonArray.getInt(i);
+                        Log.d("MQTT", "seatStatus: " + seatStatus[i]);
+                    }
+                    // UI-Update auf dem Main-Thread
+                    EmptySeatsView.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateSeats(seatStatus);
+                        }
+                    });
+                } catch (JSONException e) {
+                    Log.e("MQTT", "Fehler beim Parsen der Payload", e);
+                }
+            }
+        }
+    };
+    private void updateSeats(int[] seatStatus) {
+        for (int i = 0; i < seatStatus.length; i++) {
+            Button seatButton = findViewById(seatsList.get(i));
+            if (seatStatus[i] == 1) {
+                // Sitz ist belegt
+                seatButton.setBackgroundColor(Color.RED);
+            } else {
+                // Sitz ist frei
+                seatButton.setBackgroundColor(Color.GREEN);
+            }
+        }
+        //hier audio ausgabe ??
+        pruefeSitzStatus(seatStatus);
+
     }
 
 
