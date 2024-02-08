@@ -82,6 +82,16 @@ public class main_settings extends AppCompatActivity {
             }
         });
 
+        ImageButton language_btn = findViewById(R.id.language_btn);
+        language_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(main_settings.this, languageSwitch.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 

@@ -175,11 +175,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
+    public void onBackPressed() {
+        // Stop TextToSpeech if it's speaking
 
-        super.onStop();
+
+        // Stop MediaPlayer if it's playing
+        if (player != null && player.isPlaying()) {
+            player.stop();
+        }
+
+        // Call super method for default back behavior
+        super.onBackPressed();
     }
 
+    protected void onStop() {
+        super.onStop();
+
+
+    }
 
 
 }
