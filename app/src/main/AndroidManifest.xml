@@ -21,7 +21,11 @@
         android:theme="@style/Theme.App_Yeongmi"
         tools:targetApi="34">
         <activity
+
+            android:name=".languageSwitch"
+
             android:name=".AboutUs"
+
             android:exported="false" />
         <activity
             android:name=".Instructions"
