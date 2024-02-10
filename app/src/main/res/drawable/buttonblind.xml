@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
+    <!-- enabled=false button grau hinterlegt -->
+    <item android:state_enabled="false">
+        <shape>
+            <solid android:color="#CCCCCC" /> <!-- Graue Farbe für deaktivierten Zustand -->
+            <corners android:radius="115dp" />
+        </shape>
+    </item><item>
         <shape>
             <corners android:radius="115dp" /> <!-- Adjust the radius as needed -->
             <!-- Background color of the button -->

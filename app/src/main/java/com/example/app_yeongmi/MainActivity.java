@@ -6,9 +6,11 @@ import static com.hivemq.client.internal.mqtt.util.MqttChecks.publish;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
@@ -64,7 +66,9 @@ public class MainActivity extends AppCompatActivity {
         // Starten Sie den MQTT-Service
         Intent mqttServiceIntent = new Intent(this, MqttService.class);
         startService(mqttServiceIntent);
-        //Intent publishIntent = new Intent(this, MqttService.class);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mqttMessageReceiver,
+                new IntentFilter("com.example.app.MQTT_MESSAGE"));
 
 
 
@@ -179,6 +183,29 @@ public class MainActivity extends AppCompatActivity {
 
         super.onStop();
     }
+
+
+    // wenn PiReady empfangen wurde wird der Startbutton freigegeben um die emptySeatsdetection zustarten
+    private BroadcastReceiver mqttMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ("com.example.app.MQTT_MESSAGE".equals(intent.getAction())) {
+                String payload = intent.getStringExtra("payload");
+                if ("piReady".equals(payload)) {
+                    // Reagiere auf die piReady-Nachricht
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Button btnStart = findViewById(R.id.btn_start);
+                            btnStart.setEnabled(true);
+                            // audio hier
+                            //click in the middle of the screen....
+                        }
+                    });
+                }
+            }
+        }
+    };
 
 
 
