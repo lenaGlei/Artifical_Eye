@@ -440,7 +440,7 @@ tools:context=".AboutUs">
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:padding="1dp"
-                    android:src="@drawable/leonpbild"
+                    android:src="@drawable/lenapbild"
                     android:scaleType="centerCrop"/>
 
                 <TextView
@@ -473,7 +473,7 @@ tools:context=".AboutUs">
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/titleLena"
                     android:layout_toEndOf="@+id/picLena"
-                    android:text="Hobbys?? Bio Interessen"
+                    android:text="Passion: Climbing and skiing"
                     android:textSize="14sp"
                     android:layout_marginTop="4dp"/>
 
