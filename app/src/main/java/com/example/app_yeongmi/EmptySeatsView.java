@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
@@ -69,6 +70,7 @@ public class EmptySeatsView extends AppCompatActivity {
 
     private boolean isBound = false;
     private MqttService mqttService;
+    //private BroadcastReceiver mqttMessageReceiver;
 
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
@@ -85,6 +87,7 @@ public class EmptySeatsView extends AppCompatActivity {
             isBound = false;
         }
     };
+
 
 
     @Override
@@ -116,7 +119,7 @@ public class EmptySeatsView extends AppCompatActivity {
             @Override
             public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS) {
-<
+
                     // Festlegen der Sprache basierend auf dem Wert des Shared Preferences Switch
                     if (LanguageStatus) {
                         textToSpeech.setLanguage(Locale.GERMAN); // Deutsch
@@ -359,10 +362,10 @@ public class EmptySeatsView extends AppCompatActivity {
         }
 
 
-
         // Call super method for default back behavior
         super.onBackPressed();
 
+    }
     protected void onStop() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mqttMessageReceiver);
         // Löse die Verbindung zum Service auf
