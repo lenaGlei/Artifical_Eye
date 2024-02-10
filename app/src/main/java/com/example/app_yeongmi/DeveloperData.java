@@ -160,11 +160,11 @@ public class DeveloperData extends AppCompatActivity {
             Bitmap bitmap = encoder.createBitmap(matrix);
             img_qr.setImageBitmap(bitmap);
 
+            // scrollen zum qr code
             ScrollView scrollView = findViewById(R.id.scrollView);
             scrollView.post(new Runnable() {
                 @Override
                 public void run() {
-                    // Scrolle zur Position des ImageView
                     scrollView.scrollTo(0, img_qr.getTop());
                 }
             });
