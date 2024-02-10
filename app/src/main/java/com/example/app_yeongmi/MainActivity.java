@@ -133,20 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
-
-
     }
-
-
-
-
-
-
-
 
     private void vibrateNow (long millis){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -191,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             if ("com.example.app.MQTT_MESSAGE".equals(intent.getAction())) {
                 String payload = intent.getStringExtra("payload");
+                MqttLogger.log("MQTT","piReady im logger");
                 if ("piReady".equals(payload)) {
                     runOnUiThread(new Runnable() {
                         @Override

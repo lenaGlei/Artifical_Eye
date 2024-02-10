@@ -137,13 +137,13 @@ tools:context=".main_settings">
 
 
                     <ImageButton
-                        android:id="@+id/mqttdata_btn"
+                        android:id="@+id/dashboard_btn"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         app:srcCompat="@drawable/arrow_right"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="MQTTConnection_button_description"/>
+                        android:contentDescription="Dashboard_button_description"/>
 
                 </RelativeLayout>
 

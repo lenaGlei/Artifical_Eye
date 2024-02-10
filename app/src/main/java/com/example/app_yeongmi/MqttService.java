@@ -104,6 +104,7 @@ public class MqttService extends Service {
             public void onSuccess() {
                 Toast.makeText(MqttService.this, "Connection successful", Toast.LENGTH_SHORT).show();
                 Log.d("MQTT", "MQTT connection successful");
+                MqttLogger.log("MQTT","MQTT connection successful");
                 subscribe(subscribeTopic);
                 publish(publishTopic,"The app is successfully connected to MQTT and ready to receive information.");
 
@@ -112,7 +113,8 @@ public class MqttService extends Service {
             @Override
             public void onError(Throwable error) {
                 Toast.makeText(MqttService.this, "Connection failed", Toast.LENGTH_SHORT).show();
-                Log.d("MQTT", "MQTT connection faild");
+                Log.d("MQTT", "MQTT connection failed");
+                MqttLogger.log("MQTT","MQTT connection failed");
             }
         });
     }
@@ -126,6 +128,7 @@ public class MqttService extends Service {
                 if (client.isConnected()) {
                     client.disconnect();
                     Log.d("MQTT", "MQTT connection disconected");
+                    MqttLogger.log("MQTT","MQTT connection disconected");
                 }
             }
         }
@@ -136,6 +139,11 @@ public class MqttService extends Service {
     private void subscribe(String topic) {
         // subscribe to topic (asynchronous)
         client.subscribe(new SimpleMqttClient.MqttSubscription(getApplicationContext(), topic) {
+
+            @Override
+            public void onSuccess(){
+                MqttLogger.log("MQTT",String.format("Subscribed to '%s'", topic));
+            }
             @Override
             public void onMessage(String topic, String payload) {
                 // Verarbeite die empfangene Nachricht
@@ -158,8 +166,9 @@ public class MqttService extends Service {
     // für BroadcastReceiver im EmptyViewActivity
     public void messageArrived(String topic, String payload) throws Exception {
         if (subscribeTopic.equals(topic)) {
-            //String payload = new String(message.toString());
-            Log.d("MQTT", "Nachricht erhalten: " + payload);
+
+
+            MqttLogger.log("MQTT",String.format("Received message from topic '%s':\n%s", topic, payload));
 
             Intent intent = new Intent("com.example.app.MQTT_MESSAGE");
             intent.putExtra("payload", payload);
@@ -190,7 +199,7 @@ public class MqttService extends Service {
                 public void onSuccess() {
                     // Nachricht erfolgreich veröffentlicht
                     Toast.makeText(MqttService.this, "MQTT Message send successful", Toast.LENGTH_SHORT).show();
-                    Log.d("MQTT", "MQTT Message send successful");
+                    MqttLogger.log("MQTT",String.format("Published to '%s':\n%s", topic, message));
                 }
 
                 @Override
