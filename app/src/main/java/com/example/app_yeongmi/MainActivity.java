@@ -192,14 +192,13 @@ public class MainActivity extends AppCompatActivity {
             if ("com.example.app.MQTT_MESSAGE".equals(intent.getAction())) {
                 String payload = intent.getStringExtra("payload");
                 if ("piReady".equals(payload)) {
-                    // Reagiere auf die piReady-Nachricht
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             Button btnStart = findViewById(R.id.btn_start);
                             btnStart.setEnabled(true);
                             // audio hier
-                            //click in the middle of the screen....
+                            // click in the middle of the screen....
                         }
                     });
                 }

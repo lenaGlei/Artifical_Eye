@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.zxing.BarcodeFormat;
@@ -143,6 +144,7 @@ public class DeveloperData extends AppCompatActivity {
 
         btn_QRCodeGenerate.setOnClickListener(v -> {
             generateQR();
+
         });
     }
 
@@ -157,6 +159,15 @@ public class DeveloperData extends AppCompatActivity {
             BarcodeEncoder encoder = new BarcodeEncoder();
             Bitmap bitmap = encoder.createBitmap(matrix);
             img_qr.setImageBitmap(bitmap);
+
+            ScrollView scrollView = findViewById(R.id.scrollView);
+            scrollView.post(new Runnable() {
+                @Override
+                public void run() {
+                    // Scrolle zur Position des ImageView
+                    scrollView.scrollTo(0, img_qr.getTop());
+                }
+            });
 
 
         } catch (WriterException e) {

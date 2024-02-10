@@ -45,9 +45,6 @@ public class EmptySeatsView extends AppCompatActivity {
 
     private TextToSpeech textToSpeech;
 
-
-    // Stühle eingabe von mqtt? hier?
-    //int[] seat = {1,1,0,1,0,1};
     ArrayList<Integer> seatsList;
     private SpeechRecognizer speechRecognizer;
     private static final int RECORD_AUDIO_REQUEST_CODE = 1;

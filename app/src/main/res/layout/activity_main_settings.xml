@@ -111,6 +111,42 @@ tools:context=".main_settings">
 
                 </RelativeLayout>
 
+                <!--Detection Dashboard -->
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/Detection"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/dash"
+                        android:padding="12dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="9dp"
+                        android:layout_toEndOf="@+id/Detection"
+                        android:text="Detection Dashboard"
+                        android:textColor="@color/blue"
+                        android:textStyle="bold" />
+
+
+                    <ImageButton
+                        android:id="@+id/mqttdata_btn"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        app:srcCompat="@drawable/arrow_right"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="MQTTConnection_button_description"/>
+
+                </RelativeLayout>
+
                 <!--Language -->
                 <RelativeLayout
                     android:layout_marginTop="10dp"
