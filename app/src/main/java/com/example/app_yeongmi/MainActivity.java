@@ -41,8 +41,6 @@ import org.json.JSONObject;
 import java.util.UUID;
 
 import com.example.app_yeongmi.mqtt.SimpleMqttClient;
-import com.example.app_yeongmi.mqtt.data.MqttMessage;
-import com.hivemq.client.internal.mqtt.message.publish.MqttPublish;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -80,14 +78,6 @@ public class MainActivity extends AppCompatActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
-               // publishIntent.setAction(MqttService.ACTION_PUBLISH);
-                //publishIntent.putExtra(MqttService.EXTRA_TOPIC, "emptySeats/AppToHardware");
-                //publishIntent.putExtra(MqttService.EXTRA_MESSAGE, "start");
-                //startService(publishIntent);
-
 
 
                 vibrateNow(500);

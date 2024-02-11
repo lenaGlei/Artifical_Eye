@@ -77,41 +77,119 @@
 
 
 
-                    <!--Mqtt Connection -->
+                    <!--Screenshot -->
                     <RelativeLayout
                         android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:id="@+id/MqttSettings"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/connection"
-                            android:padding="12dp"/>
+                        android:layout_height="wrap_content"
+                        android:padding="12dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_centerVertical="true"
                             android:layout_marginStart="9dp"
-                            android:layout_toEndOf="@+id/MqttSettings"
-                            android:text="Mqtt Connection"
+                            android:text="Picture from the Objectdetection"
                             android:textColor="@color/blue"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:textSize="18dp"/>
 
+                        <ImageView
+                            android:id="@+id/Screenshot"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/connection"/>
 
-                        <ImageButton
-                            android:id="@+id/mqtt_btn"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            app:srcCompat="@drawable/arrow_right"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:contentDescription="MQTTConnection_button_description"/>
 
                     </RelativeLayout>
+
+                    <!--Results -->
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="9dp"
+                            android:text="Results from the Objectdetection"
+                            android:textColor="@color/blue"
+                            android:textStyle="bold"
+                            android:textSize="18dp"/>
+
+
+                            <!-- Erste Reihe von Stühlen -->
+                            <LinearLayout
+                                android:layout_marginTop="10dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center">
+
+                                <View
+                                    android:id="@+id/seat1"
+                                    android:layout_width="0dp"
+                                    android:layout_height="50dp"
+                                    android:layout_weight="1"
+                                    android:background="@color/rot"
+                                    />
+
+                                <View
+                                    android:id="@+id/seat2"
+                                    android:layout_width="0dp"
+                                    android:layout_height="50dp"
+                                    android:layout_weight="1"
+                                    android:background="@color/grün"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginEnd="8dp" />
+
+                                <View
+                                    android:id="@+id/seat3"
+                                    android:layout_width="0dp"
+                                    android:layout_height="50dp"
+                                    android:layout_weight="1"
+                                    android:background="@color/rot" />
+                            </LinearLayout>
+
+                            <!-- Zweite Reihe von Stühlen -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center"
+                                android:layout_marginTop="8dp">
+
+                                <View
+                                    android:id="@+id/seat4"
+                                    android:layout_width="0dp"
+                                    android:layout_height="50dp"
+                                    android:layout_weight="1"
+                                    android:background="@color/rot" />
+
+                                <View
+                                    android:id="@+id/seat5"
+                                    android:layout_width="0dp"
+                                    android:layout_height="50dp"
+                                    android:layout_weight="1"
+                                    android:background="@color/rot"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginEnd="8dp" />
+
+                                <View
+                                    android:id="@+id/seat6"
+                                    android:layout_width="0dp"
+                                    android:layout_height="50dp"
+                                    android:layout_weight="1"
+                                    android:background="@color/rot" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+
+
 
 
 
@@ -129,7 +207,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_centerVertical="true"
                         android:layout_marginStart="9dp"
                         android:text="Mqtt Logs"
                         android:textColor="@color/blue"

@@ -1,10 +1,13 @@
 package com.example.app_yeongmi;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -20,6 +23,9 @@ import android.widget.Button;
 
 import android.media.AudioAttributes;
 import android.media.AudioManager;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.Locale;
 
@@ -58,6 +64,8 @@ public class Cybathlon extends AppCompatActivity {
         Intent intent = new Intent(this, MqttService.class);
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
 
+        LocalBroadcastManager.getInstance(this).registerReceiver(mqttMessageReceiver,
+                new IntentFilter("com.example.app.MQTT_MESSAGE"));
 
 
         Button button = findViewById(R.id.btn_CybathlonActive);
@@ -114,6 +122,33 @@ public class Cybathlon extends AppCompatActivity {
             player.release();
         }
     }
+
+    private BroadcastReceiver mqttMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ("com.example.app.MQTT_MESSAGE".equals(intent.getAction())) {
+                String payload = intent.getStringExtra("payload");
+                Log.d("MQTT", "Nachricht erhalten in Cybathlon: " + payload);
+                // Konvertiere die Payload in ein Array von Integern
+                try {
+                    JSONArray jsonArray = new JSONArray(payload);
+                    int[] seatStatus = new int[jsonArray.length()];
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        seatStatus[i] = jsonArray.getInt(i);
+                        //Log.d("MQTT", "seatStatus: " + seatStatus[i]);
+                    }
+                    mqttService.setSeatStatus(seatStatus);
+
+                    intent = new Intent(Cybathlon.this, EmptySeatsView.class);
+                    startActivity(intent);
+
+
+                } catch (JSONException e) {
+                    Log.e("MQTT", "Fehler beim Parsen der Payload", e);
+                }
+            }
+        }
+    };
 
 
 

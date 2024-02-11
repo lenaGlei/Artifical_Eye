@@ -51,6 +51,8 @@ public class EmptySeatsView extends AppCompatActivity {
 
     private boolean isBound = false;
     private MqttService mqttService;
+    private int[] seatStatus;
+
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
@@ -60,6 +62,15 @@ public class EmptySeatsView extends AppCompatActivity {
             isBound = true;
             // Du kannst jetzt Methoden auf mqttService aufrufen
             mqttService.publish(mqttService.getPublishTopic(), "getResults");
+
+            seatStatus = mqttService.getSeatStatus();
+            if (seatStatus != null) {
+                updateSeats(seatStatus);
+                //updateSeatColors(seatStatus);
+            } else {
+                Log.d("MQTT","kein seatstatus da im dashboard");
+            }
+
         }
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
@@ -72,8 +83,6 @@ public class EmptySeatsView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_empty_seats_view);
-
-
 
         // Speech recognition
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
@@ -342,6 +351,8 @@ public class EmptySeatsView extends AppCompatActivity {
                         seatStatus[i] = jsonArray.getInt(i);
                         Log.d("MQTT", "seatStatus: " + seatStatus[i]);
                     }
+                    mqttService.setSeatStatus(seatStatus);
+
                     // UI-Update auf dem Main-Thread
                     EmptySeatsView.this.runOnUiThread(new Runnable() {
                         @Override
