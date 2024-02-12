@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,7 +9,7 @@
     android:orientation="vertical"
     tools:context=".languageSwitch">
 
-    <!-- Kopfzeile mit Zurück-Pfeil und Titel -->
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -62,6 +63,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
 
+                android:paddingHorizontal="20dp"
+
                 android:layout_marginTop="10dp"
                 android:text="By pressing the switch button the language for the audio output of the seats can be changed between English and German. \n\nDurch Drücken der Umschalttaste kann die Sprache für die Audioausgabe der Sitze zwischen Deutsch und Englisch umgeschaltet werden."
                 android:fontFamily="sans-serif-medium"
@@ -79,18 +82,20 @@
                 android:gravity="center"
                 android:padding="15dp">
 
-                <Switch
-                    android:id="@+id/languageSwitch"
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/languageSwitchbtn"
                     android:layout_width="wrap_content"
+                    android:checked="false"
+                    android:minHeight="48dp"
                     android:textColor="@color/blueHintergrund"
                     android:textSize="20sp"
                     android:textStyle="bold"
+
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="Switch language" />
+                     />
 
                 <Space
-                    android:layout_width="15dp"
+                    android:layout_width="match_parent"
                     android:layout_height="15dp"/>
 
                 <TextView
@@ -102,6 +107,8 @@
                     android:gravity="center"
                     android:id="@+id/textinput_placeholder"
                     android:textColor="@color/blueHintergrund"/>
+
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
