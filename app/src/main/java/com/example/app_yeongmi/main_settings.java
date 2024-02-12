@@ -92,5 +92,14 @@ public class main_settings extends AppCompatActivity {
             }
         });
 
+        ImageButton aboutUs_btn = findViewById(R.id.AboutUs_btn);
+        aboutUs_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(main_settings.this, AboutUs.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }

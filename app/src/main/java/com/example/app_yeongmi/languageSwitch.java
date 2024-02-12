@@ -1,6 +1,7 @@
 package com.example.app_yeongmi;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,11 +19,14 @@ import android.widget.Toast;
 public class languageSwitch extends AppCompatActivity {
 
 
-
-
-    private static final String PREFS_NAME = "MyPrefsFile";
-    private static final String SWITCH_STATE = "switchState";
+    private static String PREFS_NAME = "MyPrefsFile";
+    private static String SWITCH_STATE = "switchState";
     private TextView textView;
+
+
+
+
+    SwitchCompat mySwitch;
 
 
 
@@ -35,17 +39,9 @@ public class languageSwitch extends AppCompatActivity {
         setContentView(R.layout.activity_language_switch);
 
 
-
-
-        final Switch mySwitch = findViewById(R.id.languageSwitch);
+        mySwitch = (SwitchCompat) findViewById(R.id.languageSwitchbtn);
         textView=findViewById(R.id.textinput_placeholder);
-        textView.setText("English");
-
-        // Load the saved switch state
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        mySwitch.setChecked(settings.getBoolean(SWITCH_STATE, false));
-
-
+        textView.setText("Language active: English");
 
 
         mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -57,16 +53,22 @@ public class languageSwitch extends AppCompatActivity {
                 editor.putBoolean(SWITCH_STATE, isChecked);
                 editor.apply();
                 if (isChecked){
-                    textView.setText("Eingestellete Sprache: Deutsch");
+                    textView.setText("Active Sprache: Deutsch");
                 } else{
                     textView.setText("Language active: English");
                 }
+
+
+
+
             }
         });
 
 
-        Button button = findViewById(R.id.btn_backLanguage);
-        button.setOnClickListener(new View.OnClickListener() {
+
+
+        View button2 = findViewById(R.id.btn_backLanguage);
+        button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -74,6 +76,10 @@ public class languageSwitch extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+
+
 
 
 

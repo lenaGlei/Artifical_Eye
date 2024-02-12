@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtTemp;
     int i = 0;
     private MediaPlayer player;
+    private MediaPlayer player2;
 
 
 
@@ -59,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        player2 = MediaPlayer.create(MainActivity.this, R.raw.sound4);
+        player2.start();
 
 
         // Starten Sie den MQTT-Service
@@ -154,35 +159,54 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     protected void onStart() {
 
         super.onStart();
 
-        // Start playing the sound when the activity starts
-        player = MediaPlayer.create(MainActivity.this, R.raw.sound1);
-        player.start();
+        player2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                 player = MediaPlayer.create(MainActivity.this, R.raw.sound1);
+                player.start();
+            }
+        });
+
+
     }
+
+
+
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        // Release the MediaPlayer when the activity is paused
+
         if (player != null) {
             player.release();
         }
+        if (player2 != null) {
+            player2.release();
+        }
+
+
     }
+
 
     @Override
     public void onBackPressed() {
-        // Stop TextToSpeech if it's speaking
 
 
-        // Stop MediaPlayer if it's playing
+
         if (player != null && player.isPlaying()) {
             player.stop();
         }
+        if (player2 != null && player2.isPlaying()) {
+            player2.stop();
+        }
+
 
         // Call super method for default back behavior
         super.onBackPressed();
@@ -193,6 +217,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
+
 
 
 }
