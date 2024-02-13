@@ -6,9 +6,11 @@ import static com.hivemq.client.internal.mqtt.util.MqttChecks.publish;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
@@ -39,8 +41,6 @@ import org.json.JSONObject;
 import java.util.UUID;
 
 import com.example.app_yeongmi.mqtt.SimpleMqttClient;
-import com.example.app_yeongmi.mqtt.data.MqttMessage;
-import com.hivemq.client.internal.mqtt.message.publish.MqttPublish;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -69,7 +69,9 @@ public class MainActivity extends AppCompatActivity {
         // Starten Sie den MQTT-Service
         Intent mqttServiceIntent = new Intent(this, MqttService.class);
         startService(mqttServiceIntent);
-        //Intent publishIntent = new Intent(this, MqttService.class);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mqttMessageReceiver,
+                new IntentFilter("com.example.app.MQTT_MESSAGE"));
 
 
 
@@ -81,14 +83,6 @@ public class MainActivity extends AppCompatActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
-               // publishIntent.setAction(MqttService.ACTION_PUBLISH);
-                //publishIntent.putExtra(MqttService.EXTRA_TOPIC, "emptySeats/AppToHardware");
-                //publishIntent.putExtra(MqttService.EXTRA_MESSAGE, "start");
-                //startService(publishIntent);
-
 
 
                 vibrateNow(500);
@@ -134,20 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
-
-
     }
-
-
-
-
-
-
-
 
     private void vibrateNow (long millis){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -219,6 +200,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+
+    // wenn PiReady empfangen wurde wird der Startbutton freigegeben um die emptySeatsdetection zustarten
+    private BroadcastReceiver mqttMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ("com.example.app.MQTT_MESSAGE".equals(intent.getAction())) {
+                String payload = intent.getStringExtra("payload");
+                MqttLogger.log("MQTT","piReady im logger");
+                if ("piReady".equals(payload)) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Button btnStart = findViewById(R.id.btn_start);
+                            btnStart.setEnabled(true);
+                            // audio hier
+                            // click in the middle of the screen....
+                        }
+                    });
+                }
+            }
+        }
+    };
 
 
 
