@@ -56,9 +56,6 @@ public class EmptySeatsView extends AppCompatActivity {
 
     private TextToSpeech textToSpeech;
 
-
-    // Stühle eingabe von mqtt? hier?
-    //int[] seat = {1,1,0,1,0,1};
     ArrayList<Integer> seatsList;
     private SpeechRecognizer speechRecognizer;
     private static final int RECORD_AUDIO_REQUEST_CODE = 1;
@@ -70,7 +67,10 @@ public class EmptySeatsView extends AppCompatActivity {
 
     private boolean isBound = false;
     private MqttService mqttService;
+
     //private BroadcastReceiver mqttMessageReceiver;
+
+    private int[] seatStatus;
 
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
@@ -81,6 +81,15 @@ public class EmptySeatsView extends AppCompatActivity {
             isBound = true;
             // Du kannst jetzt Methoden auf mqttService aufrufen
             mqttService.publish(mqttService.getPublishTopic(), "getResults");
+
+            seatStatus = mqttService.getSeatStatus();
+            if (seatStatus != null) {
+                updateSeats(seatStatus);
+                //updateSeatColors(seatStatus);
+            } else {
+                Log.d("MQTT","kein seatstatus da im dashboard");
+            }
+
         }
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
@@ -94,8 +103,6 @@ public class EmptySeatsView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_empty_seats_view);
-
-
 
         // Speech recognition
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
@@ -124,12 +131,12 @@ public class EmptySeatsView extends AppCompatActivity {
                     if (LanguageStatus) {
                         textToSpeech.setLanguage(Locale.GERMAN); // Deutsch
 
-                        pruefeSitzStatus(seat);
+                        pruefeSitzStatus(seatStatus);
 
                     } else {
 
                         textToSpeech.setLanguage(Locale.UK); // Englisch
-                        testSeatStatus(seat);
+                        testSeatStatus(seatStatus);
                     }
 
 
@@ -286,11 +293,11 @@ public class EmptySeatsView extends AppCompatActivity {
 
                     Toast.makeText(EmptySeatsView.this, "Repeat command recognized!", Toast.LENGTH_SHORT).show();
 
-                    testSeatStatus(seat);
+                    testSeatStatus(seatStatus);
                 } else if (command.contains("Wiederholen")) {
                     Toast.makeText(EmptySeatsView.this, "Wiederholen erkannt!", Toast.LENGTH_SHORT).show();
 
-                    pruefeSitzStatus(seat);
+                    pruefeSitzStatus(seatStatus);
 
 
                 }
@@ -390,6 +397,8 @@ public class EmptySeatsView extends AppCompatActivity {
                         seatStatus[i] = jsonArray.getInt(i);
                         Log.d("MQTT", "seatStatus: " + seatStatus[i]);
                     }
+                    mqttService.setSeatStatus(seatStatus);
+
                     // UI-Update auf dem Main-Thread
                     EmptySeatsView.this.runOnUiThread(new Runnable() {
                         @Override

@@ -39,7 +39,10 @@
             android:text="Get Started!"
             android:textColor="@color/blueHintergrund"
 
-            android:textSize="34sp" />
+
+            android:textSize="34sp"
+            android:enabled="false"/>
+
 
         <Button
             android:id="@+id/btn_developer"

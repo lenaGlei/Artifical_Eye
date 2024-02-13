@@ -10,6 +10,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.UUID;
@@ -25,6 +28,7 @@ import java.util.UUID;
 import com.example.app_yeongmi.mqtt.SimpleMqttClient;
 import com.example.app_yeongmi.mqtt.data.MqttMessage;
 
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.json.JSONException;
 import org.json.JSONObject;
 public class MqttService extends Service {
@@ -34,12 +38,18 @@ public class MqttService extends Service {
 
     private Context context;
     private String subscribeTopic = "emptySeats/HardwareToApp";
+
+    private String screenshotTopic = "emptySeats/ScreenshotToApp";
+    private static Bitmap lastScreenshot = null;
     private String publishTopic = "emptySeats/AppToHardware";
 
     //MQTT-Einstellungen
     private String serverHost = "broker.hivemq.com";
     private String clientIdentifier = UUID.randomUUID().toString();
     private int serverPort = 1883;
+
+    private int[] seatStatus;
+
 
 
 
@@ -92,9 +102,15 @@ public class MqttService extends Service {
     public String getSubscribeTopic() {
         return subscribeTopic;
     }
+    public String getScreenshotTopic() {
+        return screenshotTopic;
+    }
     public String getPublishTopic() {
         return publishTopic;
     }
+
+    public int[] getSeatStatus() { return seatStatus; }
+    public void setSeatStatus(int[] seatStatus) { this.seatStatus = seatStatus; }
 
     private void connect() {
         // establish connection to server (asynchronous)
@@ -104,7 +120,10 @@ public class MqttService extends Service {
             public void onSuccess() {
                 Toast.makeText(MqttService.this, "Connection successful", Toast.LENGTH_SHORT).show();
                 Log.d("MQTT", "MQTT connection successful");
+                MqttLogger.log("MQTT","MQTT connection successful");
                 subscribe(subscribeTopic);
+                testScreenshot();
+                subscribe(screenshotTopic);
                 publish(publishTopic,"The app is successfully connected to MQTT and ready to receive information.");
 
             }
@@ -112,7 +131,8 @@ public class MqttService extends Service {
             @Override
             public void onError(Throwable error) {
                 Toast.makeText(MqttService.this, "Connection failed", Toast.LENGTH_SHORT).show();
-                Log.d("MQTT", "MQTT connection faild");
+                Log.d("MQTT", "MQTT connection failed");
+                MqttLogger.log("MQTT","MQTT connection failed");
             }
         });
     }
@@ -126,6 +146,7 @@ public class MqttService extends Service {
                 if (client.isConnected()) {
                     client.disconnect();
                     Log.d("MQTT", "MQTT connection disconected");
+                    MqttLogger.log("MQTT","MQTT connection disconected");
                 }
             }
         }
@@ -136,6 +157,11 @@ public class MqttService extends Service {
     private void subscribe(String topic) {
         // subscribe to topic (asynchronous)
         client.subscribe(new SimpleMqttClient.MqttSubscription(getApplicationContext(), topic) {
+
+            @Override
+            public void onSuccess(){
+                MqttLogger.log("MQTT",String.format("Subscribed to '%s'", topic));
+            }
             @Override
             public void onMessage(String topic, String payload) {
                 // Verarbeite die empfangene Nachricht
@@ -158,14 +184,44 @@ public class MqttService extends Service {
     // für BroadcastReceiver im EmptyViewActivity
     public void messageArrived(String topic, String payload) throws Exception {
         if (subscribeTopic.equals(topic)) {
-            //String payload = new String(message.toString());
-            Log.d("MQTT", "Nachricht erhalten: " + payload);
+
+
+            MqttLogger.log("MQTT",String.format("Received message from topic '%s':\n%s", topic, payload));
 
             Intent intent = new Intent("com.example.app.MQTT_MESSAGE");
             intent.putExtra("payload", payload);
             LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
         }
+
+        if (screenshotTopic.equals(topic)) {
+            byte[] payloadArray = payload.getBytes();
+            lastScreenshot = BitmapFactory.decodeByteArray(payloadArray, 0, payloadArray.length);
+
+            // Send broadcast
+            Intent intent = new Intent("emptySeats/ScreenshotReceived");
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        }
     }
+
+    // Methode zum Abrufen des letzten Screenshots
+    public static Bitmap getLastScreenshot() {
+        return lastScreenshot;
+    }
+
+    public void testScreenshot() {
+        // Lade das Bitmap aus den Ressourcen
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.jonnabild);
+
+        // Konvertiere das Bitmap in ein Byte-Array
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+
+        // Veröffentliche das Byte-Array auf dem MQTT Topic
+        //screenshotpublish(screenshotTopic, byteArray);
+    }
+
+
 
 
 
@@ -190,7 +246,7 @@ public class MqttService extends Service {
                 public void onSuccess() {
                     // Nachricht erfolgreich veröffentlicht
                     Toast.makeText(MqttService.this, "MQTT Message send successful", Toast.LENGTH_SHORT).show();
-                    Log.d("MQTT", "MQTT Message send successful");
+                    MqttLogger.log("MQTT",String.format("Published to '%s':\n%s", topic, message));
                 }
 
                 @Override

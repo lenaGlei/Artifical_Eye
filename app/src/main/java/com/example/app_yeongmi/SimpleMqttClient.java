@@ -99,11 +99,13 @@ public class SimpleMqttClient {
         @Override
         protected void logSuccess() {
             Log.d("MQTT", String.format("Subscribed to '%s'", topic));
+
         }
 
         @Override
         protected void logError(Throwable error) {
             Log.e("MQTT", String.format("Unable to subscribe to '%s'", topic), error);
+            MqttLogger.log("MQTT",String.format("Unable to subscribe to '%s'", topic));
         }
 
         @Override
@@ -115,6 +117,7 @@ public class SimpleMqttClient {
                     String payload = new String(mqtt3Publish.getPayloadAsBytes());
 
                     Log.d("MQTT", String.format("Received message from topic '%s':\n%s", topic, payload));
+
                     onMessage(topic, payload);
                 }
             });
@@ -143,11 +146,13 @@ public class SimpleMqttClient {
         @Override
         protected void logSuccess() {
             Log.d("MQTT", String.format("Published to '%s':\n%s", topic, payload));
+
         }
 
         @Override
         protected void logError(Throwable error) {
             Log.e("MQTT", String.format("Unable to publish to '%s'", topic), error);
+            MqttLogger.log("MQTT",String.format("Unable to publish to '%s'", topic));
         }
     }
     //endregion
