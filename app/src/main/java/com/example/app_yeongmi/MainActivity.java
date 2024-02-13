@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer player;
     private MediaPlayer player2;
 
+    private boolean isFirstTime = true;
+
 
 
 
@@ -69,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         // Starten Sie den MQTT-Service
         Intent mqttServiceIntent = new Intent(this, MqttService.class);
         startService(mqttServiceIntent);
+
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mqttMessageReceiver,
                 new IntentFilter("com.example.app.MQTT_MESSAGE"));
@@ -146,16 +149,27 @@ public class MainActivity extends AppCompatActivity {
 
         super.onStart();
 
-        player2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                 player = MediaPlayer.create(MainActivity.this, R.raw.sound1);
-                player.start();
-            }
-        });
+
 
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (!isFirstTime){
+
+
+                player = MediaPlayer.create(MainActivity.this, R.raw.sound1);
+                player.start();
+
+            }
+
+    isFirstTime = false;
+
+    }
+
 
 
 
@@ -216,7 +230,8 @@ public class MainActivity extends AppCompatActivity {
                             Button btnStart = findViewById(R.id.btn_start);
                             btnStart.setEnabled(true);
                             // audio hier
-                            // click in the middle of the screen....
+                            player = MediaPlayer.create(MainActivity.this, R.raw.sound1);
+                            player.start();
                         }
                     });
                 }
