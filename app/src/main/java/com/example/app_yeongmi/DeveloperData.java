@@ -76,21 +76,19 @@ public class DeveloperData extends AppCompatActivity {
 
     private void updateUIWithMqttSettings() {
         if (isBound) {
-           TextView serverHostView = findViewById(R.id.ServerHost_insert);
+            TextView serverHostView = findViewById(R.id.ServerHost_insert);
             TextView serverPortView = findViewById(R.id.ServerPort_insert);
             TextView subTopicTextView = findViewById(R.id.subTopic_insert);
             TextView pubTopicTextView = findViewById(R.id.pubTopic_insert);
             TextView uuidTextView = findViewById(R.id.UUID_insert);
-
-
+            TextView screenshotTopicView = findViewById(R.id.picTopic_insert);
 
             serverHostView.setText(mqttService.getServerHost());
             serverPortView.setText(mqttService.getServerPort());
-            subTopicTextView .setText(mqttService.getSubscribeTopic());
-            pubTopicTextView .setText(mqttService.getPublishTopic());
+            subTopicTextView.setText(mqttService.getSubscribeTopic());
+            pubTopicTextView.setText(mqttService.getPublishTopic());
             uuidTextView.setText(mqttService.getClientIdentifier());
-
-
+            screenshotTopicView.setText(mqttService.getScreenshotTopic());
         }
     }
 
@@ -113,12 +111,14 @@ public class DeveloperData extends AppCompatActivity {
         Button applyTopicButton = findViewById(R.id.btn_applyTopic);
         EditText subTopicText = findViewById(R.id.subTopic_insert);
         EditText pubTopicText = findViewById(R.id.pubTopic_insert);
+        EditText picTopicText = findViewById(R.id.picTopic_insert);
         // Bearbeitungsmodus aktivieren
         editTopicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 subTopicText.setEnabled(true); // EditText bearbeitbar machen
                 pubTopicText.setEnabled(true);
+                picTopicText.setEnabled(true);
                 applyTopicButton.setVisibility(View.VISIBLE); // "Übernehmen"-Button anzeigen
                 editTopicButton.setVisibility(View.GONE);
             }
@@ -129,11 +129,14 @@ public class DeveloperData extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String newsubTopic = subTopicText.getText().toString();
-                String newpubTopic= pubTopicText.getText().toString();
+                String newpubTopic = pubTopicText.getText().toString();
+                String newpicTopic = picTopicText.getText().toString();
                 mqttService.updateMqttSubscription(newsubTopic); // Methode, um den MQTT-Service zu aktualisieren
                 mqttService.updateMqttPuplish(newpubTopic);
+                mqttService.updateMqttSubscription(newpicTopic);
                 subTopicText.setEnabled(false); // Bearbeitungsmodus deaktivieren
-                pubTopicText.setEnabled(false); // Bearbeitungsmodus deaktivieren
+                pubTopicText.setEnabled(false);
+                picTopicText.setEnabled(false);
                 applyTopicButton.setVisibility(View.GONE); // "Übernehmen"-Button ausblenden
                 editTopicButton.setVisibility(View.VISIBLE);
             }

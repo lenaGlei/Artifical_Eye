@@ -71,13 +71,20 @@ public class DetectionDashboard extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //Bitmap screenshot = MqttService.getLastScreenshot();
-        Bitmap screenshot = BitmapFactory.decodeResource(getResources(), R.drawable.linkedinbitmap);
-        if (screenshot != null) {
-            Log.d("MQTT","screeshot ist da am board");
+        MqttLogger.log("MQTT","Dashboard start");
+        if(MqttService.getLastScreenshot()!= null) {
+            Log.d("MQTT","screeshot ist null");
+            Bitmap screenshot = MqttService.getLastScreenshot();
             updateScreenshot(screenshot);
+            MqttLogger.log("MQTT","Got screenshot");
         }
-        else Log.d("MQTT","screeshot ist nicht da am board");
+        else {
+            Bitmap screenshot = BitmapFactory.decodeResource(getResources(), R.drawable.linkedinbitmap);
+            updateScreenshot(screenshot);
+            Log.d("MQTT","screeshot ist nicht da am board");
+            MqttLogger.log("MQTT","Got no screenshot");
+        }
+
 
         //updateSeatColors(seatStatus);
     }

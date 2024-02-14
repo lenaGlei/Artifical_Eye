@@ -48,7 +48,6 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
-
                 android:layout_margin="10dp"
                 android:src="@drawable/icon" />
 
@@ -219,10 +218,47 @@
 
                 </RelativeLayout>
 
+                <!--Picture Topic -->
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/picTopic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Subscribe for Picture:"
+                        android:textColor="@color/blue"
+                        android:textStyle="bold"/>
+
+                    <EditText
+                        android:id="@+id/picTopic_insert"
+                        android:layout_width="283dp"
+                        android:layout_height="48dp"
+                        android:layout_centerVertical="true"
+                        android:alpha="0.7"
+                        android:layout_below="@+id/picTopic"
+                        android:textStyle="bold"
+                        android:hint="emptySeats/PictureTopic"
+                        android:enabled="false"/>
+
+                    <ImageView
+                        android:id="@+id/picTopic_btn"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:padding="12dp"
+                        android:src="@drawable/edit"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="MQTTConnection_button_description"/>
+
+                </RelativeLayout>
+
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"/>
+                    android:layout_marginTop="15dp"/>
 
                 <Button
                     android:id="@+id/btn_editTopic"
