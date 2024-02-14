@@ -50,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtTemp;
     int i = 0;
     private MediaPlayer player;
+    private MediaPlayer player2;
+
+    private boolean isFirstTime = true;
 
 
 
@@ -61,9 +64,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+        player2 = MediaPlayer.create(MainActivity.this, R.raw.sound4);
+        player2.start();
+
+
         // Starten Sie den MQTT-Service
         Intent mqttServiceIntent = new Intent(this, MqttService.class);
         startService(mqttServiceIntent);
+
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mqttMessageReceiver,
                 new IntentFilter("com.example.app.MQTT_MESSAGE"));
@@ -123,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
     private void vibrateNow (long millis){
@@ -135,31 +144,77 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     protected void onStart() {
 
         super.onStart();
 
-        // Start playing the sound when the activity starts
-        player = MediaPlayer.create(MainActivity.this, R.raw.sound1);
-        player.start();
+
+
+
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (!isFirstTime){
+
+
+                player = MediaPlayer.create(MainActivity.this, R.raw.sound1);
+                player.start();
+
+            }
+
+    isFirstTime = false;
+
+    }
+
+
+
+
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        // Release the MediaPlayer when the activity is paused
+
         if (player != null) {
             player.release();
         }
+        if (player2 != null) {
+            player2.release();
+        }
+
+
     }
+
 
     @Override
-    protected void onStop() {
+    public void onBackPressed() {
 
-        super.onStop();
+
+
+        if (player != null && player.isPlaying()) {
+            player.stop();
+        }
+        if (player2 != null && player2.isPlaying()) {
+            player2.stop();
+        }
+
+
+        // Call super method for default back behavior
+        super.onBackPressed();
     }
+
+    protected void onStop() {
+        super.onStop();
+
+
+    }
+
+
 
 
     // wenn PiReady empfangen wurde wird der Startbutton freigegeben um die emptySeatsdetection zustarten
@@ -176,7 +231,8 @@ public class MainActivity extends AppCompatActivity {
                             Button btnStart = findViewById(R.id.btn_start);
                             btnStart.setEnabled(true);
                             // audio hier
-                            // click in the middle of the screen....
+                            player = MediaPlayer.create(MainActivity.this, R.raw.sound1);
+                            player.start();
                         }
                     });
                 }

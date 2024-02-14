@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
@@ -297,10 +298,10 @@ tools:context=".main_settings">
                 android:id="@+id/AboutUs_btn"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                app:srcCompat="@drawable/arrow_right"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:contentDescription="AboutUs_button_description"/>
+                android:contentDescription="AboutUs_button_description"
+                app:srcCompat="@drawable/arrow_right" />
 
         </RelativeLayout>
 

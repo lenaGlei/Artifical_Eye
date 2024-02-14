@@ -71,5 +71,16 @@ public class AboutUs extends AppCompatActivity {
             }
         });
 
+        ImageView linkdinLena_btn = findViewById(R.id.linkdinLena_btn);
+        linkdinTobi_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://www.linkedin.com/in/lena-glei%C3%9Fner-baa12329a/";
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                startActivity(intent);
+            }
+        });
+
     }
 }

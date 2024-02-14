@@ -8,18 +8,28 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+
+import android.preference.PreferenceManager;
+
 import android.os.IBinder;
+
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -28,6 +38,8 @@ import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,15 +54,22 @@ import java.util.Locale;
 public class EmptySeatsView extends AppCompatActivity {
 
 
-
     private TextToSpeech textToSpeech;
 
     ArrayList<Integer> seatsList;
     private SpeechRecognizer speechRecognizer;
     private static final int RECORD_AUDIO_REQUEST_CODE = 1;
 
+
+ private static final String PREFS_NAME = "MyPrefsFile";
+ private static final String SWITCH_STATE = "switchState";
+
+
     private boolean isBound = false;
     private MqttService mqttService;
+
+    //private BroadcastReceiver mqttMessageReceiver;
+
     private int[] seatStatus;
 
 
@@ -79,6 +98,7 @@ public class EmptySeatsView extends AppCompatActivity {
     };
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,18 +118,35 @@ public class EmptySeatsView extends AppCompatActivity {
             initializeSpeechRecognizerAfterDelay();
         }
 
-        //
+    SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+    boolean LanguageStatus = settings.getBoolean(SWITCH_STATE, false);
+
+
         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS) {
-                    textToSpeech.setLanguage(Locale.UK);
-                    Log.d("TextToSpeech", "Text-to-Speech-Initialisierung erfolgreich");
-                    //pruefeSitzStatus(seat);
+
+                    // Festlegen der Sprache basierend auf dem Wert des Shared Preferences Switch
+                    if (LanguageStatus) {
+                        textToSpeech.setLanguage(Locale.GERMAN); // Deutsch
+
+                        pruefeSitzStatus(seatStatus);
+
+                    } else {
+
+                        textToSpeech.setLanguage(Locale.UK); // Englisch
+                        testSeatStatus(seatStatus);
+                    }
+
+
+
+
 
                 }
             }
         });
+
 
 
 
@@ -147,7 +184,6 @@ public class EmptySeatsView extends AppCompatActivity {
                 upperscreen.setBackgroundColor(Color.RED);
 
 
-
                 Log.d("StuhlActivity", "Stuhl " + stuhlNummer + " ist belegt.");
             } else {
                 Button upperscreen = findViewById(seatsList.get(i));
@@ -159,10 +195,26 @@ public class EmptySeatsView extends AppCompatActivity {
         }
 */
 
-
     }
 
+
         //Function for text to speech of seats
+
+    private void testSeatStatus(int[] seat) {
+        StringBuilder ausgabe = new StringBuilder();
+
+        for (int i = 0; i < seat.length; i++) {
+
+            Log.d("Empty SeatsView", String.format("i = %d", i));
+            if (seat[i] == 1) {
+                ausgabe.append("Seat ").append(i + 1).append(" is occupied. ");
+            } else {
+                ausgabe.append("Seat ").append(i + 1).append(" is free. ");
+            }
+        }
+        ausgabe.append("Say repeat if you want to hear the sound again");
+        sprecheText(ausgabe.toString());
+    }
 
     private void pruefeSitzStatus(int[] seat) {
         StringBuilder ausgabe = new StringBuilder();
@@ -171,14 +223,13 @@ public class EmptySeatsView extends AppCompatActivity {
 
             Log.d("Empty SeatsView", String.format("i = %d", i));
             if (seat[i] == 1) {
-
-
-                ausgabe.append("Seat ").append(i + 1).append(" is occupied. ");
+                ausgabe.append("Sitz ").append(i + 1).append(" ist besetzt. ");
             } else {
-                ausgabe.append("Seat ").append(i + 1).append(" is free. ");
+                ausgabe.append("Sitz ").append(i + 1).append(" ist frei. ");
             }
         }
 
+        ausgabe.append("sage Wiederholen um das audio noch einmal zu hören");
         sprecheText(ausgabe.toString());
     }
 
@@ -186,8 +237,7 @@ public class EmptySeatsView extends AppCompatActivity {
     private void sprecheText(String text) {
         if (textToSpeech != null) {
 
-            String newText = text + "Say repeat if you want to hear the sound again";
-            textToSpeech.speak(newText, TextToSpeech.QUEUE_ADD, null, null);
+            textToSpeech.speak(text, TextToSpeech.QUEUE_ADD, null, null);
         }
     }
 
@@ -242,7 +292,14 @@ public class EmptySeatsView extends AppCompatActivity {
                     // Handle the "hello" command, e.g., start a new activity or perform an action
 
                     Toast.makeText(EmptySeatsView.this, "Repeat command recognized!", Toast.LENGTH_SHORT).show();
-                    //pruefeSitzStatus(seatStatus);
+
+                    testSeatStatus(seatStatus);
+                } else if (command.contains("Wiederholen")) {
+                    Toast.makeText(EmptySeatsView.this, "Wiederholen erkannt!", Toast.LENGTH_SHORT).show();
+
+                    pruefeSitzStatus(seatStatus);
+
+
                 }
             }
 
@@ -251,33 +308,6 @@ public class EmptySeatsView extends AppCompatActivity {
 
         }
 
-        private void pruefeSitzStatus(int[] seat) {
-            StringBuilder ausgabe = new StringBuilder();
-
-            for (int i = 0; i < seat.length; i++) {
-
-                Log.d("Empty SeatsView", String.format("i = %d", i));
-                if (seat[i] == 1) {
-
-
-                    ausgabe.append("Seat ").append(i + 1).append(" is occupied. ");
-                } else {
-                    ausgabe.append("Seat ").append(i + 1).append(" is free. ");
-                }
-            }
-
-            sprecheText(ausgabe.toString());
-        }
-
-
-        private void sprecheText(String text) {
-            if (textToSpeech != null) {
-
-                String newText = text + "Say repeat if you want to hear the sound again";
-                textToSpeech.speak(newText, TextToSpeech.QUEUE_ADD, null, null);
-
-            }
-        }
 
         @Override
         public void onPartialResults(Bundle partialResults) {
@@ -288,6 +318,8 @@ public class EmptySeatsView extends AppCompatActivity {
         public void onEvent(int eventType, Bundle params) {
             // Called when events related to the speech recognition process occur.
         }
+
+
     }
 
     @Override
@@ -299,6 +331,8 @@ public class EmptySeatsView extends AppCompatActivity {
             speechRecognizer.destroy();
         }
     }
+
+
 
     // Speech recognizer
     private void initializeSpeechRecognizer() {
@@ -327,6 +361,18 @@ public class EmptySeatsView extends AppCompatActivity {
     }
 
     @Override
+
+    public void onBackPressed() {
+        // Stop TextToSpeech if it's speaking
+        if (textToSpeech != null && textToSpeech.isSpeaking()) {
+            textToSpeech.stop();
+        }
+
+
+        // Call super method for default back behavior
+        super.onBackPressed();
+
+    }
     protected void onStop() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mqttMessageReceiver);
         // Löse die Verbindung zum Service auf
@@ -379,6 +425,7 @@ public class EmptySeatsView extends AppCompatActivity {
         }
         //hier audio ausgabe ??
         pruefeSitzStatus(seatStatus);
+
     }
 
 

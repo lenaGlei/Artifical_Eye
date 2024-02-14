@@ -63,4 +63,17 @@ public class DeveloperUser2 extends AppCompatActivity {
             player.release();
         }
     }
+    @Override
+    public void onBackPressed() {
+        // Stop TextToSpeech if it's speaking
+
+
+        // Stop MediaPlayer if it's playing
+        if (player != null && player.isPlaying()) {
+            player.stop();
+        }
+
+        // Call super method for default back behavior
+        super.onBackPressed();
+    }
 }

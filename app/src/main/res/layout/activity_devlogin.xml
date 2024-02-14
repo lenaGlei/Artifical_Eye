@@ -91,8 +91,7 @@
                 android:layout_height="48dp"
                 android:inputType="textEmailAddress"
                 android:id="@+id/loginEmail"
-                android:drawableEnd="@drawable/done_icon"
-                android:hint="Enter your Email Adress" />
+                 android:hint="Enter your Email Adress" />
 
             <View
                 android:layout_width="wrap_content"
@@ -105,13 +104,24 @@
                 android:alpha="0.7"
                 android:textStyle="bold"/>
 
-            <EditText
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/password_icon"
                 android:id="@+id/password_entry"
                 android:hint="Enter your password"
-                android:inputType="textPassword" />
+                app:passwordToggleEnabled="true"
+                app:hintTextColor="@color/black"
+                android:inputType="textPassword" >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textPassword"
+                    android:ems="15"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
 
 
 

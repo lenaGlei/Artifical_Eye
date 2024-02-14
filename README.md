@@ -8,3 +8,4 @@ The following options can be selected:
   2. The language for the speech output can be changed between english and german.
   3. A link redirects the user directly to the Cybathlon website.
   4. The Instructions to the App can be read.
+  5. A short instruction "about us" can be read.
