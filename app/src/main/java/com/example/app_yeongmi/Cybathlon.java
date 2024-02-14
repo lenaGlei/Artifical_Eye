@@ -33,9 +33,13 @@ import java.util.Locale;
 
 public class Cybathlon extends AppCompatActivity {
     private MediaPlayer player;
+    private MediaPlayer beepdouble;
+    private MediaPlayer beep;
 
     private boolean isBound = false;
     private MqttService mqttService;
+
+
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
@@ -70,6 +74,9 @@ public class Cybathlon extends AppCompatActivity {
 
         Button button = findViewById(R.id.btn_CybathlonActive);
 
+        beepdouble = MediaPlayer.create(this, R.raw.beepdouble);
+        beep = MediaPlayer.create(this, R.raw.beep);
+
 
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -85,8 +92,32 @@ public class Cybathlon extends AppCompatActivity {
             }
         });
 
-
     }
+
+
+    private void playSounds(int[] Distancearray) {
+        for (int value : Distancearray) {
+            if (value == 1) {
+                // Play sound 1
+                playSound(beepdouble);
+            } else {
+                // Play sound 2
+                playSound(beep);
+            }
+            try {
+                Thread.sleep(1000); // Adjust as needed
+            }catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void playSound(MediaPlayer mediaPlayer) {
+
+                mediaPlayer.start();
+
+            }
+
 
 
 
@@ -111,6 +142,17 @@ public class Cybathlon extends AppCompatActivity {
         // Start playing the sound when the activity starts
         player = MediaPlayer.create(Cybathlon.this, R.raw.sound2);
         player.start();
+
+        player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+
+                // hier Distancearray durch mqtt ersetzen :)
+                int[] Distancearray = {1, 0, 1, 0, 1};
+                playSounds(Distancearray);
+
+            }
+        });
     }
 
     @Override
