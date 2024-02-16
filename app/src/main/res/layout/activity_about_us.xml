@@ -8,7 +8,7 @@ android:background="@color/blueHintergrund"
 android:orientation="vertical"
 tools:context=".AboutUs">
 
-<!-- Kopfzeile mit Zurück-Pfeil und Titel -->
+<!-- Headline with back arrow and title -->
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -52,18 +52,6 @@ tools:context=".AboutUs">
             android:src="@drawable/icon" />
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:id="@+id/username"
-            android:fontFamily="sans-serif-medium"
-            android:textColor="@color/white"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            />
-
         <LinearLayout
             android:background="@drawable/rounded_background"
             android:layout_width="match_parent"
@@ -75,7 +63,7 @@ tools:context=".AboutUs">
             android:padding="15dp"
             >
 
-            <!--beschriebung-->
+            <!--Discription -->
             <RelativeLayout
                 android:layout_marginTop="0dp"
                 android:layout_width="match_parent"
@@ -84,7 +72,7 @@ tools:context=".AboutUs">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Hello, we are a group of dedicated medical technology students at MCI. Below you will find short profiles of each team member highlighting our passions and areas of expertise."
+                    android:text="Welcome to our About Us page! We're medical technology students from MCI. Dive into our profiles to explore our passion, and connect with us on LinkedIn."
                     android:textColor="@color/blue"
                     android:textSize="16sp"/>
 
@@ -148,7 +136,7 @@ tools:context=".AboutUs">
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/titleJonna"
                     android:layout_toEndOf="@+id/picJonna"
-                    android:text="Passion: Skiing and Mauntainbiken"
+                    android:text="Passion: Mountain Biking"
                     android:textSize="14sp"
                     android:layout_marginTop="4dp"/>
 
@@ -230,7 +218,7 @@ tools:context=".AboutUs">
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/titleLeon"
                     android:layout_toEndOf="@+id/picLeon"
-                    android:text="Hobbys?? Bio Interessen"
+                    android:text="Passion: Climbing"
                     android:textSize="14sp"
                     android:layout_marginTop="4dp"/>
 
@@ -310,7 +298,7 @@ tools:context=".AboutUs">
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/titleLukas"
                     android:layout_toEndOf="@+id/picLukas"
-                    android:text="Hobbys?? Bio Interessen"
+                    android:text="Passion: Traveling"
                     android:textSize="14sp"
                     android:layout_marginTop="4dp"/>
 
@@ -392,7 +380,7 @@ tools:context=".AboutUs">
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/titleTobi"
                     android:layout_toEndOf="@+id/picTobi"
-                    android:text="Hobbys?? Bio Interessen"
+                    android:text="Passion: Breakdancing"
                     android:textSize="14sp"
                     android:layout_marginTop="4dp"/>
 

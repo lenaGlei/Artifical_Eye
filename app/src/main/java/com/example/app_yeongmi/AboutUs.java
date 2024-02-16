@@ -15,7 +15,7 @@ public class AboutUs extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
 
-
+        //  Back button to navigate to the Main Settings screen
         ImageView imageViewBack = findViewById(R.id.btn_backSetting);
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -25,6 +25,8 @@ public class AboutUs extends AppCompatActivity {
             }
         });
 
+        // Image set to personal profilpicture
+        // Linkedin Button set to personal likedin profil url
         ImageView linkdinJonna_btn = findViewById(R.id.linkdinJonna_btn);
         linkdinJonna_btn.setOnClickListener(new View.OnClickListener() {
             @Override
