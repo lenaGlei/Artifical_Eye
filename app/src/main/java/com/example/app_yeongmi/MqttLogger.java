@@ -9,9 +9,8 @@ public class MqttLogger {
 
     public static void log(String tag, String message) {
         if ("MQTT".equals(tag)) {
-            Log.d("DebugCheck", "Log wird hinzugefügt: " + message);
+            Log.d("DebugCheck", "Log will be added: " + message);
             logs.append(message).append("\n");
-            // Optional: Benachrichtigen Sie die UI oder einen Listener, dass ein neues Log hinzugefügt wurde
         }
     }
 

@@ -68,31 +68,39 @@
 
 
                     <!--Screenshot -->
-                    <RelativeLayout
-                        android:layout_marginTop="10dp"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="12dp">
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="9dp"
+                            android:layout_height="wrap_content"
                             android:text="Picture from the Objectdetection"
                             android:textColor="@color/blue"
                             android:textStyle="bold"
-                            android:textSize="18dp"/>
+                            android:textSize="18sp"/>
 
                         <ImageView
                             android:id="@+id/Screenshot"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:adjustViewBounds="true"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/connection"/>
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/photo"/>
+                        <TextView
+                            android:id="@+id/noResultsTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="No Results available. Start the EmptySeats detection."
+                            android:textColor="@color/grau"
+                            android:visibility="visible"
+                            android:gravity="center"
+                            android:padding="16dp"
+                            android:textSize="16sp"/>
 
-
-                    </RelativeLayout>
+                    </LinearLayout>
 
                     <!--Results -->
 
@@ -125,7 +133,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="50dp"
                                     android:layout_weight="1"
-                                    android:background="@color/rot"
+                                    android:background="@color/grau"
                                     />
 
                                 <View
@@ -133,7 +141,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="50dp"
                                     android:layout_weight="1"
-                                    android:background="@color/grün"
+                                    android:background="@color/grau"
                                     android:layout_marginStart="8dp"
                                     android:layout_marginEnd="8dp" />
 
@@ -142,7 +150,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="50dp"
                                     android:layout_weight="1"
-                                    android:background="@color/rot" />
+                                    android:background="@color/grau" />
                             </LinearLayout>
 
                             <!-- Zweite Reihe von Stühlen -->
@@ -158,14 +166,14 @@
                                     android:layout_width="0dp"
                                     android:layout_height="50dp"
                                     android:layout_weight="1"
-                                    android:background="@color/rot" />
+                                    android:background="@color/grau" />
 
                                 <View
                                     android:id="@+id/seat5"
                                     android:layout_width="0dp"
                                     android:layout_height="50dp"
                                     android:layout_weight="1"
-                                    android:background="@color/rot"
+                                    android:background="@color/grau"
                                     android:layout_marginStart="8dp"
                                     android:layout_marginEnd="8dp" />
 
@@ -174,7 +182,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="50dp"
                                     android:layout_weight="1"
-                                    android:background="@color/rot" />
+                                    android:background="@color/grau" />
                             </LinearLayout>
                         </LinearLayout>
 
@@ -182,7 +190,7 @@
 
 
 
-
+                    <!--Mqtt Logs -->
                 </LinearLayout>
                 <LinearLayout
                     android:background="@drawable/rounded_background"
