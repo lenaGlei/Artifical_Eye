@@ -1,20 +1,15 @@
 package com.example.app_yeongmi;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -50,8 +45,6 @@ public class DetectionDashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detection_dashboard);
 
-
-
         //  Back button to navigate to the Main Settings screen
         ImageView imageViewBack = findViewById(R.id.btn_backSetting);
         imageViewBack.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +55,7 @@ public class DetectionDashboard extends AppCompatActivity {
             }
         });
 
-        // Conection with MqttService
+        // LocalBinder to MqttService
         Intent intent = new Intent(this, MqttService.class);
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
 
@@ -71,7 +64,6 @@ public class DetectionDashboard extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
 
         checkAndDisplayScreenshot();
 

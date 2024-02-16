@@ -60,7 +60,7 @@ public class DeveloperData extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        // Verbinde dich mit dem MqttService
+        // LocalBinder to MqttService
         Intent intent = new Intent(this, MqttService.class);
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
