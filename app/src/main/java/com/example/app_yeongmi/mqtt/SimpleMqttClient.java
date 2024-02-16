@@ -6,6 +6,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import com.example.app_yeongmi.MqttLogger;
+import com.example.app_yeongmi.MqttService;
 import com.hivemq.client.mqtt.MqttClientState;
 import com.hivemq.client.mqtt.datatypes.MqttQos;
 import com.hivemq.client.mqtt.mqtt3.Mqtt3AsyncClient;

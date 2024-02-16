@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".DeveloperData">
 
-    <!-- Kopfzeile mit Zurück-Pfeil und Titel -->
+    <!-- Headline with back arrow and title -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -255,6 +255,7 @@
 
                 </RelativeLayout>
 
+                <!--Edit and Apply Button -->
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -279,7 +280,7 @@
                     android:text="Apply Topic"
                     android:visibility="gone"/>
 
-
+                <!--Qr Code Button -->
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -294,7 +295,7 @@
                     android:text="QR-Code for Hive MQ"
                     android:textColor="@color/white"/>
 
-
+                <!--Qr Code Image -->
                 <ImageView
                     android:id="@+id/img_qr"
                     android:layout_width="match_parent"

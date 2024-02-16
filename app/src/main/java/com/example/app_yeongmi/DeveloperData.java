@@ -97,6 +97,7 @@ public class DeveloperData extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_developer_data);
 
+        //  Back button to navigate to the Main Settings screen
         ImageView imageViewBack = findViewById(R.id.btn_backMQTT);
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,36 +113,47 @@ public class DeveloperData extends AppCompatActivity {
         EditText subTopicText = findViewById(R.id.subTopic_insert);
         EditText pubTopicText = findViewById(R.id.pubTopic_insert);
         EditText picTopicText = findViewById(R.id.picTopic_insert);
-        // Bearbeitungsmodus aktivieren
+        // Buttonpress "Edit Topics"
         editTopicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                subTopicText.setEnabled(true); // EditText bearbeitbar machen
+                // Make EditText editable
+                subTopicText.setEnabled(true);
                 pubTopicText.setEnabled(true);
                 picTopicText.setEnabled(true);
-                applyTopicButton.setVisibility(View.VISIBLE); // "Übernehmen"-Button anzeigen
+
+                // Show "Apply" button
+                applyTopicButton.setVisibility(View.VISIBLE);
                 editTopicButton.setVisibility(View.GONE);
             }
         });
 
-        // Änderungen übernehmen
+        // Buttonpress Apply
         applyTopicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // get Changes
                 String newsubTopic = subTopicText.getText().toString();
                 String newpubTopic = pubTopicText.getText().toString();
                 String newpicTopic = picTopicText.getText().toString();
-                mqttService.updateMqttSubscription(newsubTopic); // Methode, um den MQTT-Service zu aktualisieren
+
+                // Update mqtt Service with new Topics
+                mqttService.updateMqttSubscription(newsubTopic);
                 mqttService.updateMqttPuplish(newpubTopic);
-                mqttService.updateMqttSubscription(newpicTopic);
-                subTopicText.setEnabled(false); // Bearbeitungsmodus deaktivieren
+                mqttService.updatePictureSubscription(newpicTopic);
+
+                // Deaktivate EdiText
+                subTopicText.setEnabled(false);
                 pubTopicText.setEnabled(false);
                 picTopicText.setEnabled(false);
-                applyTopicButton.setVisibility(View.GONE); // "Übernehmen"-Button ausblenden
+
+                // Show Edit Topic Button
+                applyTopicButton.setVisibility(View.GONE);
                 editTopicButton.setVisibility(View.VISIBLE);
             }
         });
 
+        // Buttonpress to show qr code
         btn_QRCodeGenerate=findViewById(R.id.btn_QRCodeGenerate);
         img_qr=findViewById(R.id.img_qr);
 
@@ -154,7 +166,6 @@ public class DeveloperData extends AppCompatActivity {
 
     private void generateQR() {
 
-
         String text ="https://www.hivemq.com/demos/websocket-client/";
         MultiFormatWriter writer = new MultiFormatWriter();
         try {
@@ -163,7 +174,7 @@ public class DeveloperData extends AppCompatActivity {
             Bitmap bitmap = encoder.createBitmap(matrix);
             img_qr.setImageBitmap(bitmap);
 
-            // scrollen zum qr code
+            // Focus QR Code
             ScrollView scrollView = findViewById(R.id.scrollView);
             scrollView.post(new Runnable() {
                 @Override
@@ -172,14 +183,9 @@ public class DeveloperData extends AppCompatActivity {
                 }
             });
 
-
         } catch (WriterException e) {
             throw new RuntimeException(e);
         }
 
     }
-
-
-
-
 }

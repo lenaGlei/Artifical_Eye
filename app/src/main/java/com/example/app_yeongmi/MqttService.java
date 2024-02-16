@@ -212,11 +212,24 @@ public class MqttService extends Service {
 
     //For edit Topics in Developerdata
     void updateMqttSubscription(String newTopic) {
-        client.unsubscribe(subscribeTopic);
-        subscribe(newTopic);
-        subscribeTopic=newTopic;
+        // only update if the topic has changed
+        if(!Objects.equals(subscribeTopic, newTopic)) {
+            client.unsubscribe(subscribeTopic);
+            subscribe(newTopic);
+            subscribeTopic=newTopic;
+        }
+
     }
     void updateMqttPuplish(String newTopic) {
         publishTopic=newTopic;
+    }
+
+    void updatePictureSubscription(String newTopic) {
+        // only update if the topic has changed
+        if(!Objects.equals(screenshotTopic, newTopic)) {
+            client.unsubscribe(screenshotTopic);
+            subscribe(newTopic);
+            screenshotTopic = newTopic;
+        }
     }
 }
