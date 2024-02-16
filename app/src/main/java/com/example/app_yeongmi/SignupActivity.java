@@ -6,11 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.example.app_yeongmi.databinding.ActivitySignupBinding;
-
-
-
 
 public class SignupActivity extends AppCompatActivity {
     ActivitySignupBinding binding;
@@ -44,6 +40,7 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
+        //  Back button to navigate to the Login or Signup Activity
         ImageView imageViewBack = findViewById(R.id.btn_backSetting);
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,8 +49,5 @@ public class SignupActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
     }
 }
