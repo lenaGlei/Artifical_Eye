@@ -19,9 +19,19 @@ public class Instructions extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instructions);
 
+        //  Back button to navigate to the Main Settings screen
+        ImageView imageViewBack = findViewById(R.id.btn_backSetting);
+        imageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Instructions.this, main_settings.class);
+                startActivity(intent);
+            }
+        });
+
         TextView scrollableTextView = findViewById(R.id.instruction_insert);
 
-        // Ressource aus raw-Ordner laden
+        // Load resource from raw folder
         InputStream inputStream = getResources().openRawResource(R.raw.readmeapp);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
@@ -34,22 +44,13 @@ public class Instructions extends AppCompatActivity {
             }
             inputStream.close();
         } catch (IOException e) {
-            // Fehlerbehandlung
             e.printStackTrace();
         }
 
-        // Setze den Text im TextView
+        // Set the text in the TextView
         scrollableTextView.setText(byteArrayOutputStream.toString());
 
-        ImageView imageViewBack = findViewById(R.id.btn_backSetting);
 
-        imageViewBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Instructions.this, main_settings.class);
-                startActivity(intent);
-            }
-        });
 
     }
 

@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".Instructions">
 
-    <!-- Kopfzeile mit Zurück-Pfeil und Titel -->
+    <!-- Headline with back arrow and title -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
