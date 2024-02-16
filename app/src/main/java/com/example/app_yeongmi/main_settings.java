@@ -19,9 +19,7 @@ public class main_settings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_settings);
 
-
         setWelcomeName();
-
 
         //  Back button to navigate to the Start screen
         ImageView imageViewBack = findViewById(R.id.btn_backSetting);
@@ -96,19 +94,17 @@ public class main_settings extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     void setWelcomeName() {
         email = getIntent().getStringExtra("EMAIL");
-
         TextView textViewEmail = findViewById(R.id.username);
 
         // check if email is available
         if (email != null && !email.isEmpty()) {
             textViewEmail.setText("Welcome " + email);
         } else {
-            // if not schow "Welcome"
+            // if not show only "Welcome"
             textViewEmail.setText("Welcome");
         }
     }
