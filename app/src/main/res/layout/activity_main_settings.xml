@@ -9,7 +9,7 @@ android:background="@color/blueHintergrund"
 android:orientation="vertical"
 tools:context=".main_settings">
 
-    <!-- Kopfzeile mit Zurück-Pfeil und Titel -->
+    <!-- Headline with back arrow and title -->
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -306,11 +306,6 @@ tools:context=".main_settings">
         </RelativeLayout>
 
     </LinearLayout>
-
-
-
-
-
     </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            android:text="ArtificialEye"
+            android:text="Artificial Eye"
             android:textColor="@color/white"
             android:textSize="32sp"
             android:textStyle="bold" />
@@ -91,7 +91,7 @@
                 android:layout_height="48dp"
                 android:inputType="textEmailAddress"
                 android:id="@+id/loginEmail"
-                 android:hint="Enter your Email Adress" />
+                android:hint="Enter your Email Adress" />
 
             <View
                 android:layout_width="wrap_content"
@@ -114,16 +114,12 @@
                 app:hintTextColor="@color/black"
                 android:inputType="textPassword" >
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="textPassword"
                     android:ems="15"/>
             </com.google.android.material.textfield.TextInputLayout>
-
-
-
-
 
 
             <RelativeLayout

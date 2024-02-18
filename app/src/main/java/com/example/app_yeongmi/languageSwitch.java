@@ -2,19 +2,12 @@ package com.example.app_yeongmi;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
-
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class languageSwitch extends AppCompatActivity {
 
@@ -23,14 +16,7 @@ public class languageSwitch extends AppCompatActivity {
     private static String SWITCH_STATE = "switchState";
     private TextView textView;
 
-
-
-
     SwitchCompat mySwitch;
-
-
-
-
 
 
     @Override
@@ -57,14 +43,8 @@ public class languageSwitch extends AppCompatActivity {
                 } else{
                     textView.setText("Language active: English");
                 }
-
-
-
-
             }
         });
-
-
 
 
         View button2 = findViewById(R.id.btn_backLanguage);
@@ -77,15 +57,6 @@ public class languageSwitch extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-
-
-
     }
-
 
 }

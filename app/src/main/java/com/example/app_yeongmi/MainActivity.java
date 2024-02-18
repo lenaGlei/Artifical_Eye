@@ -1,58 +1,33 @@
 package com.example.app_yeongmi;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
-import static com.hivemq.client.internal.mqtt.util.MqttChecks.publish;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
-import android.media.AudioAttributes;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Debug;
-
-import android.os.IBinder;
-
 import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
-
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.UUID;
-
-import com.example.app_yeongmi.mqtt.SimpleMqttClient;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String publishTopic = "emptySeats/AppToHardware";
-    private SimpleMqttClient client;
     private TextView txtTemp;
     int i = 0;
     private MediaPlayer player;
     private MediaPlayer player2;
 
     private boolean isFirstTime = true;
+    private boolean isBound = false;
 
 
 
@@ -68,42 +43,33 @@ public class MainActivity extends AppCompatActivity {
         player2.start();
 
 
-        // Starten Sie den MQTT-Service
+        // Start the Mqtt Service
         Intent mqttServiceIntent = new Intent(this, MqttService.class);
         startService(mqttServiceIntent);
 
-
+        // Localbroadcast for mqtt messages
         LocalBroadcastManager.getInstance(this).registerReceiver(mqttMessageReceiver,
                 new IntentFilter("com.example.app.MQTT_MESSAGE"));
 
 
 
 
-
-        Button button1 = findViewById(R.id.btn_start);
-
-
-        button1.setOnClickListener(new View.OnClickListener() {
+        //start button -> start objectdetection
+        Button btn_start = findViewById(R.id.btn_start);
+        btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 vibrateNow(500);
 
                 Intent intent= new Intent(MainActivity.this, Cybathlon.class);
                 startActivity(intent);
-
-
-
-
             }
         });
 
-        Button button2 = findViewById(R.id.btn_developer);
-
-
-        button2.setOnClickListener(new View.OnClickListener() {
-
+        // developer mode button -> enter with double click
+        Button btn_developer = findViewById(R.id.btn_developer);
+        btn_developer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
@@ -127,11 +93,8 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
 
                 }
-
-
             }
         });
-
     }
 
     private void vibrateNow (long millis){
@@ -141,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(millis);
         }
-
     }
 
 
@@ -149,10 +111,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
 
         super.onStart();
-
-
-
-
     }
 
     @Override
@@ -161,24 +119,15 @@ public class MainActivity extends AppCompatActivity {
 
         if (!isFirstTime){
 
-
                 player = MediaPlayer.create(MainActivity.this, R.raw.sound1);
                 player.start();
-
-            }
-
-    isFirstTime = false;
-
+        }
+        isFirstTime = false;
     }
-
-
-
-
 
     @Override
     protected void onPause() {
         super.onPause();
-
 
         if (player != null) {
             player.release();
@@ -186,15 +135,11 @@ public class MainActivity extends AppCompatActivity {
         if (player2 != null) {
             player2.release();
         }
-
-
     }
 
 
     @Override
     public void onBackPressed() {
-
-
 
         if (player != null && player.isPlaying()) {
             player.stop();
@@ -203,15 +148,14 @@ public class MainActivity extends AppCompatActivity {
             player2.stop();
         }
 
-
         // Call super method for default back behavior
         super.onBackPressed();
     }
 
     protected void onStop() {
+        // Deregistrieren des BroadcastReceivers beim Stoppen der Aktivität
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mqttMessageReceiver);
         super.onStop();
-
-
     }
 
 
@@ -221,25 +165,22 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver mqttMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if ("com.example.app.MQTT_MESSAGE".equals(intent.getAction())) {
-                String payload = intent.getStringExtra("payload");
-                MqttLogger.log("MQTT","piReady im logger");
-                if ("piReady".equals(payload)) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Button btnStart = findViewById(R.id.btn_start);
-                            btnStart.setEnabled(true);
-                            // audio hier
-                            player = MediaPlayer.create(MainActivity.this, R.raw.sound1);
-                            player.start();
-                        }
-                    });
-                }
+        if ("com.example.app.MQTT_MESSAGE".equals(intent.getAction())) {
+            String payload = intent.getStringExtra("payload");
+            if ("piReady".equals(payload)) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Button btnStart = findViewById(R.id.btn_start);
+                        btnStart.setEnabled(true);
+                        // audio
+                        player = MediaPlayer.create(MainActivity.this, R.raw.sound1);
+                        player.start();
+                    }
+                });
             }
         }
+        }
     };
-
-
 
 }

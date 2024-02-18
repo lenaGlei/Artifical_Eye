@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Looper;
 import android.util.Log;
 
+import com.example.app_yeongmi.MqttLogger;
+import com.example.app_yeongmi.MqttService;
 import com.hivemq.client.mqtt.MqttClientState;
 import com.hivemq.client.mqtt.datatypes.MqttQos;
 import com.hivemq.client.mqtt.mqtt3.Mqtt3AsyncClient;
@@ -102,6 +104,8 @@ public class SimpleMqttClient {
 
         public abstract void onMessage(String topic, String payload);
 
+        public abstract void onMessage(String topic, byte[] payload);
+
         @Override
         protected void logSuccess() {
             Log.d("MQTT", String.format("Subscribed to '%s'", topic));
@@ -114,18 +118,30 @@ public class SimpleMqttClient {
 
         @Override
         public void accept(Mqtt3Publish mqtt3Publish) {
+            final String screenshotTopic = "emptySeats/ScreenshotToApp";
             new Handler(Looper.getMainLooper()).post(new Runnable() {
+
                 @Override
                 public void run() {
                     String topic = mqtt3Publish.getTopic().toString();
-                    String payload = new String(mqtt3Publish.getPayloadAsBytes());
+                    byte[] payloadBytes = mqtt3Publish.getPayloadAsBytes();
 
-                    Log.d("MQTT", String.format("Received message from topic '%s':\n%s", topic, payload));
-                    onMessage(topic, payload);
+                    // Decides whether the message is processed as a string or byte array based on the topic
+                    if (topic.equals(screenshotTopic)) {
+
+                        // For the screenshot topic, the message is processed as a byte array
+                        onMessage(topic, payloadBytes);
+                    } else {
+                        // For all other topics, the message is processed as a string
+                        String payloadString = new String(payloadBytes);
+
+                        onMessage(topic, payloadString);
+                    }
                 }
             });
         }
     }
+
 
     public static abstract class MqttPublish extends MqttOperationResult<Mqtt3Publish> {
         private final String topic;

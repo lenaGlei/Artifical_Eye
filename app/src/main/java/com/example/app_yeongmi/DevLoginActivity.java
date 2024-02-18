@@ -3,15 +3,10 @@ package com.example.app_yeongmi;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.app_yeongmi.databinding.ActivityDevloginBinding;
-
-
 
 public class DevLoginActivity extends AppCompatActivity {
 
@@ -24,10 +19,6 @@ public class DevLoginActivity extends AppCompatActivity {
         binding = ActivityDevloginBinding.inflate(getLayoutInflater());
 
         setContentView(binding.getRoot());
-
-
-
-
 
         databaseHelper = new DatabaseHelper(this);
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +42,7 @@ public class DevLoginActivity extends AppCompatActivity {
             }
         });
 
-
+        //  Back button to navigate to the Login or Signup Activity
         ImageView imageViewBack = findViewById(R.id.btn_backSetting);
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,13 +51,6 @@ public class DevLoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
-
-
-
     }
-
 }
 

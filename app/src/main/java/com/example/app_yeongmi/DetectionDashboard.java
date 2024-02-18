@@ -1,20 +1,15 @@
 package com.example.app_yeongmi;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -50,9 +45,7 @@ public class DetectionDashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detection_dashboard);
 
-        TextView textViewLogs = findViewById(R.id.textViewLogs);
-        textViewLogs.setText(MqttLogger.getLogs());
-
+        //  Back button to navigate to the Main Settings screen
         ImageView imageViewBack = findViewById(R.id.btn_backSetting);
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +55,7 @@ public class DetectionDashboard extends AppCompatActivity {
             }
         });
 
-        // Verbinde dich mit dem MqttService
+        // LocalBinder to MqttService
         Intent intent = new Intent(this, MqttService.class);
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
 
@@ -71,29 +64,44 @@ public class DetectionDashboard extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //Bitmap screenshot = MqttService.getLastScreenshot();
-        Bitmap screenshot = BitmapFactory.decodeResource(getResources(), R.drawable.linkedinbitmap);
-        if (screenshot != null) {
-            Log.d("MQTT","screeshot ist da am board");
-            updateScreenshot(screenshot);
+
+        checkAndDisplayScreenshot();
+
+        // Display the Logs
+        TextView textViewLogs = findViewById(R.id.textViewLogs);
+        textViewLogs.setText(MqttLogger.getLogs());
+
+    }
+
+    // Check if screenshot is available --> update Ui
+    private void checkAndDisplayScreenshot() {
+
+        if (MqttService.getLastScreenshot()!= null) {
+            Log.d("MQTT", "Screenshot is available.");
+            Bitmap screenshot = MqttService.getLastScreenshot();
+            // Update the ImageView on the UI
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ImageView screenshotView = findViewById(R.id.Screenshot);
+                    screenshotView.setImageBitmap(screenshot);
+                    MqttLogger.log("MQTT", "Screenshot is displayed on the dashboard.");
+                    Log.d("MQTT","Screenshot is displayed on the dashboard.");
+                }
+            });
+            // Set TextView to Gone "No Results available. Start the EmptySeats detection."
+            TextView noResultsTextView = findViewById(R.id.noResultsTextView);
+            noResultsTextView.setVisibility(View.GONE);
+
+        } else {
+            MqttLogger.log("MQTT", "No screenshot available, placeholder will be shown.");
+            Log.d("MQTT", "No screenshot available, placeholder will be shown.");
         }
-        else Log.d("MQTT","screeshot ist nicht da am board");
-
-        //updateSeatColors(seatStatus);
     }
 
-    public void updateScreenshot(Bitmap screenshot) {
-        Log.d("MQTT","screeshot wird verarbeitet");
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                ImageView screenshotView = findViewById(R.id.Screenshot);
-                screenshotView.setImageBitmap(screenshot);
-            }
-        });
-    }
 
     public void updateSeatColors(int[] seats) {
+
         View[] seatViews = new View[]{
                 findViewById(R.id.seat1),
                 findViewById(R.id.seat2),
@@ -103,28 +111,32 @@ public class DetectionDashboard extends AppCompatActivity {
                 findViewById(R.id.seat6)
         };
 
-        for (int i = 0; i < seatViews.length; i++) {
-            if (seats[i] == 1) {
-                // Sitz ist belegt, setze auf Rot
-                seatViews[i].setBackgroundColor(getResources().getColor(R.color.rot));
-            } else {
-                // Sitz ist frei, setze auf Grün
-                seatViews[i].setBackgroundColor(getResources().getColor(R.color.grün));
+        seatStatus = mqttService.getSeatStatus();
+        if (seatStatus != null) {
+            //Loop through each seat and update its color
+            for (int i = 0; i < seatViews.length; i++) {
+                if (seats[i] == 1) {
+                    // Seat is occupied - set color to red
+                    seatViews[i].setBackgroundColor(getResources().getColor(R.color.rot));
+                } else {
+                    // Seat is free - set color to green
+                    seatViews[i].setBackgroundColor(getResources().getColor(R.color.grün));
+                }
             }
+        } else {
+            MqttLogger.log("MQTT", "No seat status available.");
+            Log.d("MQTT","No seat status available.");
         }
+
     }
 
     @Override
     protected void onStop() {
-        // Löse die Verbindung zum Service auf
+        // Unbind from the service
         if (isBound) {
             unbindService(serviceConnection);
             isBound = false;
         }
         super.onStop();
     }
-
-
-
-
 }

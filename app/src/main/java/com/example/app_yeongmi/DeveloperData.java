@@ -60,7 +60,7 @@ public class DeveloperData extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        // Verbinde dich mit dem MqttService
+        // LocalBinder to MqttService
         Intent intent = new Intent(this, MqttService.class);
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
@@ -76,21 +76,21 @@ public class DeveloperData extends AppCompatActivity {
 
     private void updateUIWithMqttSettings() {
         if (isBound) {
-           TextView serverHostView = findViewById(R.id.ServerHost_insert);
+            TextView serverHostView = findViewById(R.id.ServerHost_insert);
             TextView serverPortView = findViewById(R.id.ServerPort_insert);
             TextView subTopicTextView = findViewById(R.id.subTopic_insert);
             TextView pubTopicTextView = findViewById(R.id.pubTopic_insert);
             TextView uuidTextView = findViewById(R.id.UUID_insert);
-
-
+            TextView screenshotTopicView = findViewById(R.id.picTopic_insert);
+            TextView navigationTopicView = findViewById(R.id.navTopic_insert);
 
             serverHostView.setText(mqttService.getServerHost());
             serverPortView.setText(mqttService.getServerPort());
-            subTopicTextView .setText(mqttService.getSubscribeTopic());
-            pubTopicTextView .setText(mqttService.getPublishTopic());
+            subTopicTextView.setText(mqttService.getSubscribeTopic());
+            pubTopicTextView.setText(mqttService.getPublishTopic());
             uuidTextView.setText(mqttService.getClientIdentifier());
-
-
+            screenshotTopicView.setText(mqttService.getScreenshotTopic());
+            navigationTopicView.setText(mqttService.getNavigationTopic());
         }
     }
 
@@ -99,6 +99,7 @@ public class DeveloperData extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_developer_data);
 
+        //  Back button to navigate to the Main Settings screen
         ImageView imageViewBack = findViewById(R.id.btn_backMQTT);
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,32 +114,53 @@ public class DeveloperData extends AppCompatActivity {
         Button applyTopicButton = findViewById(R.id.btn_applyTopic);
         EditText subTopicText = findViewById(R.id.subTopic_insert);
         EditText pubTopicText = findViewById(R.id.pubTopic_insert);
-        // Bearbeitungsmodus aktivieren
+        EditText picTopicText = findViewById(R.id.picTopic_insert);
+        EditText navTopicText = findViewById(R.id.navTopic_insert);
+        // Buttonpress "Edit Topics"
         editTopicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                subTopicText.setEnabled(true); // EditText bearbeitbar machen
+                // Make EditText editable
+                subTopicText.setEnabled(true);
                 pubTopicText.setEnabled(true);
-                applyTopicButton.setVisibility(View.VISIBLE); // "Übernehmen"-Button anzeigen
+                picTopicText.setEnabled(true);
+                navTopicText.setEnabled(true);
+
+                // Show "Apply" button
+                applyTopicButton.setVisibility(View.VISIBLE);
                 editTopicButton.setVisibility(View.GONE);
             }
         });
 
-        // Änderungen übernehmen
+        // Buttonpress Apply
         applyTopicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // get Changes
                 String newsubTopic = subTopicText.getText().toString();
-                String newpubTopic= pubTopicText.getText().toString();
-                mqttService.updateMqttSubscription(newsubTopic); // Methode, um den MQTT-Service zu aktualisieren
+                String newpubTopic = pubTopicText.getText().toString();
+                String newpicTopic = picTopicText.getText().toString();
+                String newnavTopic = navTopicText.getText().toString();
+
+                // Update mqtt Service with new Topics
+                mqttService.updateMqttSubscription(newsubTopic);
                 mqttService.updateMqttPuplish(newpubTopic);
-                subTopicText.setEnabled(false); // Bearbeitungsmodus deaktivieren
-                pubTopicText.setEnabled(false); // Bearbeitungsmodus deaktivieren
-                applyTopicButton.setVisibility(View.GONE); // "Übernehmen"-Button ausblenden
+                mqttService.updatePictureSubscription(newpicTopic);
+                mqttService.updateMqttNavigation(newnavTopic);
+
+                // Deaktivate EdiText
+                subTopicText.setEnabled(false);
+                pubTopicText.setEnabled(false);
+                picTopicText.setEnabled(false);
+                navTopicText.setEnabled(false);
+
+                // Show Edit Topic Button
+                applyTopicButton.setVisibility(View.GONE);
                 editTopicButton.setVisibility(View.VISIBLE);
             }
         });
 
+        // Buttonpress to show qr code
         btn_QRCodeGenerate=findViewById(R.id.btn_QRCodeGenerate);
         img_qr=findViewById(R.id.img_qr);
 
@@ -151,7 +173,6 @@ public class DeveloperData extends AppCompatActivity {
 
     private void generateQR() {
 
-
         String text ="https://www.hivemq.com/demos/websocket-client/";
         MultiFormatWriter writer = new MultiFormatWriter();
         try {
@@ -160,7 +181,7 @@ public class DeveloperData extends AppCompatActivity {
             Bitmap bitmap = encoder.createBitmap(matrix);
             img_qr.setImageBitmap(bitmap);
 
-            // scrollen zum qr code
+            // Focus QR Code
             ScrollView scrollView = findViewById(R.id.scrollView);
             scrollView.post(new Runnable() {
                 @Override
@@ -169,14 +190,9 @@ public class DeveloperData extends AppCompatActivity {
                 }
             });
 
-
         } catch (WriterException e) {
             throw new RuntimeException(e);
         }
 
     }
-
-
-
-
 }

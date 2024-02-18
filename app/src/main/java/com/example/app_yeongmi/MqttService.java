@@ -1,12 +1,6 @@
 package com.example.app_yeongmi;
 
-
-//import static com.hivemq.client.internal.mqtt.util.MqttChecks.publish;
-
-
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -15,50 +9,70 @@ import android.graphics.BitmapFactory;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
-
-import android.widget.TextView;
-
 import android.widget.Toast;
-
-import java.io.ByteArrayOutputStream;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.Objects;
 import java.util.UUID;
-
 import com.example.app_yeongmi.mqtt.SimpleMqttClient;
-import com.example.app_yeongmi.mqtt.data.MqttMessage;
-
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.json.JSONException;
-import org.json.JSONObject;
 public class MqttService extends Service {
 
-
     private SimpleMqttClient client;
-
     private Context context;
-    private String subscribeTopic = "emptySeats/HardwareToApp";
 
-    private String screenshotTopic = "emptySeats/ScreenshotToApp";
-    private static Bitmap lastScreenshot = null;
-    private String publishTopic = "emptySeats/AppToHardware";
-
-    //MQTT-Einstellungen
+    //MQTT-Settings
     private String serverHost = "broker.hivemq.com";
     private String clientIdentifier = UUID.randomUUID().toString();
     private int serverPort = 1883;
-
+    // Topics
+    private String subscribeTopic = "emptySeats/HardwareToApp";
+    private String publishTopic = "emptySeats/AppToHardware";
+    private String navigationTopic = "emptySeats/Navigation";
+    private String screenshotTopic = "emptySeats/ScreenshotToApp";
+    // to save and access in the settings
+    private static Bitmap lastScreenshot = null;
     private int[] seatStatus;
 
+    @Override
+    public IBinder onBind(Intent intent) {
+        return binder;
+    }
 
+    // Getter and Setter for Settings DeveloperData and DetectionDashboard
+    public String getServerHost() {
+        return serverHost;
+    }
+    public String getServerPort() {
+        return String.valueOf(serverPort);
+    }
+    public String getClientIdentifier() {
+        return clientIdentifier;
+    }
+    public String getSubscribeTopic() {
+        return subscribeTopic;
+    }
+    public void setSubscribeTopic(String subscribeTopic){ this.subscribeTopic = subscribeTopic;}
+    public String getScreenshotTopic() {
+        return screenshotTopic;
+    }
+    public String getPublishTopic() {
+        return publishTopic;
+    }
+    public String getNavigationTopic() {
+        return navigationTopic;
+    }
+    public int[] getSeatStatus() { return seatStatus; }
+    public void setSeatStatus(int[] seatStatus) { this.seatStatus = seatStatus; }
+    public static Bitmap getLastScreenshot() {
+        return lastScreenshot;
+    }
 
 
     public MqttService() {
     }
 
+    // LocalBinder for activities to bind to the MqttService.
+    // Allows other activitys to access the methods from the MqttService.
     public class LocalBinder extends Binder {
         MqttService getService() {
-            // Rückgabe dieser Instanz von MqttService, damit Clients öffentliche Methoden aufrufen können
             return MqttService.this;
         }
     }
@@ -79,41 +93,13 @@ public class MqttService extends Service {
 
         Log.d("MQTT","Service onstartcommand connect");
 
-        return START_REDELIVER_INTENT; //return START_NOT_STICKY; hier noch mal überlegen wassinnvoll ist
+        return START_REDELIVER_INTENT;
     }
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return binder;
-    }
 
-    // Methoden, um die Einstellungen abzurufen
-    public String getServerHost() {
-        return serverHost;
-    }
-
-    public String getServerPort() {
-        return String.valueOf(serverPort);
-    }
-
-    public String getClientIdentifier() {
-        return clientIdentifier;
-    }
-    public String getSubscribeTopic() {
-        return subscribeTopic;
-    }
-    public String getScreenshotTopic() {
-        return screenshotTopic;
-    }
-    public String getPublishTopic() {
-        return publishTopic;
-    }
-
-    public int[] getSeatStatus() { return seatStatus; }
-    public void setSeatStatus(int[] seatStatus) { this.seatStatus = seatStatus; }
 
     private void connect() {
-        // establish connection to server (asynchronous)
+        // establish connection to server
         client.connect(new SimpleMqttClient.MqttConnection(this)
         {
             @Override
@@ -121,9 +107,10 @@ public class MqttService extends Service {
                 Toast.makeText(MqttService.this, "Connection successful", Toast.LENGTH_SHORT).show();
                 Log.d("MQTT", "MQTT connection successful");
                 MqttLogger.log("MQTT","MQTT connection successful");
+
                 subscribe(subscribeTopic);
-                testScreenshot();
                 subscribe(screenshotTopic);
+                subscribe(navigationTopic);
                 publish(publishTopic,"The app is successfully connected to MQTT and ready to receive information.");
 
             }
@@ -139,7 +126,7 @@ public class MqttService extends Service {
 
     @Override
     public void onDestroy() {
-        // Trenne die MQTT-Verbindung, wenn der Service zerstört wird
+        // Disconnect the MQTT connection
         if (client != null && client.isConnected()) {
             if (client != null) {
 
@@ -155,18 +142,53 @@ public class MqttService extends Service {
 
 
     private void subscribe(String topic) {
-        // subscribe to topic (asynchronous)
+        // subscribe to topic
         client.subscribe(new SimpleMqttClient.MqttSubscription(getApplicationContext(), topic) {
 
             @Override
             public void onSuccess(){
-                MqttLogger.log("MQTT",String.format("Subscribed to '%s'", topic));
+                MqttLogger.log("MQTT", String.format("Subscribed to '%s'", topic));
+
             }
+
+            // onMessage for String
             @Override
             public void onMessage(String topic, String payload) {
-                // Verarbeite die empfangene Nachricht
+                Log.d("MQTT", String.format("Received message from topic '%s':\n%s", topic, payload));
+                MqttLogger.log("MQTT", String.format("Received message from topic '%s':\n%s", topic, payload));
+
+                if(Objects.equals(topic, subscribeTopic)) {
+                    try {
+                        // for BroadcastReceiver in EmptyView and Cybathlon Acticty
+                        Intent intent = new Intent("com.example.app.MQTT_MESSAGE");
+                        intent.putExtra("payload", payload);
+                        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                if(Objects.equals(topic, navigationTopic)) {
+                    try {
+                        // for BroadcastReceiver in EmptyView and Cybathlon Acticty
+                        Intent intent = new Intent("com.example.app.MQTT_NAVIGATION");
+                        intent.putExtra("payload", payload);
+                        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+
+            // onMessage for screenshot payload=byte[]
+            @Override
+            public void onMessage(String topic, byte[] payload) {
                 try {
-                    messageArrived(topic,payload);
+                    Log.d("MQTT", String.format("Received screenshot from topic '%s'", topic));
+                    MqttLogger.log("MQTT", String.format("Received screenshot from topic '%s'", topic));
+                    // Convert the byte array into an image (bitmap)
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(payload, 0, payload.length);
+                    lastScreenshot = bitmap;
+
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -174,105 +196,65 @@ public class MqttService extends Service {
 
             @Override
             public void onError(Throwable error) {
-                // Logge den Fehler
                 Log.e("MQTT", "Error in subscription", error);
             }
         });
 
     }
 
-    // für BroadcastReceiver im EmptyViewActivity
-    public void messageArrived(String topic, String payload) throws Exception {
-        if (subscribeTopic.equals(topic)) {
-
-
-            MqttLogger.log("MQTT",String.format("Received message from topic '%s':\n%s", topic, payload));
-
-            Intent intent = new Intent("com.example.app.MQTT_MESSAGE");
-            intent.putExtra("payload", payload);
-            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
-        }
-
-        if (screenshotTopic.equals(topic)) {
-            byte[] payloadArray = payload.getBytes();
-            lastScreenshot = BitmapFactory.decodeByteArray(payloadArray, 0, payloadArray.length);
-
-            // Send broadcast
-            Intent intent = new Intent("emptySeats/ScreenshotReceived");
-            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-        }
-    }
-
-    // Methode zum Abrufen des letzten Screenshots
-    public static Bitmap getLastScreenshot() {
-        return lastScreenshot;
-    }
-
-    public void testScreenshot() {
-        // Lade das Bitmap aus den Ressourcen
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.jonnabild);
-
-        // Konvertiere das Bitmap in ein Byte-Array
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
-
-        // Veröffentliche das Byte-Array auf dem MQTT Topic
-        //screenshotpublish(screenshotTopic, byteArray);
-    }
-
-
-
-
-
-
-
-    private void sendMessageToMainActivity(String message) {
-        Intent intent = new Intent("com.example.app_yeongmi.MQTT_MESSAGE");
-        intent.putExtra("message", message);
-        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
-    }
-
-
-
-    // Funktion zum Senden einer MQTT-Nachricht getApplicationContext(), topic) {
-    //
+    // Sending an MQTT message
     public void publish(String topic, String message) {
-        // Überprüfen Sie, ob der Client verbunden ist
+        // Check if the client is connected
         if (client != null && client.isConnected()) {
-            // Veröffentlichen Sie die Nachricht auf dem angegebenen Topic
+            // Publish the message on the topic
             client.publish(new SimpleMqttClient.MqttPublish(getApplicationContext(),topic, message) {
                 @Override
                 public void onSuccess() {
-                    // Nachricht erfolgreich veröffentlicht
+                    // Message published
                     Toast.makeText(MqttService.this, "MQTT Message send successful", Toast.LENGTH_SHORT).show();
                     MqttLogger.log("MQTT",String.format("Published to '%s':\n%s", topic, message));
                 }
 
                 @Override
                 public void onError(Throwable error) {
-                    // Fehler beim Veröffentlichen der Nachricht
-                    Log.d("MQTT", "MQTT Message couldnt send");
+                    // Message could not be published
+                    Log.d("MQTT", "MQTT Message could not be published");
                 }
             });
         } else {
             Log.d("MQTT", "MQTT is not conected and Message couldnt send");
-            // Der Client ist nicht verbunden, behandeln Sie diesen Fall entsprechend
         }
     }
 
+    //For edit Topics in Developerdata
     void updateMqttSubscription(String newTopic) {
-        client.unsubscribe(subscribeTopic);
-        subscribe(newTopic);
-        subscribeTopic=newTopic;
+        // only update if the topic has changed
+        if(!Objects.equals(subscribeTopic, newTopic)) {
+            client.unsubscribe(subscribeTopic);
+            subscribe(newTopic);
+            subscribeTopic=newTopic;
+        }
 
     }
+    void updateMqttNavigation(String newTopic) {
+        // only update if the topic has changed
+        if(!Objects.equals(navigationTopic, newTopic)) {
+            client.unsubscribe(navigationTopic);
+            subscribe(newTopic);
+            navigationTopic=newTopic;
+        }
 
+    }
     void updateMqttPuplish(String newTopic) {
         publishTopic=newTopic;
-
     }
 
-
-
+    void updatePictureSubscription(String newTopic) {
+        // only update if the topic has changed
+        if(!Objects.equals(screenshotTopic, newTopic)) {
+            client.unsubscribe(screenshotTopic);
+            subscribe(newTopic);
+            screenshotTopic = newTopic;
+        }
+    }
 }

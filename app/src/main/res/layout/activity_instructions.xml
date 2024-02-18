@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".Instructions">
 
-    <!-- Kopfzeile mit Zurück-Pfeil und Titel -->
+    <!-- Headline with back arrow and title -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -33,8 +32,6 @@
             android:textStyle="bold" />
 
     </RelativeLayout>
-
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -68,6 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
+                    <!-- Instruction TextView -->
                     <TextView
                         android:id="@+id/instruction_insert"
                         android:layout_width="match_parent"
