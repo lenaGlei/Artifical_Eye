@@ -9,12 +9,10 @@ import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -26,8 +24,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
-import android.preference.PreferenceManager;
-
 import android.os.IBinder;
 
 import android.speech.RecognitionListener;
@@ -37,10 +33,7 @@ import android.speech.tts.TextToSpeech;
 
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.Switch;
-import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
@@ -59,16 +52,16 @@ public class EmptySeatsView extends AppCompatActivity {
     ArrayList<Integer> seatsList;
     private SpeechRecognizer speechRecognizer;
     private static final int RECORD_AUDIO_REQUEST_CODE = 1;
+    boolean languageStatus;
 
 
- private static final String PREFS_NAME = "MyPrefsFile";
- private static final String SWITCH_STATE = "switchState";
+    private static final String PREFS_NAME = "MyPrefsFile";
+    private static final String SWITCH_STATE = "switchState";
 
 
     private boolean isBound = false;
     private MqttService mqttService;
 
-    //private BroadcastReceiver mqttMessageReceiver;
 
     private int[] seatStatus;
 
@@ -82,10 +75,11 @@ public class EmptySeatsView extends AppCompatActivity {
             // Du kannst jetzt Methoden auf mqttService aufrufen
             mqttService.publish(mqttService.getPublishTopic(), "getResults");
 
-            seatStatus = mqttService.getSeatStatus();
-            if (seatStatus != null) {
+            //seatStatus = mqttService.getSeatStatus();
+            if (mqttService.getSeatStatus() != null) {
+                Log.d("MQTT","seatstatus nicht null ");
+                seatStatus = mqttService.getSeatStatus();
                 updateSeats(seatStatus);
-                //updateSeatColors(seatStatus);
             } else {
                 Log.d("MQTT","kein seatstatus da im dashboard");
             }
@@ -130,26 +124,19 @@ public class EmptySeatsView extends AppCompatActivity {
                     // Festlegen der Sprache basierend auf dem Wert des Shared Preferences Switch
                     if (LanguageStatus) {
                         textToSpeech.setLanguage(Locale.GERMAN); // Deutsch
+                        languageStatus= false;
 
                         pruefeSitzStatus(seatStatus);
 
                     } else {
-
+                        languageStatus= true;
                         textToSpeech.setLanguage(Locale.UK); // Englisch
                         testSeatStatus(seatStatus);
                     }
 
-
-
-
-
                 }
             }
         });
-
-
-
-
 
 
         // Seat colour
@@ -170,30 +157,15 @@ public class EmptySeatsView extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(mqttMessageReceiver,
                 new IntentFilter("com.example.app.MQTT_MESSAGE"));
 
-
-        /*for (int i = 0; i < seat.length; i++) {
-
-            int stuhlNummer = i;
-
-
-            String seatString = "R.id.seat" + i;
-            System.out.println(seatString);
-
-            if (seat[i] == 1) {
-                Button upperscreen = findViewById(seatsList.get(i));
-                upperscreen.setBackgroundColor(Color.RED);
-
-
-                Log.d("StuhlActivity", "Stuhl " + stuhlNummer + " ist belegt.");
-            } else {
-                Button upperscreen = findViewById(seatsList.get(i));
-                upperscreen.setBackgroundColor(Color.GREEN);
-
-
-                Log.d("StuhlActivity", "Stuhl " + stuhlNummer + " ist leer.");
+        //  Back button to navigate to the Main Settings screen
+        ImageView imageViewBack = findViewById(R.id.btn_backSetting);
+        imageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EmptySeatsView.this, MainActivity.class);
+                startActivity(intent);
             }
-        }
-*/
+        });
 
     }
 
@@ -201,36 +173,45 @@ public class EmptySeatsView extends AppCompatActivity {
         //Function for text to speech of seats
 
     private void testSeatStatus(int[] seat) {
-        StringBuilder ausgabe = new StringBuilder();
+        if (seat == null || seat.length == 0) {
+            Log.d("MQTT", "Kein Sitzstatus verfügbar.");
+        } else {
+            StringBuilder ausgabe = new StringBuilder();
 
-        for (int i = 0; i < seat.length; i++) {
+            for (int i = 0; i < seat.length; i++) {
 
-            Log.d("Empty SeatsView", String.format("i = %d", i));
-            if (seat[i] == 1) {
-                ausgabe.append("Seat ").append(i + 1).append(" is occupied. ");
-            } else {
-                ausgabe.append("Seat ").append(i + 1).append(" is free. ");
+                Log.d("Empty SeatsView", String.format("i = %d", i));
+                if (seat[i] == 1) {
+                    ausgabe.append("Seat ").append(i + 1).append(" is occupied. ");
+                } else {
+                    ausgabe.append("Seat ").append(i + 1).append(" is free. ");
+                }
             }
+            ausgabe.append("Say repeat if you want to hear the sound again");
+            sprecheText(ausgabe.toString());
         }
-        ausgabe.append("Say repeat if you want to hear the sound again");
-        sprecheText(ausgabe.toString());
+
     }
 
     private void pruefeSitzStatus(int[] seat) {
-        StringBuilder ausgabe = new StringBuilder();
+        if (seat == null || seat.length == 0) {
+            Log.d("MQTT", "Kein Sitzstatus verfügbar.");
+        } else {
+            StringBuilder ausgabe = new StringBuilder();
 
-        for (int i = 0; i < seat.length; i++) {
+            for (int i = 0; i < seat.length; i++) {
 
-            Log.d("Empty SeatsView", String.format("i = %d", i));
-            if (seat[i] == 1) {
-                ausgabe.append("Sitz ").append(i + 1).append(" ist besetzt. ");
-            } else {
-                ausgabe.append("Sitz ").append(i + 1).append(" ist frei. ");
+                Log.d("Empty SeatsView", String.format("i = %d", i));
+                if (seat[i] == 1) {
+                    ausgabe.append("Sitz ").append(i + 1).append(" ist besetzt. ");
+                } else {
+                    ausgabe.append("Sitz ").append(i + 1).append(" ist frei. ");
+                }
             }
-        }
 
-        ausgabe.append("sage Wiederholen um das audio noch einmal zu hören");
-        sprecheText(ausgabe.toString());
+            ausgabe.append("sage Wiederholen um das audio noch einmal zu hören");
+            sprecheText(ausgabe.toString());
+        }
     }
 
 
@@ -357,7 +338,7 @@ public class EmptySeatsView extends AppCompatActivity {
             public void run() {
                 initializeSpeechRecognizer();
             }
-        }, 15000); // 15 seconds delay
+        }, 16000); // 16 seconds delay
     }
 
     @Override
@@ -414,7 +395,7 @@ public class EmptySeatsView extends AppCompatActivity {
     };
     private void updateSeats(int[] seatStatus) {
         for (int i = 0; i < seatStatus.length; i++) {
-            Button seatButton = findViewById(seatsList.get(i));
+            View seatButton = findViewById(seatsList.get(i));
             if (seatStatus[i] == 1) {
                 // Sitz ist belegt
                 seatButton.setBackgroundColor(Color.RED);
@@ -423,13 +404,11 @@ public class EmptySeatsView extends AppCompatActivity {
                 seatButton.setBackgroundColor(Color.GREEN);
             }
         }
-        //hier audio ausgabe ??
-        pruefeSitzStatus(seatStatus);
+        if (!languageStatus){
+            pruefeSitzStatus(seatStatus);
+        }else testSeatStatus(seatStatus);
+
 
     }
-
-
-
-
 
 }

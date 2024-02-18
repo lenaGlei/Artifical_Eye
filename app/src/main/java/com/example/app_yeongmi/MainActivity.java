@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer player2;
 
     private boolean isFirstTime = true;
+    private boolean isBound = false;
 
 
 
@@ -152,6 +153,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void onStop() {
+        // Deregistrieren des BroadcastReceivers beim Stoppen der Aktivität
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mqttMessageReceiver);
         super.onStop();
     }
 

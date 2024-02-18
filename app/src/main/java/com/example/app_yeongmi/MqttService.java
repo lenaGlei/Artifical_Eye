@@ -232,8 +232,16 @@ public class MqttService extends Service {
         if(!Objects.equals(subscribeTopic, newTopic)) {
             client.unsubscribe(subscribeTopic);
             subscribe(newTopic);
-            setSubscribeTopic(newTopic);
-            //subscribeTopic=newTopic;
+            subscribeTopic=newTopic;
+        }
+
+    }
+    void updateMqttNavigation(String newTopic) {
+        // only update if the topic has changed
+        if(!Objects.equals(navigationTopic, newTopic)) {
+            client.unsubscribe(navigationTopic);
+            subscribe(newTopic);
+            navigationTopic=newTopic;
         }
 
     }

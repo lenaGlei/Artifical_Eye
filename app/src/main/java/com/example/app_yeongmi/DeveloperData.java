@@ -82,6 +82,7 @@ public class DeveloperData extends AppCompatActivity {
             TextView pubTopicTextView = findViewById(R.id.pubTopic_insert);
             TextView uuidTextView = findViewById(R.id.UUID_insert);
             TextView screenshotTopicView = findViewById(R.id.picTopic_insert);
+            TextView navigationTopicView = findViewById(R.id.navTopic_insert);
 
             serverHostView.setText(mqttService.getServerHost());
             serverPortView.setText(mqttService.getServerPort());
@@ -89,6 +90,7 @@ public class DeveloperData extends AppCompatActivity {
             pubTopicTextView.setText(mqttService.getPublishTopic());
             uuidTextView.setText(mqttService.getClientIdentifier());
             screenshotTopicView.setText(mqttService.getScreenshotTopic());
+            navigationTopicView.setText(mqttService.getNavigationTopic());
         }
     }
 
@@ -113,6 +115,7 @@ public class DeveloperData extends AppCompatActivity {
         EditText subTopicText = findViewById(R.id.subTopic_insert);
         EditText pubTopicText = findViewById(R.id.pubTopic_insert);
         EditText picTopicText = findViewById(R.id.picTopic_insert);
+        EditText navTopicText = findViewById(R.id.navTopic_insert);
         // Buttonpress "Edit Topics"
         editTopicButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +124,7 @@ public class DeveloperData extends AppCompatActivity {
                 subTopicText.setEnabled(true);
                 pubTopicText.setEnabled(true);
                 picTopicText.setEnabled(true);
+                navTopicText.setEnabled(true);
 
                 // Show "Apply" button
                 applyTopicButton.setVisibility(View.VISIBLE);
@@ -136,16 +140,19 @@ public class DeveloperData extends AppCompatActivity {
                 String newsubTopic = subTopicText.getText().toString();
                 String newpubTopic = pubTopicText.getText().toString();
                 String newpicTopic = picTopicText.getText().toString();
+                String newnavTopic = navTopicText.getText().toString();
 
                 // Update mqtt Service with new Topics
                 mqttService.updateMqttSubscription(newsubTopic);
                 mqttService.updateMqttPuplish(newpubTopic);
                 mqttService.updatePictureSubscription(newpicTopic);
+                mqttService.updateMqttNavigation(newnavTopic);
 
                 // Deaktivate EdiText
                 subTopicText.setEnabled(false);
                 pubTopicText.setEnabled(false);
                 picTopicText.setEnabled(false);
+                navTopicText.setEnabled(false);
 
                 // Show Edit Topic Button
                 applyTopicButton.setVisibility(View.GONE);

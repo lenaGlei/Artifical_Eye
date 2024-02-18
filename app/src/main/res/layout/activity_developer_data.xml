@@ -255,6 +255,43 @@
 
                 </RelativeLayout>
 
+                <!--Navigation Topic -->
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/navTopic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Subscribe for Navigation:"
+                        android:textColor="@color/blue"
+                        android:textStyle="bold"/>
+
+                    <EditText
+                        android:id="@+id/navTopic_insert"
+                        android:layout_width="283dp"
+                        android:layout_height="48dp"
+                        android:layout_centerVertical="true"
+                        android:alpha="0.7"
+                        android:layout_below="@+id/navTopic"
+                        android:textStyle="bold"
+                        android:hint="emptySeats/NavigationTopic"
+                        android:enabled="false"/>
+
+                    <ImageView
+                        android:id="@+id/navTopic_btn"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:padding="12dp"
+                        android:src="@drawable/edit"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="MQTTConnection_button_description"/>
+
+                </RelativeLayout>
+
                 <!--Edit and Apply Button -->
                 <RelativeLayout
                     android:layout_width="wrap_content"

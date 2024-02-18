@@ -146,7 +146,6 @@ public class Cybathlon extends AppCompatActivity {
                 // hier Distancearray durch mqtt ersetzen :)
                 //int[] Distancearray = {1, 0, 1, 0, 1};
                 //playSounds(Distancearray);
-
             }
         });
     }
@@ -177,9 +176,15 @@ public class Cybathlon extends AppCompatActivity {
     }
 
 
-    protected void onStop() {
-        super.onStop();
 
+    protected void onStop() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mqttMessageReceiver);
+        // Löse die Verbindung zum Service auf
+        if (isBound) {
+            unbindService(serviceConnection);
+            isBound = false;
+        }
+        super.onStop();
     }
 
 
@@ -209,7 +214,7 @@ public class Cybathlon extends AppCompatActivity {
                 }
             }
 
-            // navigation: 1 --> beep soud
+            // navigation: 1 --> double beep 2--> beep
             if ("com.example.app.MQTT_NAVIGATION".equals(intent.getAction())) {
                 String payload = intent.getStringExtra("payload");
                 Log.d("MQTT", "Message received in Cybathlon: " + payload);
@@ -222,8 +227,4 @@ public class Cybathlon extends AppCompatActivity {
             }
         }
     };
-
-
-
-
 }
