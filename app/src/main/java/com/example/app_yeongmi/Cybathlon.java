@@ -71,6 +71,9 @@ public class Cybathlon extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(mqttMessageReceiver,
                 new IntentFilter("com.example.app.MQTT_MESSAGE"));
 
+        LocalBroadcastManager.getInstance(this).registerReceiver(mqttMessageReceiver,
+                new IntentFilter("com.example.app.MQTT_NAVIGATION"));
+
 
         Button button = findViewById(R.id.btn_CybathlonActive);
 
@@ -82,7 +85,6 @@ public class Cybathlon extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 vibrateNow(500);
 
@@ -117,10 +119,6 @@ public class Cybathlon extends AppCompatActivity {
     }
 
 
-
-
-
-
     private void vibrateNow (long millis){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             ((Vibrator) getSystemService(VIBRATOR_SERVICE))
@@ -146,8 +144,8 @@ public class Cybathlon extends AppCompatActivity {
             public void onCompletion(MediaPlayer mp) {
 
                 // hier Distancearray durch mqtt ersetzen :)
-                int[] Distancearray = {1, 0, 1, 0, 1};
-                playSounds(Distancearray);
+                //int[] Distancearray = {1, 0, 1, 0, 1};
+                //playSounds(Distancearray);
 
             }
         });
@@ -188,9 +186,10 @@ public class Cybathlon extends AppCompatActivity {
     private BroadcastReceiver mqttMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            // Result Array
             if ("com.example.app.MQTT_MESSAGE".equals(intent.getAction())) {
                 String payload = intent.getStringExtra("payload");
-                Log.d("MQTT", "Nachricht erhalten in Cybathlon: " + payload);
+                Log.d("MQTT", "Message received in Cybathlon: " + payload);
                 // Konvertiere die Payload in ein Array von Integern
                 try {
                     JSONArray jsonArray = new JSONArray(payload);
@@ -198,7 +197,7 @@ public class Cybathlon extends AppCompatActivity {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         seatStatus[i] = jsonArray.getInt(i);
                     }
-                    mqttService.setSeatStatus(seatStatus);
+                    mqttService.setSeatStatus(seatStatus); //save result array in mqttService
 
                     //start emptyview activity
                     intent = new Intent(Cybathlon.this, EmptySeatsView.class);
@@ -210,19 +209,15 @@ public class Cybathlon extends AppCompatActivity {
                 }
             }
 
+            // navigation: 1 --> beep soud
             if ("com.example.app.MQTT_NAVIGATION".equals(intent.getAction())) {
                 String payload = intent.getStringExtra("payload");
-                Log.d("MQTT", "Nachricht erhalten in Cybathlon: " + payload);
+                Log.d("MQTT", "Message received in Cybathlon: " + payload);
                 if ("1".equals(payload)) {
                     playSound(beepdouble);
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
+                }
+                if ("2".equals(payload)) {
                     playSound(beep);
-
-
                 }
             }
         }
