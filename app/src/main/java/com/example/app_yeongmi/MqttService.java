@@ -25,6 +25,7 @@ public class MqttService extends Service {
     // Topics
     private String subscribeTopic = "emptySeats/HardwareToApp";
     private String publishTopic = "emptySeats/AppToHardware";
+    private String navigationTopic = "emptySeats/Navigation";
     private String screenshotTopic = "emptySeats/ScreenshotToApp";
     // to save and access in the settings
     private static Bitmap lastScreenshot = null;
@@ -48,11 +49,15 @@ public class MqttService extends Service {
     public String getSubscribeTopic() {
         return subscribeTopic;
     }
+    public void setSubscribeTopic(String subscribeTopic){ this.subscribeTopic = subscribeTopic;}
     public String getScreenshotTopic() {
         return screenshotTopic;
     }
     public String getPublishTopic() {
         return publishTopic;
+    }
+    public String getNavigationTopic() {
+        return navigationTopic;
     }
     public int[] getSeatStatus() { return seatStatus; }
     public void setSeatStatus(int[] seatStatus) { this.seatStatus = seatStatus; }
@@ -105,6 +110,7 @@ public class MqttService extends Service {
 
                 subscribe(subscribeTopic);
                 subscribe(screenshotTopic);
+                subscribe(navigationTopic);
                 publish(publishTopic,"The app is successfully connected to MQTT and ready to receive information.");
 
             }
@@ -155,6 +161,16 @@ public class MqttService extends Service {
                     try {
                         // for BroadcastReceiver in EmptyView and Cybathlon Acticty
                         Intent intent = new Intent("com.example.app.MQTT_MESSAGE");
+                        intent.putExtra("payload", payload);
+                        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                if(Objects.equals(topic, navigationTopic)) {
+                    try {
+                        // for BroadcastReceiver in EmptyView and Cybathlon Acticty
+                        Intent intent = new Intent("com.example.app.MQTT_NAVIGATION");
                         intent.putExtra("payload", payload);
                         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                     } catch (Exception e) {
@@ -216,7 +232,8 @@ public class MqttService extends Service {
         if(!Objects.equals(subscribeTopic, newTopic)) {
             client.unsubscribe(subscribeTopic);
             subscribe(newTopic);
-            subscribeTopic=newTopic;
+            setSubscribeTopic(newTopic);
+            //subscribeTopic=newTopic;
         }
 
     }

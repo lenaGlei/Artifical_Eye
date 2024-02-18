@@ -306,11 +306,6 @@ tools:context=".main_settings">
         </RelativeLayout>
 
     </LinearLayout>
-
-
-
-
-
     </LinearLayout>
     </ScrollView>
 </LinearLayout>

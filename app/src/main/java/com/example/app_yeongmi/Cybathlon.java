@@ -113,10 +113,8 @@ public class Cybathlon extends AppCompatActivity {
     }
 
     private void playSound(MediaPlayer mediaPlayer) {
-
-                mediaPlayer.start();
-
-            }
+        mediaPlayer.start();
+    }
 
 
 
@@ -184,9 +182,6 @@ public class Cybathlon extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
 
-
-
-
     }
 
 
@@ -202,16 +197,32 @@ public class Cybathlon extends AppCompatActivity {
                     int[] seatStatus = new int[jsonArray.length()];
                     for (int i = 0; i < jsonArray.length(); i++) {
                         seatStatus[i] = jsonArray.getInt(i);
-                        //Log.d("MQTT", "seatStatus: " + seatStatus[i]);
                     }
                     mqttService.setSeatStatus(seatStatus);
 
+                    //start emptyview activity
                     intent = new Intent(Cybathlon.this, EmptySeatsView.class);
                     startActivity(intent);
 
 
                 } catch (JSONException e) {
                     Log.e("MQTT", "Fehler beim Parsen der Payload", e);
+                }
+            }
+
+            if ("com.example.app.MQTT_NAVIGATION".equals(intent.getAction())) {
+                String payload = intent.getStringExtra("payload");
+                Log.d("MQTT", "Nachricht erhalten in Cybathlon: " + payload);
+                if ("1".equals(payload)) {
+                    playSound(beepdouble);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    playSound(beep);
+
+
                 }
             }
         }
