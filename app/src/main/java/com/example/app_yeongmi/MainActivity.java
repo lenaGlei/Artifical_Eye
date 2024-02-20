@@ -21,7 +21,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView txtTemp;
     int i = 0;
     private MediaPlayer player;
     private MediaPlayer player2;
@@ -153,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void onStop() {
-        // Deregistrieren des BroadcastReceivers beim Stoppen der Aktivität
+        // Deregister Broadcast receiver when stopping the activity
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mqttMessageReceiver);
         super.onStop();
     }
@@ -161,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    // wenn PiReady empfangen wurde wird der Startbutton freigegeben um die emptySeatsdetection zustarten
+    // when signal from pi is received , start button gets enabled to start emptySeats detection
     private BroadcastReceiver mqttMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {

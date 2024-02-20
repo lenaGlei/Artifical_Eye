@@ -48,23 +48,97 @@ public class EmptySeatsView extends AppCompatActivity {
 
 
     private TextToSpeech textToSpeech;
-
     ArrayList<Integer> seatsList;
     private SpeechRecognizer speechRecognizer;
     private static final int RECORD_AUDIO_REQUEST_CODE = 1;
     boolean languageStatus;
-
-
     private static final String PREFS_NAME = "MyPrefsFile";
     private static final String SWITCH_STATE = "switchState";
-
-
     private boolean isBound = false;
     private MqttService mqttService;
-
-
     private int[] seatStatus;
 
+
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_empty_seats_view);
+
+        // Initialize and allow Speech recognition
+        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+        speechRecognizer.setRecognitionListener(new MyRecognitionListener());
+
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.RECORD_AUDIO}, RECORD_AUDIO_REQUEST_CODE);
+
+        } else {
+
+            initializeSpeechRecognizerAfterDelay();
+        }
+
+
+        //Check shared preferences for language switch
+    SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+    boolean LanguageStatus = settings.getBoolean(SWITCH_STATE, false);
+
+
+
+        //Text to Speech with according seat availability
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+
+                    // Set language according to switch value
+                    if (LanguageStatus) {
+                        textToSpeech.setLanguage(Locale.GERMAN);
+                        languageStatus= false;
+
+                        pruefeSitzStatus(seatStatus);
+
+                    } else {
+                        languageStatus= true;
+                        textToSpeech.setLanguage(Locale.UK);
+                        testSeatStatus(seatStatus);
+                    }
+
+                }
+            }
+        });
+
+
+        // Seat colour
+        seatsList = new ArrayList<Integer>();
+        seatsList.add(R.id.seat1);
+        seatsList.add(R.id.seat2);
+        seatsList.add(R.id.seat3);
+        seatsList.add(R.id.seat4);
+        seatsList.add(R.id.seat5);
+        seatsList.add(R.id.seat6);
+
+
+        // Connection to Mqtt
+        Intent intent = new Intent(this, MqttService.class);
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mqttMessageReceiver,
+                new IntentFilter("com.example.app.MQTT_MESSAGE"));
+
+        //  Back button to navigate to the Main Settings screen
+        ImageView imageViewBack = findViewById(R.id.btn_backSetting);
+        imageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EmptySeatsView.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+    }
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
@@ -72,7 +146,7 @@ public class EmptySeatsView extends AppCompatActivity {
             MqttService.LocalBinder binder = (MqttService.LocalBinder) service;
             mqttService = binder.getService();
             isBound = true;
-            // Du kannst jetzt Methoden auf mqttService aufrufen
+            // Methods from mqtt can be called now
             mqttService.publish(mqttService.getPublishTopic(), "getResults");
 
             //seatStatus = mqttService.getSeatStatus();
@@ -92,86 +166,7 @@ public class EmptySeatsView extends AppCompatActivity {
     };
 
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_empty_seats_view);
-
-        // Speech recognition
-        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
-        speechRecognizer.setRecognitionListener(new MyRecognitionListener());
-
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.RECORD_AUDIO}, RECORD_AUDIO_REQUEST_CODE);
-
-
-        } else {
-
-            initializeSpeechRecognizerAfterDelay();
-        }
-
-    SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-    boolean LanguageStatus = settings.getBoolean(SWITCH_STATE, false);
-
-
-        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status == TextToSpeech.SUCCESS) {
-
-                    // Festlegen der Sprache basierend auf dem Wert des Shared Preferences Switch
-                    if (LanguageStatus) {
-                        textToSpeech.setLanguage(Locale.GERMAN); // Deutsch
-                        languageStatus= false;
-
-                        pruefeSitzStatus(seatStatus);
-
-                    } else {
-                        languageStatus= true;
-                        textToSpeech.setLanguage(Locale.UK); // Englisch
-                        testSeatStatus(seatStatus);
-                    }
-
-                }
-            }
-        });
-
-
-        // Seat colour
-
-        seatsList = new ArrayList<Integer>();
-
-        seatsList.add(R.id.seat1);
-        seatsList.add(R.id.seat2);
-        seatsList.add(R.id.seat3);
-        seatsList.add(R.id.seat4);
-        seatsList.add(R.id.seat5);
-        seatsList.add(R.id.seat6);
-
-        // Verbinde dich mit dem MqttService
-        Intent intent = new Intent(this, MqttService.class);
-        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(mqttMessageReceiver,
-                new IntentFilter("com.example.app.MQTT_MESSAGE"));
-
-        //  Back button to navigate to the Main Settings screen
-        ImageView imageViewBack = findViewById(R.id.btn_backSetting);
-        imageViewBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(EmptySeatsView.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
-    }
-
-
-        //Function for text to speech of seats
-
+    //Function for text to speech of seats
     private void testSeatStatus(int[] seat) {
         if (seat == null || seat.length == 0) {
             Log.d("MQTT", "Kein Sitzstatus verfügbar.");
@@ -263,6 +258,7 @@ public class EmptySeatsView extends AppCompatActivity {
             Toast.makeText(EmptySeatsView.this, "Error in speech recognition", Toast.LENGTH_SHORT).show();
         }
 
+        // check if reapeat or wiederholen are recognized
         @Override
         public void onResults(Bundle results) {
             // Called when speech recognition results are available.
@@ -397,10 +393,8 @@ public class EmptySeatsView extends AppCompatActivity {
         for (int i = 0; i < seatStatus.length; i++) {
             View seatButton = findViewById(seatsList.get(i));
             if (seatStatus[i] == 1) {
-                // Sitz ist belegt
                 seatButton.setBackgroundColor(Color.RED);
             } else {
-                // Sitz ist frei
                 seatButton.setBackgroundColor(Color.GREEN);
             }
         }

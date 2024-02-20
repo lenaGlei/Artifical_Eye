@@ -21,6 +21,8 @@ public class MqttHandler {
         this.clientId = clientId;
     }
 
+    // Mqtt functions for handling the connection
+
     public void connect(Context context) {
         try {
             client = new MqttAndroidClient(context, brokerUrl, clientId);

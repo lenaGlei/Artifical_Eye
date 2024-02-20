@@ -2,7 +2,7 @@ package com.example.app_yeongmi;
 
 import android.util.Log;
 
-
+// Creates logs for Mqtt
 public class MqttLogger {
 
     private static final StringBuilder logs = new StringBuilder();

@@ -9,9 +9,7 @@ import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.text.InputType;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,21 +24,102 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 
 
-import java.util.ArrayList;
+
 
 
 public class DeveloperData extends AppCompatActivity {
 
 
-    // for QR Code
+
     Button btn_QRCodeGenerate;
     ImageView img_qr;
-    TextView brookerText;
 
 
     private MqttService mqttService;
     private boolean isBound = false;
 
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_developer_data);
+
+        //  Back button to navigate to the Main Settings screen
+        ImageView imageViewBack = findViewById(R.id.btn_backMQTT);
+        imageViewBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DeveloperData.this, main_settings.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+        Button editTopicButton = findViewById(R.id.btn_editTopic);
+        Button applyTopicButton = findViewById(R.id.btn_applyTopic);
+        EditText subTopicText = findViewById(R.id.subTopic_insert);
+        EditText pubTopicText = findViewById(R.id.pubTopic_insert);
+        EditText picTopicText = findViewById(R.id.picTopic_insert);
+        EditText navTopicText = findViewById(R.id.navTopic_insert);
+
+        // Buttonpress "Edit Topics"
+        editTopicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Make EditText editable
+                subTopicText.setEnabled(true);
+                pubTopicText.setEnabled(true);
+                picTopicText.setEnabled(true);
+                navTopicText.setEnabled(true);
+
+                // Show "Apply" button
+                applyTopicButton.setVisibility(View.VISIBLE);
+                editTopicButton.setVisibility(View.GONE);
+            }
+        });
+
+        // Buttonpress Apply
+        applyTopicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // get Changes
+                String newsubTopic = subTopicText.getText().toString();
+                String newpubTopic = pubTopicText.getText().toString();
+                String newpicTopic = picTopicText.getText().toString();
+                String newnavTopic = navTopicText.getText().toString();
+
+                // Update mqtt Service with new Topics
+                mqttService.updateMqttSubscription(newsubTopic);
+                mqttService.updateMqttPuplish(newpubTopic);
+                mqttService.updatePictureSubscription(newpicTopic);
+                mqttService.updateMqttNavigation(newnavTopic);
+
+                // Deaktivate Edit Text
+                subTopicText.setEnabled(false);
+                pubTopicText.setEnabled(false);
+                picTopicText.setEnabled(false);
+                navTopicText.setEnabled(false);
+
+                // Show Edit Topic Button
+                applyTopicButton.setVisibility(View.GONE);
+                editTopicButton.setVisibility(View.VISIBLE);
+            }
+        });
+
+        // Buttonpress to show qr code
+        btn_QRCodeGenerate=findViewById(R.id.btn_QRCodeGenerate);
+        img_qr=findViewById(R.id.img_qr);
+
+        btn_QRCodeGenerate.setOnClickListener(v -> {
+            generateQR();
+
+        });
+    }
+
+    // service connecction to mqtt
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
@@ -92,82 +171,6 @@ public class DeveloperData extends AppCompatActivity {
             screenshotTopicView.setText(mqttService.getScreenshotTopic());
             navigationTopicView.setText(mqttService.getNavigationTopic());
         }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_developer_data);
-
-        //  Back button to navigate to the Main Settings screen
-        ImageView imageViewBack = findViewById(R.id.btn_backMQTT);
-        imageViewBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DeveloperData.this, main_settings.class);
-                startActivity(intent);
-            }
-        });
-
-
-        Button editTopicButton = findViewById(R.id.btn_editTopic);
-        Button applyTopicButton = findViewById(R.id.btn_applyTopic);
-        EditText subTopicText = findViewById(R.id.subTopic_insert);
-        EditText pubTopicText = findViewById(R.id.pubTopic_insert);
-        EditText picTopicText = findViewById(R.id.picTopic_insert);
-        EditText navTopicText = findViewById(R.id.navTopic_insert);
-        // Buttonpress "Edit Topics"
-        editTopicButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Make EditText editable
-                subTopicText.setEnabled(true);
-                pubTopicText.setEnabled(true);
-                picTopicText.setEnabled(true);
-                navTopicText.setEnabled(true);
-
-                // Show "Apply" button
-                applyTopicButton.setVisibility(View.VISIBLE);
-                editTopicButton.setVisibility(View.GONE);
-            }
-        });
-
-        // Buttonpress Apply
-        applyTopicButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // get Changes
-                String newsubTopic = subTopicText.getText().toString();
-                String newpubTopic = pubTopicText.getText().toString();
-                String newpicTopic = picTopicText.getText().toString();
-                String newnavTopic = navTopicText.getText().toString();
-
-                // Update mqtt Service with new Topics
-                mqttService.updateMqttSubscription(newsubTopic);
-                mqttService.updateMqttPuplish(newpubTopic);
-                mqttService.updatePictureSubscription(newpicTopic);
-                mqttService.updateMqttNavigation(newnavTopic);
-
-                // Deaktivate EdiText
-                subTopicText.setEnabled(false);
-                pubTopicText.setEnabled(false);
-                picTopicText.setEnabled(false);
-                navTopicText.setEnabled(false);
-
-                // Show Edit Topic Button
-                applyTopicButton.setVisibility(View.GONE);
-                editTopicButton.setVisibility(View.VISIBLE);
-            }
-        });
-
-        // Buttonpress to show qr code
-        btn_QRCodeGenerate=findViewById(R.id.btn_QRCodeGenerate);
-        img_qr=findViewById(R.id.img_qr);
-
-        btn_QRCodeGenerate.setOnClickListener(v -> {
-            generateQR();
-
-        });
     }
 
 
