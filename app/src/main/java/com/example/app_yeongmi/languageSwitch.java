@@ -15,7 +15,6 @@ public class languageSwitch extends AppCompatActivity {
     private static String PREFS_NAME = "MyPrefsFile";
     private static String SWITCH_STATE = "switchState";
     private TextView textView;
-
     SwitchCompat mySwitch;
 
 
@@ -25,11 +24,11 @@ public class languageSwitch extends AppCompatActivity {
         setContentView(R.layout.activity_language_switch);
 
 
+
+        // Create shared preferences. Default setting is english.
         mySwitch = (SwitchCompat) findViewById(R.id.languageSwitchbtn);
         textView=findViewById(R.id.textinput_placeholder);
         textView.setText("Language active: English");
-
-
         mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

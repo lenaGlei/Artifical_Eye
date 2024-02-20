@@ -17,6 +17,8 @@ public class SignupActivity extends AppCompatActivity {
         binding = ActivitySignupBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         databaseHelper = new DatabaseHelper(this);
+
+        // Checks if email and password are created and inserts them into the database
         binding.signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -26,6 +26,9 @@ public class LoginOrSignup extends AppCompatActivity {
         });
 
 
+        // Get to login or signup activity:
+
+
         Button button1 = findViewById(R.id.btn_signup);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override

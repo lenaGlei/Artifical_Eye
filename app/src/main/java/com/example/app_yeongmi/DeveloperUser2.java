@@ -2,7 +2,6 @@ package com.example.app_yeongmi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,9 +19,10 @@ public class DeveloperUser2 extends AppCompatActivity {
 
 
 
-
         Button button1 = findViewById(R.id.btn_goback);
         Button button2 = findViewById(R.id.btn_continueDevelop);
+
+
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,6 +43,8 @@ public class DeveloperUser2 extends AppCompatActivity {
         });
 
     }
+
+    // Handle audio when starting or stopping activity
 
     @Override
     protected void onStart() {
@@ -65,7 +67,7 @@ public class DeveloperUser2 extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        // Stop TextToSpeech if it's speaking
+
 
 
         // Stop MediaPlayer if it's playing
@@ -73,7 +75,6 @@ public class DeveloperUser2 extends AppCompatActivity {
             player.stop();
         }
 
-        // Call super method for default back behavior
-        super.onBackPressed();
+               super.onBackPressed();
     }
 }

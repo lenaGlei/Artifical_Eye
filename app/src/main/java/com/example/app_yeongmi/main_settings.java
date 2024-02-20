@@ -45,7 +45,7 @@ public class main_settings extends AppCompatActivity {
         });
 
 
-        // following buttons are linked to open the acitivitys
+        // Following buttons are linked to open the acitivitys
         ImageButton mqttConnection_btn = findViewById(R.id.mqtt_btn);
         mqttConnection_btn.setOnClickListener(new View.OnClickListener() {
             @Override

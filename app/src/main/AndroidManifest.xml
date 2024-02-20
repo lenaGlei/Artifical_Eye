@@ -49,9 +49,7 @@
         <activity
             android:name=".LoginOrSignup"
             android:exported="false" />
-        <activity
-            android:name=".DevSettings"
-            android:exported="false" />
+
         <activity
             android:name=".DevLoginActivity"
             android:exported="false" />
@@ -67,9 +65,7 @@
         <activity
             android:name=".DeveloperData"
             android:exported="false" />
-        <activity
-            android:name=".ObjectAvoidance"
-            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

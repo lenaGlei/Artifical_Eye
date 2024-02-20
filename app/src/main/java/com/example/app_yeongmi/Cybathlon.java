@@ -12,22 +12,18 @@ import android.content.ServiceConnection;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import android.media.AudioAttributes;
-import android.media.AudioManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.util.Locale;
+
 
 
 
@@ -41,6 +37,51 @@ public class Cybathlon extends AppCompatActivity {
 
 
 
+
+
+
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_cybathlon);
+
+        // Connect to mqtt
+        Intent intent = new Intent(this, MqttService.class);
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mqttMessageReceiver,
+                new IntentFilter("com.example.app.MQTT_MESSAGE"));
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mqttMessageReceiver,
+                new IntentFilter("com.example.app.MQTT_NAVIGATION"));
+
+
+        Button button = findViewById(R.id.btn_CybathlonActive);
+
+        // create Mediaplayer
+        beepdouble = MediaPlayer.create(this, R.raw.beepdouble);
+        beep = MediaPlayer.create(this, R.raw.beep);
+
+
+
+        // button to next activity
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                vibrateNow(500);
+
+
+                Intent intent = new Intent(Cybathlon.this, EmptySeatsView.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    //Mqtt connection to start
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
@@ -58,45 +99,7 @@ public class Cybathlon extends AppCompatActivity {
 
 
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cybathlon);
-
-        // Verbinde dich mit dem MqttService
-        Intent intent = new Intent(this, MqttService.class);
-        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(mqttMessageReceiver,
-                new IntentFilter("com.example.app.MQTT_MESSAGE"));
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(mqttMessageReceiver,
-                new IntentFilter("com.example.app.MQTT_NAVIGATION"));
-
-
-        Button button = findViewById(R.id.btn_CybathlonActive);
-
-        beepdouble = MediaPlayer.create(this, R.raw.beepdouble);
-        beep = MediaPlayer.create(this, R.raw.beep);
-
-
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                vibrateNow(500);
-
-
-                Intent intent = new Intent(Cybathlon.this, EmptySeatsView.class);
-                startActivity(intent);
-            }
-        });
-
-    }
-
-
+    // beep if signal from mqtt is received. Sound played depends on number received.
     private void playSounds(int[] Distancearray) {
         for (int value : Distancearray) {
             if (value == 1) {
@@ -118,7 +121,7 @@ public class Cybathlon extends AppCompatActivity {
         mediaPlayer.start();
     }
 
-
+    // Vibrate function when pressing a button
     private void vibrateNow (long millis){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             ((Vibrator) getSystemService(VIBRATOR_SERVICE))
@@ -130,6 +133,8 @@ public class Cybathlon extends AppCompatActivity {
     }
 
 
+
+    // onStart, onPause, onBackpressed,and onStop for controlling sound and service when leaving or starting the activity
     @Override
     protected void onStart() {
 
@@ -163,15 +168,13 @@ public class Cybathlon extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // Stop TextToSpeech if it's speaking
+
 
 
         // Stop MediaPlayer if it's playing
         if (player != null && player.isPlaying()) {
             player.stop();
         }
-
-        // Call super method for default back behavior
         super.onBackPressed();
     }
 
@@ -179,13 +182,14 @@ public class Cybathlon extends AppCompatActivity {
 
     protected void onStop() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mqttMessageReceiver);
-        // Löse die Verbindung zum Service auf
+        // Get rid of connection to service
         if (isBound) {
             unbindService(serviceConnection);
             isBound = false;
         }
         super.onStop();
     }
+
 
 
     private BroadcastReceiver mqttMessageReceiver = new BroadcastReceiver() {
