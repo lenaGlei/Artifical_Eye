@@ -21,6 +21,8 @@ public class DevLoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         databaseHelper = new DatabaseHelper(this);
+
+        // check if login fields are filled and check with database if valid
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
