@@ -275,7 +275,7 @@ public class EmptySeatsView extends AppCompatActivity {
             Toast.makeText(EmptySeatsView.this, "Error in speech recognition", Toast.LENGTH_SHORT).show();
         }
 
-        // check if repeat or wiederholen are recognized
+        // check if repeat or ja are recognized
         @Override
         public void onResults(Bundle results) {
             // Called when speech recognition results are available.
@@ -395,13 +395,14 @@ public class EmptySeatsView extends AppCompatActivity {
         super.onStop();
     }
 
+    // Result Array
     private BroadcastReceiver mqttMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if ("com.example.app.MQTT_MESSAGE".equals(intent.getAction())) {
                 String payload = intent.getStringExtra("payload");
                 Log.d("MQTT", "Nachricht erhalten in EmptySeatsActivity: " + payload);
-                // Konvertiere die Payload in ein Array von Integern
+                // convert payload in int array
                 try {
                     JSONArray jsonArray = new JSONArray(payload);
                     int[] seatStatus = new int[jsonArray.length()];
@@ -411,7 +412,7 @@ public class EmptySeatsView extends AppCompatActivity {
                     }
                     mqttService.setSeatStatus(seatStatus);
 
-                    // UI-Update auf dem Main-Thread
+                    // UI-Update
                     EmptySeatsView.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -438,12 +439,6 @@ public class EmptySeatsView extends AppCompatActivity {
         if (!languageStatus){
             pruefeSitzStatus(seatStatus);
         }else testSeatStatus(seatStatus);
-
-
-
-
-
-
 
     }
 }
