@@ -1,13 +1,18 @@
+# App Documentation
+
+## Overview
 The application features two distinct modes tailored for different user needs: Developer Mode and Blind User Mode.
 
 The app controls a Raspberry Pi, which uses object recognition via a camera to determine the availability of six chairs. Communication between the hardware and the app takes place via mqtt and several topics.
 
-Blind User Mode
+## Modes
+## Blind User Mode
 
-Initial Interaction:
+### Initial Interaction:
 Waiting for Raspberry Pi Readiness: Right after the app is opened, users are greeted with an audio message instructing them to wait until the Raspberry Pi is ready. This readiness is signaled by a "piReady" message (topic: emptySeats/HardwareToApp), indicating that a stable MQTT connection has been established on the app and the Raspberry Pi.
 
-Start Object Detection: Once the Raspberry Pi is ready, users are prompted with a sound to tap the center of the screen. This action sends a "start" command to the Raspberry Pi (topic: emptySeats/AppToHardware), triggering the object detection process to identify the availability of seats.
+### Start Object Detection: 
+Once the Raspberry Pi is ready, users are prompted with a sound to tap the center of the screen. This action sends a "start" command to the Raspberry Pi (topic: emptySeats/AppToHardware), triggering the object detection process to identify the availability of seats.
 
 Object Detection and Results:
 Navigation: 
