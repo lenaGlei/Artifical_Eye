@@ -1,7 +1,6 @@
 package com.example.app_yeongmi;
 
 import static android.Manifest.permission.RECORD_AUDIO;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -33,6 +32,7 @@ import android.speech.tts.TextToSpeech;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -50,13 +50,17 @@ public class EmptySeatsView extends AppCompatActivity {
     private TextToSpeech textToSpeech;
     ArrayList<Integer> seatsList;
     private SpeechRecognizer speechRecognizer;
-    private static final int RECORD_AUDIO_REQUEST_CODE = 1;
+    private static final int RECORD_AUDIO_REQUEST_CODE = 123;
+
+
     boolean languageStatus;
     private static final String PREFS_NAME = "MyPrefsFile";
     private static final String SWITCH_STATE = "switchState";
     private boolean isBound = false;
     private MqttService mqttService;
     private int[] seatStatus;
+
+
 
 
 
@@ -71,14 +75,22 @@ public class EmptySeatsView extends AppCompatActivity {
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         speechRecognizer.setRecognitionListener(new MyRecognitionListener());
 
+
+
+
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.RECORD_AUDIO}, RECORD_AUDIO_REQUEST_CODE);
 
         } else {
 
+
+
             initializeSpeechRecognizerAfterDelay();
         }
+        
+
+
 
 
         //Check shared preferences for language switch
@@ -111,6 +123,7 @@ public class EmptySeatsView extends AppCompatActivity {
         });
 
 
+
         // Seat colour
         seatsList = new ArrayList<Integer>();
         seatsList.add(R.id.seat1);
@@ -138,7 +151,11 @@ public class EmptySeatsView extends AppCompatActivity {
             }
         });
 
+
+
     }
+
+
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
@@ -204,7 +221,7 @@ public class EmptySeatsView extends AppCompatActivity {
                 }
             }
 
-            ausgabe.append("sage Wiederholen um das audio noch einmal zu hören");
+            ausgabe.append("sage Ja um das audio noch einmal zu hören");
             sprecheText(ausgabe.toString());
         }
     }
@@ -258,29 +275,31 @@ public class EmptySeatsView extends AppCompatActivity {
             Toast.makeText(EmptySeatsView.this, "Error in speech recognition", Toast.LENGTH_SHORT).show();
         }
 
-        // check if reapeat or wiederholen are recognized
+        // check if repeat or wiederholen are recognized
         @Override
         public void onResults(Bundle results) {
             // Called when speech recognition results are available.
             ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
             if (matches != null && !matches.isEmpty()) {
                 String command = matches.get(0).toLowerCase();
-                if (command.contains("Repeat")) {
-                    // Handle the "hello" command, e.g., start a new activity or perform an action
+                if (command.contains("repeat")) {
 
                     Toast.makeText(EmptySeatsView.this, "Repeat command recognized!", Toast.LENGTH_SHORT).show();
 
                     testSeatStatus(seatStatus);
-                } else if (command.contains("Wiederholen")) {
-                    Toast.makeText(EmptySeatsView.this, "Wiederholen erkannt!", Toast.LENGTH_SHORT).show();
+                } else if (command.contains("ja")) {
+                    Toast.makeText(EmptySeatsView.this, "Ja erkannt!", Toast.LENGTH_SHORT).show();
 
                     pruefeSitzStatus(seatStatus);
 
 
                 }
+                else
+                    speechRecognizer.stopListening();
             }
 
             // Restart voice recognition
+
             initializeSpeechRecognizerAfterDelay();
 
         }
@@ -297,7 +316,9 @@ public class EmptySeatsView extends AppCompatActivity {
         }
 
 
+
     }
+
 
     @Override
     protected void onDestroy() {
@@ -311,17 +332,22 @@ public class EmptySeatsView extends AppCompatActivity {
 
 
 
+
+
     // Speech recognizer
     private void initializeSpeechRecognizer() {
 
         Intent recognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, this.getPackageName());
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
 
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
+
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            recognizerIntent.putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, true);
+          recognizerIntent.putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, true);
         }
         speechRecognizer.startListening(recognizerIntent);
     }
@@ -334,7 +360,7 @@ public class EmptySeatsView extends AppCompatActivity {
             public void run() {
                 initializeSpeechRecognizer();
             }
-        }, 16000); // 16 seconds delay
+        }, 18000);
     }
 
     @Override
@@ -342,16 +368,25 @@ public class EmptySeatsView extends AppCompatActivity {
     public void onBackPressed() {
         // Stop TextToSpeech if it's speaking
         if (textToSpeech != null && textToSpeech.isSpeaking()) {
-            textToSpeech.stop();
+           textToSpeech.stop();
         }
 
 
-        // Call super method for default back behavior
         super.onBackPressed();
 
     }
+
+
+
+
+    @Override
+    public void onStart(){
+
+        super.onStart();
+    }
     protected void onStop() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mqttMessageReceiver);
+
         // Löse die Verbindung zum Service auf
         if (isBound) {
             unbindService(serviceConnection);
@@ -389,6 +424,7 @@ public class EmptySeatsView extends AppCompatActivity {
             }
         }
     };
+
     private void updateSeats(int[] seatStatus) {
         for (int i = 0; i < seatStatus.length; i++) {
             View seatButton = findViewById(seatsList.get(i));
@@ -398,11 +434,18 @@ public class EmptySeatsView extends AppCompatActivity {
                 seatButton.setBackgroundColor(Color.GREEN);
             }
         }
+
         if (!languageStatus){
             pruefeSitzStatus(seatStatus);
         }else testSeatStatus(seatStatus);
 
 
-    }
 
+
+
+
+
+    }
 }
+
+

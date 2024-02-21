@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         player2 = MediaPlayer.create(MainActivity.this, R.raw.sound4);
         player2.start();
+        
 
 
         // Start the Mqtt Service
