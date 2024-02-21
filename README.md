@@ -24,11 +24,14 @@ Once the Raspberry Pi finishes detecting seats and sends out the occupancy data,
 ##### Immediate Results on Demand:
 Users pressing the screen's center again request immediate seat availability from the Raspberry Pi with a "getResults" command (topic: "emptySeats/AppToHardware"). This quick method may not always be as accurate, depending on whether the detection process is complete. For the most reliable information, it's better to wait for the automatic update.
 
+#### Audio feedback and Text to speech
+In each activity a audio feedback tells the user what is intened to be done next or the restults from the seat detection. The audio commands during the use are fixed .wav files. The output for the seat avilibilty is done by textToSpeech in the choosen language, by default in english.
+
 #### Audio Recognition for Command Repeat:
 After the seat availability results have been announced, the app initiates an audio recognition phase. During this phase, users can vocally command the app to "repeat" the results.
 
 #### Vibration feedback:
-Each press of a button in blind mode is followed by a confirmation vibration.
+When pressing a button that the blind person is intended to press, there is a haptic feedback by a 0.5 second long vibrition.
 
 
 ### Developer Mode:
