@@ -205,8 +205,8 @@ public class Cybathlon extends AppCompatActivity {
                     mqttService.setSeatStatus(seatStatus); //save result array in mqttService
 
                     //start emptyview activity
-                    intent = new Intent(Cybathlon.this, EmptySeatsView.class);
-                    startActivity(intent);
+                    Intent newIntent = new Intent(Cybathlon.this, EmptySeatsView.class);
+                    startActivity(newIntent);
 
 
                 } catch (JSONException e) {

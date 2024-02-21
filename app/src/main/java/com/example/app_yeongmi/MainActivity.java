@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
         if ("com.example.app.MQTT_MESSAGE".equals(intent.getAction())) {
             String payload = intent.getStringExtra("payload");
-            if ("piReady".equals(payload)) {
+            if ("PiReady".equals(payload)) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
